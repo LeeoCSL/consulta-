@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Consultai</string>
+    <string name="bem_vindo">Bem vindo!</string>
+    <string name="cadastre_se">Cadastre-se</string>
 </resources>
