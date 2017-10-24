@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import br.com.consultai.R;
+
 public class teste extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -23,9 +25,9 @@ public class teste extends AppCompatActivity {
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
                     return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
+//                case R.id.navigation_notifications:
+//                    mTextMessage.setText(R.string.title_notifications);
+//                    return true;
             }
             return false;
         }
