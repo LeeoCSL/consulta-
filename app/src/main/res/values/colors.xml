@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9be8e2</color>
-    <color name="colorPrimaryDark">#69b6b0</color>
+    <color name="colorPrimary">#00bcd4</color>
+    <color name="colorPrimaryDark">#008ba3</color>
     <color name="colorAccent">#ceffff</color>
     <color name="facebookBlue">#5285C6</color>
     <color name="googleRed">#DD4B3C</color>
     <color name="white">#FFFFFF</color>
     <color name="hintColor">#BCBCBC</color>
+    <color name="cinza">#dbdbdb</color>
+    <color name="cinza_claro">#bfbfbf</color>
+    <color name="cinza_escuro">#787878</color>
 </resources>
