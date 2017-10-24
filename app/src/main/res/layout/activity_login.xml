@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".activities.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/ConcernedPortionofScreen"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:padding="48dp"
+        android:background="@drawable/logo_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/bem_vindo"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:background="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="Email"
+            android:id="@+id/input_email"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="16dp"
+            android:textColorHint="@color/hintColor"
+            android:background="@drawable/input_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="Senha"
+            android:id="@+id/input_password"
+            android:inputType="textPassword"
+            android:layout_marginTop="12dp"
+            android:textColorHint="@color/hintColor"
+            android:background="@drawable/input_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="Entrar"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/white"
+            android:onClick="handlerMain"
+            android:background="@drawable/btn_only_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="48dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_facebook"
+            android:text="Entrar com Facebook"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_google"
+            android:text="Entrar com Google+"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_cadastrar"
+            android:text="@string/cadastre_se" />
+    </LinearLayout>
+</LinearLayout>
