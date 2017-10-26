@@ -240,14 +240,71 @@
 
     </RelativeLayout>
     
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="33dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Adicionar viagem extra"
-        android:background="@drawable/btn_cinza"
         android:textColor="@color/cinza_escuro"
         android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="center"
+
   />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/btn_default" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text=" ?"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:layout_marginRight="2dp"
+            android:textStyle="bold"/>
+    </FrameLayout>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+>
+        
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Onibus/Metro \n3,80"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/btn_cinza"
+            android:textColor="@color/cinza_escuro"/>
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Integração \n6,80"
+            android:layout_marginLeft="25dp"
+            android:background="@drawable/btn_default"
+            android:textColor="@color/white"/>
+        
+        
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -326,36 +383,8 @@
             android:id="@+id/txt6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Previsão com base em saldo atual:"
+            android:text="Média de gasto por mês:"
             android:layout_below="@+id/view2"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="R$ 60,00"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/txt6"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
-        <View
-            android:id="@+id/view3"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_below="@id/txt6"
-            android:background="@color/cinza"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-        <TextView
-            android:id="@+id/txt7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Previsão com base em saldo atual:"
-            android:layout_below="@+id/view3"
             android:layout_marginTop="10dp"
             android:textStyle="bold"
             android:textSize="15sp"
@@ -366,7 +395,7 @@
             android:layout_height="wrap_content"
             android:text="R$ 240,00"
             android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/txt7"
+            android:layout_alignBaseline="@+id/txt6"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textStyle="bold"/>
@@ -374,7 +403,7 @@
             android:id="@+id/view4"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:layout_below="@id/txt7"
+            android:layout_below="@id/txt6"
             android:background="@color/cinza"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"/>
