@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:padding="15dp"
-        android:background="@drawable/borda_layout">
+        android:background="@drawable/borda_layout"
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/txt_nome_bilhete"
@@ -217,14 +217,14 @@
             android:layout_width="80dp"
             android:layout_height="33dp"
             android:layout_below="@+id/layout_dias"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
             android:layout_toLeftOf="@+id/btn_editar"
             android:background="@drawable/btn_cinza"
-            android:textColor="@color/cinza_escuro"
-            android:textStyle="bold"
 
             android:text="Excluir"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"/>
+            android:textColor="@color/cinza_escuro"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_editar"
@@ -232,186 +232,155 @@
             android:layout_height="33dp"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/layout_dias"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/btn_default"
             android:text="Editar"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF" />
 
     </RelativeLayout>
-    
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Adicionar viagem extra"
-        android:textColor="@color/cinza_escuro"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"
-
-  />
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp">
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/btn_default" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text=" ?"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:layout_marginRight="2dp"
-            android:textStyle="bold"/>
-    </FrameLayout>
+            android:gravity="center"
+            android:text="Adicionar viagem extra"
+            android:textColor="@color/cinza_escuro"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/btn_default" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="2dp"
+                android:text=" ?"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </FrameLayout>
 
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
->
-        
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Onibus/Metro \n3,80"
-            android:layout_marginRight="25dp"
-            android:background="@drawable/btn_cinza"
-            android:textColor="@color/cinza_escuro"/>
+        android:padding="5dp">
 
         <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Integração \n6,80"
-            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/btn_cinza"
+            android:text="Onibus/Metro \n3,80"
+            android:textColor="@color/cinza_escuro" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/btn_default"
-            android:textColor="@color/white"/>
-        
-        
+            android:text="Integração \n3,00"
+            android:textColor="@color/white" />
+
+
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp"
-        android:layout_marginTop="10dp">
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:layout_margin="10dp"
+        android:background="@color/cinza"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <TextView
-            android:id="@+id/txtResumo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RESUMO DE USO"
-            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Viagem á menos"
+            android:textColor="@color/cinza_escuro"
             android:textSize="20sp"
-            />
-
-        <TextView
-            android:id="@+id/txt4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Previsão com base em saldo atual:"
-            android:layout_below="@+id/txtResumo"
-            android:layout_marginTop="10dp"
             android:textStyle="bold"
-            android:textSize="15sp"
+
             />
 
-        <TextView
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00/00/0000"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/txt4"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
+            android:layout_margin="5dp">
 
-        <View
-            android:id="@+id/view1"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_below="@id/txt4"
-            android:background="@color/cinza"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/btn_default" />
 
-        <TextView
-            android:id="@+id/txt5"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="2dp"
+                android:text=" ?"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp">
+
+        <Button
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/view1"
-            android:text="Média de gasto por dia:"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
+            android:layout_marginRight="20dp"
+            android:background="@drawable/btn_cinza"
+            android:text="Onibus/Metro \n3,80"
+            android:textColor="@color/cinza_escuro" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="R$ 12,00"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/txt5"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_below="@id/txt5"
-            android:background="@color/cinza"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-
-        <TextView
-            android:id="@+id/txt6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Média de gasto por mês:"
-            android:layout_below="@+id/view2"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="R$ 240,00"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/txt6"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
-        <View
-            android:id="@+id/view4"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_below="@id/txt6"
-            android:background="@color/cinza"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/btn_default"
+            android:text="Integração \n3,00"
+            android:textColor="@color/white" />
 
 
-
-
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

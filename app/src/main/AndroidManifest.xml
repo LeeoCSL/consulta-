@@ -22,7 +22,8 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity
             android:name=".activities.teste"
-            android:label="@string/title_activity_teste"></activity>
+            android:label="@string/title_activity_teste" />
+        <activity android:name=".activities.ResumoActivity"></activity>
     </application>
 
 </manifest>
