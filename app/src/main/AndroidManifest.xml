@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.RegisterActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,11 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.ResumoActivity" />
         <activity
             android:name=".activities.teste"
             android:label="@string/title_activity_teste" />
-        <activity android:name=".activities.ResumoActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

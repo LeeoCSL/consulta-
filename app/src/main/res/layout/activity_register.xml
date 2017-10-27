@@ -136,6 +136,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_default"
         android:layout_margin="10dp"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF"
+        android:onClick="handlerUserRegister"/>
 
 </RelativeLayout>

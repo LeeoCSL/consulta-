@@ -294,7 +294,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:background="@drawable/btn_cinza"
-            android:text="Onibus/Metro \n3,80"
+            android:text="Ônibus/Metrô \n3,80"
             android:textColor="@color/cinza_escuro" />
 
         <Button
@@ -368,7 +368,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:background="@drawable/btn_cinza"
-            android:text="Onibus/Metro \n3,80"
+            android:text="Ônibus/Metrô \n3,80"
             android:textColor="@color/cinza_escuro" />
 
         <Button
