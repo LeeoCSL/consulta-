@@ -73,9 +73,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mDatabaseCustomers = FirebaseDatabase.getInstance().getReference().child("customers");
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+
+//        mFirebaseAuth = FirebaseAuth.getInstance();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, resSexo);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

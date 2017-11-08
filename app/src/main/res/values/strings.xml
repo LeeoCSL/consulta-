@@ -7,6 +7,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <string name="facebook_app_id">230052664199600</string>
+    <string name="fb_login_protocol_scheme">fb230052664199600</string>
 
     <string name="name_field_empty">O campo nome está vazio.</string>
     <string name="invalid_telephone">Telefone inválido.</string>
