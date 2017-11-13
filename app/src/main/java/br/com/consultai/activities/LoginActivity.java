@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -23,7 +22,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
@@ -37,10 +35,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
@@ -55,12 +51,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import br.com.consultai.BackgroundWorker;
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.model.User;
@@ -78,6 +76,10 @@ public class LoginActivity extends AppCompatActivity {
     public static String idFacebook;
     public static String emailFB;
     private FirebaseAnalytics mFirebaseAnalytics;
+    String device_brand = android.os.Build.MANUFACTURER;
+
+
+    public static final String LOGIN = "login";
 
     @BindView(R.id.input_email)
     EditText mLogin;
@@ -85,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.input_password)
     EditText mPassword;
 
-//    @BindView(R.id.iv_background)
+//    @BindView(R.user_id.iv_background)
 //    ImageView mBackgroundImage;
 
     private FirebaseAuth mAuth;
@@ -103,9 +105,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
-    private String userEmail, userPassword;
+    private String user_email, user_password;
 
     private ProgressDialog mDialog;
+    private String notification_token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mDialog = new ProgressDialog(this);
         ButterKnife.bind(this);
+
+        notification_token = FirebaseInstanceId.getInstance().getToken();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -161,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mCallbackManager = CallbackManager.Factory.create();
 
-        mLoginFacebook.setReadPermissions(Arrays.asList("email", "public_profile", "user_birthday"));
+        mLoginFacebook.setReadPermissions(Arrays.asList("user_email", "public_profile", "user_birthday"));
 
         mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -196,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday");
+                parameters.putString("fields", "user_id,name,user_email,gender,birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
 
@@ -267,21 +273,21 @@ public class LoginActivity extends AppCompatActivity {
                         authResult.getUser().updateProfile(profUpdate);
 
                         User user = new User();
-                        user.setEmail(authResult.getUser().getEmail());
-                        user.setName(authResult.getUser().getDisplayName());
+                        user.setUser_email(authResult.getUser().getEmail());
+//                        user.setName(authResult.getUser().getDisplayName());
 
 
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("emailGoogle", user.getEmail());
-                        editor.putString("nome", user.getName());
+                        editor.putString("emailGoogle", user.getUser_email());
+//                        editor.putString("nome", user.getName());
                         editor.commit();
 
                         ref.setValue(user);
 
                         Bundle bundle = new Bundle();
-                        bundle.putString("email_google", user.getEmail());
+                        bundle.putString("email_google", user.getUser_email());
                         bundle.putString("nome", sharedPref.getString("nome", ""));
                         mFirebaseAnalytics.logEvent("login_google_ok", bundle);
 
@@ -377,14 +383,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validateDateFromEditText() {
-        userEmail = mLogin.getText().toString().trim();
-        userPassword = mPassword.getText().toString().trim();
+        user_email = mLogin.getText().toString().trim();
+        user_password = mPassword.getText().toString().trim();
 
-        if (!Utility.isEmailValid(userEmail)) {
+        if (!Utility.isEmailValid(user_email)) {
             mLogin.setError("Email inválido.");
             return;
         }
-        if (TextUtils.isEmpty(userPassword)) {
+        if (TextUtils.isEmpty(user_password)) {
             mPassword.setError("Senha inválida.");
             return;
         }
@@ -397,18 +403,23 @@ public class LoginActivity extends AppCompatActivity {
         mDialog.setMessage("Por favor, espere enquanto fazemos o login");
         mDialog.show();
         mDialog.setCanceledOnTouchOutside(false);
-        mAuth.signInWithEmailAndPassword(userEmail, userPassword)
+        mAuth.signInWithEmailAndPassword(user_email, user_password)
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("emailParam", userEmail);
+                        editor.putString("emailParam", user_email);
                         editor.commit();
 
+                        String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        BackgroundWorker worker = new BackgroundWorker(LoginActivity.this);
+                        worker.execute(LOGIN, user_id, user_email, user_password, notification_token, device_brand);
+
                         Bundle bundle = new Bundle();
-                        bundle.putString("email", sharedPref.getString("emailParam", " "));
+                        bundle.putString("user_email", sharedPref.getString("emailParam", " "));
                         bundle.putString("nome", sharedPref.getString("nome", " "));
                         mFirebaseAnalytics.logEvent("login_email_ok", bundle);
 
@@ -435,7 +446,7 @@ public class LoginActivity extends AppCompatActivity {
                             "Erro ao fazer login, tente novamente mais tarde.");
                 }
                 Bundle bundle = new Bundle();
-                bundle.putString("email", userEmail);
+                bundle.putString("user_email", user_email);
                 mFirebaseAnalytics.logEvent("login_email_erro", bundle);
                 e.printStackTrace();
             }
@@ -452,7 +463,7 @@ public class LoginActivity extends AppCompatActivity {
 
 //    public void loginWithFacebook(View view) {
 //        mCallbackManager = CallbackManager.Factory.create();
-//        mLoginFacebook.setReadPermissions("email", "public_profile");
+//        mLoginFacebook.setReadPermissions("user_email", "public_profile");
 //        mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
 //            @Override
 //            public void onSuccess(LoginResult loginResult) {
@@ -510,15 +521,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 User user = new User();
-                user.setEmail(authResult.getUser().getEmail());
-                user.setName(authResult.getUser().getDisplayName());
+                user.setUser_email(authResult.getUser().getEmail());
+//                user.setName(authResult.getUser().getDisplayName());
 
 
 
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("nome", user.getName());
-                editor.putString("emailFB", user.getEmail());
+//                editor.putString("nome", user.getName());
+                editor.putString("emailFB", user.getUser_email());
 
                 editor.commit();
 
@@ -555,7 +566,7 @@ public class LoginActivity extends AppCompatActivity {
                         DialogFactory.hideLoadingDialog();
 
                         if (e.getClass() == FirebaseAuthUserCollisionException.class) {
-                            Toast.makeText(LoginActivity.this, "Este email está vinculado a uma outra conta com o facebook.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Este user_email está vinculado a uma outra conta com o facebook.", Toast.LENGTH_LONG).show();
                             LoginManager.getInstance().logOut();
                         }
                         if (e.getClass() == FirebaseAuthInvalidUserException.class) {

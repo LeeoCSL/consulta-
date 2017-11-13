@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:orientation="vertical"
     tools:context="br.com.consultai.MainActivity">
 
@@ -13,11 +14,14 @@
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_default" />
+        android:background="@drawable/btn_default"
+        android:onClick="logout" />
 
     <RelativeLayout
+        android:id="@+id/layoutMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="330dp"
+        android:layout_below="@+id/img_logo"
         android:layout_margin="15dp"
         android:background="@drawable/borda_layout"
         android:padding="15dp">
@@ -45,6 +49,7 @@
             android:layout_alignBaseline="@id/txt1"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/txt1"
+            android:onClick="testeSaldo"
             android:text="R$ 10,00"
             android:textColor="#000000"
             android:textSize="25sp"
@@ -55,7 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txt_valor"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
             android:foregroundGravity="center"
             android:gravity="center"
             android:padding="5dp">
@@ -195,192 +201,80 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/txt2"
+        <LinearLayout
+            android:id="@+id/layoutHrs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_dias"
-            android:layout_marginTop="10dp"
-            android:text="07:00" />
+            android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/txt3"
+            <TextView
+                android:id="@+id/txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_dias"
+                android:text="07:00"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txt3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_dias"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/txt2"
+                android:text="17:15"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_dias"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/txt2"
-            android:text="17:15" />
+            android:layout_below="@+id/layoutHrs"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:padding="5dp">
 
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="33dp"
-            android:layout_below="@+id/layout_dias"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/btn_editar"
-            android:background="@drawable/btn_cinza"
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="33dp"
+                android:layout_below="@+id/layoutHrs"
+                android:layout_marginRight="5dp"
 
-            android:text="Excluir"
-            android:textColor="@color/cinza_escuro"
-            android:textStyle="bold" />
+                android:layout_toLeftOf="@+id/btn_editar"
+                android:background="@drawable/btn_cinza"
+                android:onClick="teste"
+                android:text="Excluir"
+                android:textColor="@color/cinza_escuro"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btn_editar"
-            android:layout_width="80dp"
-            android:layout_height="33dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/layout_dias"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_default"
-            android:text="Editar"
-            android:textColor="#FFFFFF" />
+            <Button
+                android:id="@+id/btn_editar"
+                android:layout_width="80dp"
+                android:layout_height="33dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/layoutHrs"
+                android:layout_marginLeft="5dp"
 
+                android:background="@drawable/btn_default"
+                android:onClick="editar"
+                android:text="Editar"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Adicionar viagem extra"
-            android:textColor="@color/cinza_escuro"
-            android:textSize="20sp"
-            android:textStyle="bold"
-
-            />
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/btn_default" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="2dp"
-                android:text=" ?"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
-        </FrameLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
-        android:padding="5dp">
-
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/btn_cinza"
-            android:text="Ônibus/Metrô \n3,80"
-            android:textColor="@color/cinza_escuro" />
-
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/btn_default"
-            android:text="Integração \n3,00"
-            android:textColor="@color/white" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/layoutMain"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/mais" />
 
 
-    </LinearLayout>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="3dp"
-        android:layout_margin="10dp"
-        android:background="@color/cinza"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Viagem á menos"
-            android:textColor="@color/cinza_escuro"
-            android:textSize="20sp"
-            android:textStyle="bold"
-
-            />
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/btn_default" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="2dp"
-                android:text=" ?"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
-        </FrameLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
-        android:padding="5dp">
-
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/btn_cinza"
-            android:text="Ônibus/Metrô \n3,80"
-            android:textColor="@color/cinza_escuro" />
-
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/btn_default"
-            android:text="Integração \n3,00"
-            android:textColor="@color/white" />
-
-
-    </LinearLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

@@ -17,6 +17,7 @@
 
     <string name="enter">Entrando</string>
     <string name="validating_information">Estamos validando suas informações, por favor, aguarde.</string>
-    <string name="email_already_used_with_facebook_account">Este email está vinculado a uma outra conta com o facebook.</string>
+    <string name="email_already_used_with_facebook_account">Este user_email está vinculado a uma outra conta com o facebook.</string>
+    <string name="title_activity_editar">EditarActivity</string>
 
 </resources>

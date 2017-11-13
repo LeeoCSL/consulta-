@@ -25,7 +25,7 @@ public class teste extends AppCompatActivity {
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
                     return true;
-//                case R.id.navigation_notifications:
+//                case R.user_id.navigation_notifications:
 //                    mTextMessage.setText(R.string.title_notifications);
 //                    return true;
             }
