@@ -62,6 +62,7 @@ import br.com.consultai.BackgroundWorker;
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.model.User;
+import br.com.consultai.serv.Login;
 import br.com.consultai.utils.DialogFactory;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
@@ -415,8 +416,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        BackgroundWorker worker = new BackgroundWorker(LoginActivity.this);
-                        worker.execute(LOGIN, user_id, user_email, user_password, notification_token, device_brand);
+                        Login login = new Login(LoginActivity.this);
+                        login.execute(user_id, user_email, user_password, notification_token, device_brand);
 
                         Bundle bundle = new Bundle();
                         bundle.putString("user_email", sharedPref.getString("emailParam", " "));

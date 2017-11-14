@@ -11,13 +11,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
+import br.com.consultai.serv.Get;
+import br.com.consultai.serv.Saldo;
+import br.com.consultai.utils.Utility;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,15 +30,23 @@ public class MainActivity extends AppCompatActivity {
 
     String user_id;
 
-    String user_saldo = "100";
+    String user_saldo = "1000";
 
     String tipo;
+
+    TextView txt_valor;
+
+    Float recarga;
+
+    Float saldo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
      user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        txt_valor = (TextView) findViewById(R.id.txt_valor);
 
          SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         tipo = sharedPref.getString("userTipo", "COMUM");
@@ -47,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.viagem_mais, null);
                 ImageView comoFunciona = (ImageView) mView.findViewById(R.id.btnComoFunciona);
+                ImageView comoFuncionaMenos = (ImageView) mView.findViewById(R.id.btnComoFuncionaMenos);
+
                 Button maisOnibusComum = (Button) mView.findViewById(R.id.btnMaisOnibusComum);
                 Button maisEstudante = (Button) mView.findViewById(R.id.btnMaisEstudante);
                 Button maisIntegracaoComum = (Button) mView.findViewById(R.id.btnMaisIntegracaoComum);
@@ -70,7 +85,26 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum magna nec enim elementum, vitae pharetra leo cursus. Sed at cursus nunc, a tincidunt felis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam porta lacus id pretium dapibus. Praesent ac tristique ligula, sed tempus lectus.");
+                        builder.setMessage("Adicione uma viagem extra sempre que fizer um trajeto diferente do que está definido em sua rotina.");
+
+                        builder.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.create();
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
+
+                comoFuncionaMenos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("Exclua uma viagem sempre que fizer um trajeto diferente do que está definido em sua rotina.");
 
                         builder.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
                             @Override
@@ -120,7 +154,51 @@ public class MainActivity extends AppCompatActivity {
 
 }
 
-    public void teste(View v){
+    public void recargaBilhete(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_recarga, null);
+        EditText edtValor = (EditText) mView.findViewById(R.id.edtValor);
+        Button btnCancelar = (Button) mView.findViewById(R.id.btnCancelar);
+        Button btnOk = (Button) mView.findViewById(R.id.btnOk);
+        String rec = edtValor.getText().toString();
+//        recarga = Utility.stringToFloat(edtValor.getText().toString());
+        builder.setView(mView);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                saldo = saldo+recarga;
+                saldo = 100.0f;
+                txt_valor.setText(saldo.toString());
+
+                dialog.dismiss();
+
+
+
+            }
+        });
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
+
+
+
+
+    }
+
+    public void attValor(){
+
+
+
+    }
+    public void atualizar(View v){
 
     }
 
@@ -133,8 +211,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void testeSaldo(View v){
 
-        BackgroundWorker worker = new BackgroundWorker(MainActivity.this);
-        worker.execute(SALDO, user_id, user_saldo);
+
+        Get get = new Get(MainActivity.this);
+        get.execute(user_id);
+//        txt_valor.setText(Utility.formatValue(Float.parseFloat(user_id)));
+//        BackgroundWorker worker = new BackgroundWorker(MainActivity.this);
+//        worker.execute(SALDO, user_id, user_saldo);
     }
 
     public void logout(View v){

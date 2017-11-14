@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="150dp"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Qual o valor da recarga?"
+        android:textSize="20sp"
+        />
+
+    <EditText
+        android:id="@+id/edtValor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt1"
+        android:hint="Digite o valor"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp"
+        android:inputType="number"
+        />
+
+    <Button
+        android:id="@+id/btnCancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/edtValor"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_cinza"
+        android:text="Cancelar" />
+
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/edtValor"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_default"
+        android:textColor="#FFFFFF"
+        android:text="OK" />
+
+
+</RelativeLayout>

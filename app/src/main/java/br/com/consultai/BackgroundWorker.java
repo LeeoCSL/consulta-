@@ -44,53 +44,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             case LoginActivity.LOGIN:
 
 
-                String userID = strings[1];
-                String userEmail = strings[2];
-                String userPassword = strings[3];
-                String notificationToken = strings[4];
-                String userDeviceBrand = strings[5];
 
-
-                //String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                User user = new User();
-                user.setUser_id(userID);
-                user.setUser_email(userEmail);
-                user.setUser_password(userPassword);
-                user.setNotification_token(notificationToken);
-                user.setDevice_brand(userDeviceBrand);
-
-
-                Gson gson = new Gson();
-
-                OkHttpClient client = new OkHttpClient();
-
-                String url = "https://consultai.000webhostapp.com/auth";
-
-                Request.Builder builder = new Request.Builder();
-
-                builder.url(url);
-
-                MediaType mediaType =
-                        MediaType.parse("application/json; charset=utf-8");
-
-
-                RequestBody body = RequestBody.create(mediaType, gson.toJson(user));
-                builder.post(body);
-
-                Request request = builder.build();
-
-                try {
-                    Response response = client.newCall(request).execute();
-                    Log.i("resp_server", response.body().string());
-                    Gson gson4 = new Gson();
-                    gson4.toJson(response.body().string()) ;
-                    Log.i("json_teste", gson4.toString());
-
-                    return response.body().toString();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
                     /*String userEmail = strings[1];
                     String userPassword = strings[2];
@@ -139,86 +93,10 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
 
 
-                String userID2 = strings[1];
-                String userEmail2 = strings[2];
-                String userPassword2 = strings[3];
-                String notificationToken2 = strings[4];
-                String userDeviceBrand2 = strings[5];
 
-
-
-                User user2 = new User();
-                user2.setUser_id(userID2);
-                user2.setUser_email(userEmail2);
-                user2.setUser_password(userPassword2);
-                user2.setNotification_token(notificationToken2);
-                user2.setDevice_brand(userDeviceBrand2);
-
-                Gson gson2 = new Gson();
-
-                OkHttpClient client2 = new OkHttpClient();
-
-                String url2 = "https://consultai.000webhostapp.com/register";
-
-                Request.Builder builder2 = new Request.Builder();
-
-                builder2.url(url2);
-
-                MediaType mediaType2 =
-                        MediaType.parse("application/json; charset=utf-8");
-
-                RequestBody body2 = RequestBody.create(mediaType2, gson2.toJson(user2));
-
-                Log.i("JSON2", gson2.toJson(user2));
-
-                builder2.post(body2);
-
-                Request request2 = builder2.build();
-
-                try {
-                    Response response = client2.newCall(request2).execute();
-                    Log.i("resp_server", response.body().string());
-                    return response.body().toString();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
             case MainActivity.SALDO:
-                String userID3 = strings[1];
-                String userSaldo = strings[2];
 
-                User user3 = new User();
-                user3.setUser_id(userID3);
-
-                user3.setUser_saldo(userSaldo);
-
-
-                Gson gson3 = new Gson();
-
-                OkHttpClient client3 = new OkHttpClient();
-
-                String url3 = "https://consultai.000webhostapp.com/update_user";
-
-                Request.Builder builder3 = new Request.Builder();
-
-                builder3.url(url3);
-
-                MediaType mediaType3 =
-                        MediaType.parse("application/json; charset=utf-8");
-
-
-                RequestBody body3 = RequestBody.create(mediaType3, gson3.toJson(user3));
-                builder3.post(body3);
-
-                Request request3 = builder3.build();
-
-                try {
-                    Response response = client3.newCall(request3).execute();
-                    Log.i("resp_server", response.body().string());
-                    return response.body().toString();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
 
             /*    try {

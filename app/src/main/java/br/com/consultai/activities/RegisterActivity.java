@@ -40,6 +40,7 @@ import java.io.IOException;
 import br.com.consultai.BackgroundWorker;
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
+import br.com.consultai.serv.Register;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -211,8 +212,8 @@ public class RegisterActivity extends AppCompatActivity {
 //                        bundle.putString("nome", userName);
 //                        mFirebaseAnalytics.logEvent("cadastro_ok", bundle);
 
-                        BackgroundWorker worker = new BackgroundWorker(RegisterActivity.this);
-                        worker.execute(REGISTER, user_id, user_email, user_password, notification_token, device_brand);
+                        Register register = new Register(RegisterActivity.this);
+                        register.execute(user_id, user_email, user_password, notification_token, device_brand);
 
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         SharedPreferences.Editor editor = sharedPref.edit();

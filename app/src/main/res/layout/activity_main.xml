@@ -20,7 +20,7 @@
     <RelativeLayout
         android:id="@+id/layoutMain"
         android:layout_width="match_parent"
-        android:layout_height="330dp"
+        android:layout_height="350dp"
         android:layout_below="@+id/img_logo"
         android:layout_margin="15dp"
         android:background="@drawable/borda_layout"
@@ -32,6 +32,13 @@
             android:layout_height="wrap_content"
             android:text="Bilhete teste"
             android:textSize="15sp" />
+        
+        <Button
+            android:id="@+id/btnAtualizar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_default"
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:id="@+id/txt1"
@@ -50,10 +57,12 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/txt1"
             android:onClick="testeSaldo"
-            android:text="R$ 10,00"
+            android:text="R$"
             android:textColor="#000000"
             android:textSize="25sp"
             android:textStyle="bold" />
+
+
 
         <LinearLayout
             android:id="@+id/layout_dias"
@@ -228,12 +237,25 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btnRecarga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layoutHrs"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_default"
+            android:text="Recarreguei meu bilhete"
+            android:textColor="#FFFFFF"
+            android:onClick="recargaBilhete"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnRecarga"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:padding="5dp">
 
@@ -245,7 +267,7 @@
 
                 android:layout_toLeftOf="@+id/btn_editar"
                 android:background="@drawable/btn_cinza"
-                android:onClick="teste"
+
                 android:text="Excluir"
                 android:textColor="@color/cinza_escuro"
                 android:textStyle="bold" />
