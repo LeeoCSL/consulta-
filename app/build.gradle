@@ -2,15 +2,16 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "br.com.consultai"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -25,9 +26,51 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
+
+    compile('com.jakewharton:butterknife:8.5.1') {
+        exclude module: 'support-annotations'
+        exclude module: 'support-compat'
+    }
+
+    compile 'com.roughike:bottom-bar:2.3.1'
+
+    compile 'com.android.support:support-core-utils:25.4.0'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
+    compile 'com.android.support:support-v4:25.4.0'
+    compile 'com.android.support:support-vector-drawable:25.4.0'
+    compile 'com.google.firebase:firebase-core:11.0.4'
+
+    compile 'com.stepstone.stepper:material-stepper:4.3.0'
+    compile 'io.branch.sdk.android:library:2.+'
+    compile 'com.appsee:appsee-android:+'
+
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.+'
-    compile 'com.android.support:support-vector-drawable:26.+'
+    compile 'com.google.firebase:firebase-auth:11.0.4'
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
+    compile 'com.google.android.gms:play-services:11.0.4'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.google.firebase:firebase-database:11.0.4'
+    compile 'com.firebaseui:firebase-ui-database:0.4.4'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
+    compile 'com.google.firebase:firebase-storage:11.0.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.iceteck.silicompressorr:silicompressor:2.0'
+
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+
+    compile 'com.azoft.carousellayoutmanager:carousel:1.2.1'
+    compile 'com.synnapps:carouselview:0.1.4'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'ivb.com.materialstepper:material-stepper:0.0.2'
+    compile 'com.bignerdranch.android:expandablerecyclerview:1.0.3'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
 }
+apply plugin: 'com.google.gms.google-services'

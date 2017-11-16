@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="150dp"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Adicionar viagem"
+            android:textColor="@color/cinza_escuro"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <ImageView
+                android:id="@+id/btnComoFunciona"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/btn_default" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="2dp"
+                android:text=" ?"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="10dp"
+    android:padding="10dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+       >
+
+        <Button
+            android:id="@+id/btnMaisOnibusComum"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/btn_cinza"
+            android:text="3,80"
+            android:textColor="@color/cinza_escuro"
+            android:visibility="invisible"
+
+ />
+        <Button
+            android:id="@+id/btnMaisIntegracaoComum"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/btn_default"
+            android:text="3,00"
+            android:textColor="@color/white"
+            android:visibility="invisible"
+            android:layout_toRightOf="@+id/btnMaisOnibusComum"
+          />
+
+
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btnMaisEstudante"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_default"
+        android:text="3,00"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+
+        />
+</FrameLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Excluir viagem"
+            android:textColor="@color/cinza_escuro"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <ImageView
+                android:id="@+id/btnComoFuncionaMenos"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/btn_default" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="2dp"
+                android:text=" ?"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            >
+
+            <Button
+                android:id="@+id/btnMenosOnibusComum"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_cinza"
+                android:text="3,80"
+                android:textColor="@color/cinza_escuro"
+                android:visibility="invisible"
+
+                />
+            <Button
+                android:id="@+id/btnMenosIntegracaoComum"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/btn_default"
+                android:text="3,00"
+                android:textColor="@color/white"
+                android:visibility="invisible"
+                android:layout_toRightOf="@+id/btnMenosOnibusComum"
+                />
+
+
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btnMenosEstudante"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_default"
+            android:text="3,00"
+            android:textColor="@color/white"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+
+            />
+    </FrameLayout>
+
+</LinearLayout>

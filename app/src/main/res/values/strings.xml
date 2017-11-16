@@ -6,4 +6,18 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="facebook_app_id">230052664199600</string>
+    <string name="fb_login_protocol_scheme">fb230052664199600</string>
+
+    <string name="name_field_empty">O campo nome está vazio.</string>
+    <string name="invalid_telephone">Telefone inválido.</string>
+    <string name="your_password_needs_more_caracters">Sua senha deve ter no mínimo 6 caracteres.</string>
+    <string name="invalid_email">Email inválido.</string>
+
+    <string name="enter">Entrando</string>
+    <string name="validating_information">Estamos validando suas informações, por favor, aguarde.</string>
+    <string name="email_already_used_with_facebook_account">Este user_email está vinculado a uma outra conta com o facebook.</string>
+    <string name="title_activity_editar">EditarActivity</string>
+
 </resources>
