@@ -12,16 +12,15 @@ import br.com.consultai.R;
  * Created by leonardo.ribeiro on 14/11/2017.
  */
 
-public class Conta extends Fragment {
+public class ContaFragment extends Fragment {
+
+    public ContaFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_conta, null);
 
-
         return view;
-
-
     }
 }

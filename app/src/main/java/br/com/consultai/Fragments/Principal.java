@@ -153,11 +153,7 @@ public class Principal extends Fragment {
                 dialog.show();
             }
         });
-
-
-
-return view;
-
+        return view;
     }
 
     public void recargaBilhete(View v){

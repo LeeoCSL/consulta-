@@ -1,90 +1,72 @@
 package br.com.consultai;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabReselectListener;
-import com.roughike.bottombar.OnTabSelectListener;
 //import com.roughike.bottombar.OnMenuTabClickListener;
 
 
-import br.com.consultai.Fragments.ComoUsar;
-import br.com.consultai.Fragments.Conta;
-import br.com.consultai.Fragments.Principal;
-import br.com.consultai.activities.EditarActivity;
+import br.com.consultai.Fragments.ComoUsarFragment;
+import br.com.consultai.Fragments.ContaFragment;
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
-import br.com.consultai.serv.Get;
-import br.com.consultai.serv.Saldo;
-import br.com.consultai.utils.Utility;
 
-public class MainActivity extends ActionBarActivity {
-
-    FragmentManager fm = getSupportFragmentManager();
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
 
-                if (tabId == R.id.bottomBarConta) {
-                    Conta frag2 = (Conta) fm.findFragmentById(R.id.fragment1);
-                }
-                if (tabId == R.id.bottomBarInicio) {
-                    Principal frag1 = (Principal) fm.findFragmentById(R.id.fragment1);
-                }
-                if (tabId == R.id.bottomBarAjuda) {
-                    ComoUsar frag3 = (ComoUsar) fm.findFragmentById(R.id.fragment1);
-                }
-                if (tabId == R.id.bottomBarSair) {
-                    logout();
-                }
-            }
-        });
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-//        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
-//            @Override
-//            public void onTabReSelected(@IdRes int tabId) {
-//                if (tabId == R.id.bottomBarInicio) {
-//                    // The tab with id R.id.tab_favorites was reselected,
-//                    // change your content accordingly.
-//                }
-//            }
-//        });
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment, new MainFragment()).commit();
     }
 
-        public void logout(){
-            FirebaseAuth.getInstance().signOut();
+    public void logout(){
 
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-               finish(); //TODO
-        }
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    fragmentTransaction.replace(R.id.fragment, new MainFragment()).commit();
+                    return true;
+                case R.id.navigation_conta:
+                    fragmentTransaction.replace(R.id.fragment, new ContaFragment()).commit();
+                    return true;
+                case R.id.navigation_help:
+                    fragmentTransaction.replace(R.id.fragment, new ComoUsarFragment()).commit();
+                    return true;
+                case R.id.navigation_exit:
+                    logout();
+                    return true;
+            }
+            return false;
+            }
+        };
     }
 
