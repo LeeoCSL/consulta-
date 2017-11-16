@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -23,14 +24,15 @@ import okhttp3.Request;
  */
 
 public class Login extends AsyncTask<String, Void, String> {
+
     private Context context;
     private AlertDialog.Builder dialog;
 
+    private boolean success = false;
 
     public Login(Context context) {
         this.context = context;
     }
-
 
     protected String doInBackground(String... strings) {
 
@@ -72,12 +74,7 @@ public class Login extends AsyncTask<String, Void, String> {
 
         try {
             okhttp3.Response response = client.newCall(request).execute();
-            Log.i("resp_server", response.body().string());
-            Gson gson4 = new Gson();
-            gson4.toJson(response.body().string());
-            Log.i("json_teste", gson4.toString());
-
-            return response.body().toString();
+            return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,15 +83,19 @@ public class Login extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+        if(s != null){
+            double saldo = Double.parseDouble(s.substring(1, s.length() - 1));
+            Bundle bundle = new Bundle();
+            bundle.putDouble("saldo", saldo);
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
+        }
     }
 
     @Override
     protected void onPreExecute() {
-        dialog = new AlertDialog.Builder(context);
-        dialog.setTitle("Login status");
 
-        context.startActivity(new Intent(context, MainActivity.class));
     }
 
 }

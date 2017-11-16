@@ -7,9 +7,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 //import com.roughike.bottombar.OnMenuTabClickListener;
 
 
@@ -17,6 +22,7 @@ import br.com.consultai.Fragments.ComoUsarFragment;
 import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
+import br.com.consultai.utils.BottomNavigationViewHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,11 +33,32 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment, new MainFragment()).commit();
+        MainFragment mainFragment = new MainFragment();
+        mainFragment.setArguments(getIntent().getExtras());
+
+
+        fragmentTransaction.replace(R.id.fragment, mainFragment).commit();
+
+/*        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mUser.getToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+
+                            Log.i("idtoken", idToken);
+                        } else {
+
+                        }
+                    }
+                });*/
     }
+
 
     public void logout(){
 
@@ -65,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
                     logout();
                     return true;
             }
-            return false;
+                return false;
             }
+
         };
     }
 
