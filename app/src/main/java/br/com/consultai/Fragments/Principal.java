@@ -19,11 +19,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.activities.EditarActivity;
-import br.com.consultai.activities.LoginActivity;
-import br.com.consultai.serv.Get;
+import br.com.consultai.serv.GetSaldoRequest;
 
 /**
  * Created by leonardo.ribeiro on 14/11/2017.
@@ -214,8 +212,8 @@ public class Principal extends Fragment {
     public void testeSaldo(View v){
 
 
-        Get get = new Get(getContext());
-        get.execute(user_id);
+        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+        getSaldoRequest.execute(user_id);
 //        txt_valor.setText(Utility.formatValue(Float.parseFloat(user_id)));
 //        BackgroundWorker worker = new BackgroundWorker(MainActivity.this);
 //        worker.execute(SALDO, user_id, user_saldo);

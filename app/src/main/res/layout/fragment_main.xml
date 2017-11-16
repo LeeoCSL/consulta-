@@ -36,9 +36,9 @@
 
         <Button
             android:id="@+id/btnAtualizar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/btn_default"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/icon_atualizar"
             android:layout_alignParentRight="true"/>
 
         <TextView
@@ -57,7 +57,6 @@
             android:layout_alignBaseline="@id/txt1"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/txt1"
-
             android:text="R$"
             android:textColor="#000000"
             android:textSize="25sp"
@@ -248,7 +247,7 @@
             android:background="@drawable/btn_default"
             android:text="Recarreguei meu bilhete"
             android:textColor="#FFFFFF"
-            android:onClick="recargaBilhete"
+
             />
 
         <LinearLayout
@@ -265,10 +264,8 @@
                 android:layout_height="33dp"
                 android:layout_below="@+id/layoutHrs"
                 android:layout_marginRight="5dp"
-
                 android:layout_toLeftOf="@+id/btn_editar"
                 android:background="@drawable/btn_cinza"
-
                 android:text="Excluir"
                 android:textColor="@color/cinza_escuro"
                 android:textStyle="bold" />
@@ -282,7 +279,6 @@
                 android:layout_marginLeft="5dp"
 
                 android:background="@drawable/btn_default"
-                android:onClick="editar"
                 android:text="Editar"
                 android:textColor="#FFFFFF" />
 
