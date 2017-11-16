@@ -1,0 +1,171 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="leonardoribeiro.tabtest.MainActivity$PlaceholderFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TimePicker
+            android:id="@+id/tp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp" />
+
+        <LinearLayout
+            android:id="@+id/layout_dias"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="30dp"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/selec_dom"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/dom" />
+
+            <ImageView
+                android:id="@+id/selec_seg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/seg" />
+
+            <ImageView
+                android:id="@+id/selec_ter"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ter" />
+
+            <ImageView
+                android:id="@+id/selec_qua"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/qua" />
+
+            <ImageView
+                android:id="@+id/selec_qui"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/qua" />
+
+            <ImageView
+                android:id="@+id/selec_sex"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/seg" />
+
+            <ImageView
+                android:id="@+id/selec_sab"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/seg" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_uso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_dias"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt_uso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Como vai ser o uso na volta?"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_uso"
+                android:layout_marginTop="5dp"
+                android:text="Ônibus" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/checkBox"
+                android:background="#cccccc" />
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/checkBox"
+
+                android:text="Metrô/CPTM" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/checkBox2"
+                android:background="#cccccc" />
+
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/checkBox2"
+
+                android:text="Integração" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/checkBox3"
+                android:background="#cccccc" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnCancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_uso"
+            android:layout_toLeftOf="@+id/v"
+            android:layout_marginRight="20dp"
+            android:text="CANCELAR" />
+
+        <View
+            android:id="@+id/v"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@+id/layout_uso"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/btnSalvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_uso"
+            android:layout_toRightOf="@+id/v"
+            android:layout_marginLeft="20dp"
+            android:text="SALVAR" />
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

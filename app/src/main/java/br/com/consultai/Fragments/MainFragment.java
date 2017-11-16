@@ -22,6 +22,7 @@ public class MainFragment extends Fragment {
     public static ProgressDialog dialog;
 
     public static TextView tvSaldo;
+    
 
     public MainFragment() {
 
