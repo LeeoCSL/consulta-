@@ -5,14 +5,18 @@
     android:layout_height="match_parent"
     tools:context="br.com.consultai.Fragments.MainFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/img_logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_default" />
+        android:layout_marginTop="15dp"
+        android:src="@drawable/logo_final"
+        android:layout_centerHorizontal="true"/>
 
     <RelativeLayout
         android:id="@+id/layoutMain"
@@ -243,7 +247,7 @@
             android:background="@drawable/btn_default"
             android:text="Recarreguei meu bilhete"
             android:textColor="#FFFFFF"
-            android:onClick="recargaBilhete"
+
             />
 
         <LinearLayout
@@ -260,10 +264,8 @@
                 android:layout_height="33dp"
                 android:layout_below="@+id/layoutHrs"
                 android:layout_marginRight="5dp"
-
                 android:layout_toLeftOf="@+id/btn_editar"
                 android:background="@drawable/btn_cinza"
-
                 android:text="Excluir"
                 android:textColor="@color/cinza_escuro"
                 android:textStyle="bold" />
@@ -277,7 +279,6 @@
                 android:layout_marginLeft="5dp"
 
                 android:background="@drawable/btn_default"
-                android:onClick="editar"
                 android:text="Editar"
                 android:textColor="#FFFFFF" />
 
@@ -288,10 +289,11 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_below="@+id/layoutMain"
         android:layout_marginRight="16dp"
         android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/mais" />
+        android:src="@drawable/mais"
+        android:layout_alignParentRight="true"/>
 
+    </RelativeLayout>
 </FrameLayout>

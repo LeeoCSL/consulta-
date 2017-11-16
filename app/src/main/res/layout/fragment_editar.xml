@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="br.com.consultai.Fragments.EditarFragment">
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <ImageView
+           android:id="@+id/logo"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:src="@drawable/logo_final"
+           android:layout_centerHorizontal="true"
+           android:layout_margin="10dp"/>
+
+       <android.support.design.widget.TabLayout
+           android:id="@+id/tabs"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/logo">
+
+           <android.support.design.widget.TabItem
+               android:id="@+id/tabItem"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="IDA" />
+
+           <android.support.design.widget.TabItem
+               android:id="@+id/tabItem2"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="VOLTA" />
+
+
+
+       </android.support.design.widget.TabLayout>
+
+
+       <android.support.v4.view.ViewPager
+           android:id="@+id/viewPager"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_below="@+id/tabs"
+           app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+   </RelativeLayout>
+
+</FrameLayout>
