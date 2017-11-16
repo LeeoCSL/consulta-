@@ -5,8 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,215 +20,71 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabReselectListener;
+import com.roughike.bottombar.OnTabSelectListener;
+//import com.roughike.bottombar.OnMenuTabClickListener;
 
+
+import br.com.consultai.Fragments.ComoUsar;
+import br.com.consultai.Fragments.Conta;
+import br.com.consultai.Fragments.Principal;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.serv.Get;
 import br.com.consultai.serv.Saldo;
 import br.com.consultai.utils.Utility;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ActionBarActivity {
 
-    public static final String SALDO = "saldo";
-
-    String user_id;
-
-    String user_saldo = "1000";
-
-    String tipo;
-
-    TextView txt_valor;
-
-    Float recarga;
-
-    Float saldo;
+    FragmentManager fm = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-     user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        txt_valor = (TextView) findViewById(R.id.txt_valor);
-
-         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        tipo = sharedPref.getString("userTipo", "COMUM");
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-
-
+        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.viagem_mais, null);
-                ImageView comoFunciona = (ImageView) mView.findViewById(R.id.btnComoFunciona);
-                ImageView comoFuncionaMenos = (ImageView) mView.findViewById(R.id.btnComoFuncionaMenos);
+            public void onTabSelected(@IdRes int tabId) {
 
-                Button maisOnibusComum = (Button) mView.findViewById(R.id.btnMaisOnibusComum);
-                Button maisEstudante = (Button) mView.findViewById(R.id.btnMaisEstudante);
-                Button maisIntegracaoComum = (Button) mView.findViewById(R.id.btnMaisIntegracaoComum);
-
-                Button menosOnibusComum = (Button) mView.findViewById(R.id.btnMenosOnibusComum);
-                Button menosIntegracaoComum = (Button) mView.findViewById(R.id.btnMenosIntegracaoComum);
-                Button menosEstudante = (Button) mView.findViewById(R.id.btnMenosEstudante);
-
-                if(tipo.equals("COMUM")){
-                    maisOnibusComum.setVisibility(View.VISIBLE);
-                    maisIntegracaoComum.setVisibility(View.VISIBLE);
-                    menosOnibusComum .setVisibility(View.VISIBLE);
-                    menosIntegracaoComum.setVisibility(View.VISIBLE);
-                } else if(tipo.equals("ESTUDANTE")){
-                    maisEstudante.setVisibility(View.VISIBLE);
-                    menosEstudante.setVisibility(View.VISIBLE);
+                if (tabId == R.id.bottomBarConta) {
+                    Conta frag2 = (Conta) fm.findFragmentById(R.id.fragment1);
                 }
-
-                comoFunciona.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setMessage("Adicione uma viagem extra sempre que fizer um trajeto diferente do que está definido em sua rotina.");
-
-                        builder.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        builder.create();
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
-
-                comoFuncionaMenos.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setMessage("Exclua uma viagem sempre que fizer um trajeto diferente do que está definido em sua rotina.");
-
-                        builder.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        builder.create();
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
-
-                maisOnibusComum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(MainActivity.this, "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-                maisIntegracaoComum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(MainActivity.this, "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
-
-
-                    }
-                });
-
-                maisEstudante.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(MainActivity.this, "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
-                dialog.show();
+                if (tabId == R.id.bottomBarInicio) {
+                    Principal frag1 = (Principal) fm.findFragmentById(R.id.fragment1);
+                }
+                if (tabId == R.id.bottomBarAjuda) {
+                    ComoUsar frag3 = (ComoUsar) fm.findFragmentById(R.id.fragment1);
+                }
+                if (tabId == R.id.bottomBarSair) {
+                    logout();
+                }
             }
         });
 
-
-
-
-
-}
-
-    public void recargaBilhete(View v){
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.dialog_recarga, null);
-        EditText edtValor = (EditText) mView.findViewById(R.id.edtValor);
-        Button btnCancelar = (Button) mView.findViewById(R.id.btnCancelar);
-        Button btnOk = (Button) mView.findViewById(R.id.btnOk);
-        String rec = edtValor.getText().toString();
-//        recarga = Utility.stringToFloat(edtValor.getText().toString());
-        builder.setView(mView);
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                saldo = saldo+recarga;
-                saldo = 100.0f;
-                txt_valor.setText(saldo.toString());
-
-                dialog.dismiss();
-
-
-
-            }
-        });
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-
-
-
-
+//        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
+//            @Override
+//            public void onTabReSelected(@IdRes int tabId) {
+//                if (tabId == R.id.bottomBarInicio) {
+//                    // The tab with id R.id.tab_favorites was reselected,
+//                    // change your content accordingly.
+//                }
+//            }
+//        });
 
     }
 
-    public void attValor(){
+        public void logout(){
+            FirebaseAuth.getInstance().signOut();
 
 
-
-    }
-    public void atualizar(View v){
-
-    }
-
-    public void editar(View v){
-
-        Intent intent = new Intent(MainActivity.this, EditarActivity.class);
-        startActivity(intent);
-
-    }
-
-    public void testeSaldo(View v){
-
-
-        Get get = new Get(MainActivity.this);
-        get.execute(user_id);
-//        txt_valor.setText(Utility.formatValue(Float.parseFloat(user_id)));
-//        BackgroundWorker worker = new BackgroundWorker(MainActivity.this);
-//        worker.execute(SALDO, user_id, user_saldo);
-    }
-
-    public void logout(View v){
-        FirebaseAuth.getInstance().signOut();
-
-
-        Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+            startActivity(intent);
+               finish(); //TODO
+        }
+
+
     }
-}
+

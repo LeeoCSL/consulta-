@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs xmlns:size="http://schemas.android.com/apk/res-auto">
+    <tab
+        icon="@drawable/ic_home"
+        id="@+id/bottomBarInicio"
+        title="Inicio"
+        size="12dp"
+        barColorWhenSelected="#000000"/>
+    <tab
+        icon="@drawable/ic_user"
+        id="@+id/bottomBarConta"
+        title="Conta"
+        size="24dp"
+        barColorWhenSelected="#000000"/>
+    <tab
+        icon="@drawable/ic_como_funciona"
+        id="@+id/bottomBarAjuda"
+        title="Ajuda"
+        size="24dp"
+        barColorWhenSelected="#000000"/>
+    <tab
+        icon="@drawable/ic_finish"
+        id="@+id/bottomBarSair"
+        title="Sair"
+        size="24dp"
+        barColorWhenSelected="#000000"/>
+</tabs>

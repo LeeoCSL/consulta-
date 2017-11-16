@@ -40,10 +40,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String type = strings[0];
 
 
-        switch (type){
-            case LoginActivity.LOGIN:
-
-
 
 
                     /*String userEmail = strings[1];
@@ -89,13 +85,13 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
 
 
-            case RegisterActivity.REGISTER:
 
 
 
 
 
-            case MainActivity.SALDO:
+
+
 
 
 
@@ -144,7 +140,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }*/
-                break;
+
 /*
             case MainActivity.ROTINA:
                 String userID = strings[1];
@@ -203,8 +199,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
 
                 break;*/
-        }
-
+//        }
+//
         return null;
     }
 
