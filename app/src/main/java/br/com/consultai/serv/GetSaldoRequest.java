@@ -60,6 +60,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         if(s != null){
+            Log.i("recebi", s);
             double saldo = Double.parseDouble(s.substring(1, s.length() - 1));
 
             MainFragment.tvSaldo.setText("R$ "+saldo);

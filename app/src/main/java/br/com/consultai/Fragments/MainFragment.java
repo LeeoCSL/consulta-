@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +63,17 @@ public class MainFragment extends Fragment {
 
                 GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
                 getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            }
+        });
+
+        Button btnEditar = view.findViewById(R.id.btn_editar);
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                EditarFragment editarFragment = new EditarFragment();
+                fragmentTransaction.replace(R.id.fragment, editarFragment).commit();
             }
         });
         return view;

@@ -99,8 +99,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
-
         ButterKnife.bind(this);
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -118,10 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         mTipo = (Spinner) findViewById(R.id.sp_tipo);
         mTipo.setAdapter(adapterTipo);
-
-
-
-
 
         String userID = FirebaseInstanceId.getInstance().getId();
         notification_token = FirebaseInstanceId.getInstance().getToken();
@@ -158,9 +152,6 @@ public class RegisterActivity extends AppCompatActivity {
         userSexo = (String) mSexo.getSelectedItem();
         userTipo = (String) mTipo.getSelectedItem();
 
-
-
-
         if(TextUtils.isEmpty(userName)){
             mName.setError("O campo nome está vazio.");
             return;
@@ -191,27 +182,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                         String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(user_id);
-
-                        UserProfileChangeRequest profUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(authResult.getUser().getDisplayName())
-//
-                                .build();
-
-                        authResult.getUser().updateProfile(profUpdate);
-
-//                        User user = new User();
-//                        user.setUser_email(user_email);
-//                        user.setName(userName);
-//                        user.setDtn(userNasc);
-//                        user.setSexo(userSexo);
-//                        ref.setValue(user);
-
-//                        Bundle bundle  = new Bundle();
-//                        bundle.putString("user_email", user_email);
-//                        bundle.putString("nome", userName);
-//                        mFirebaseAnalytics.logEvent("cadastro_ok", bundle);
-
                         Register register = new Register(RegisterActivity.this);
                         register.execute(user_id, user_email, user_password, notification_token, device_brand);
 
@@ -234,108 +204,5 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == GALLERY_PICK && resultCode == RESULT_OK){
-
-            Uri imageURI = data.getData();
-
-            CropImage.activity(imageURI)
-                    .setAspectRatio(1, 1)
-                    .start(this);
-        }
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-
-            if (resultCode == RESULT_OK) {
-
-                mDialog.setTitle("Aguarde...");
-                mDialog.setMessage("Estamos carregando a sua imagem.");
-                mDialog.setCanceledOnTouchOutside(false);
-                mDialog.show();
-
-                Uri resultUri = result.getUri();
-
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
-                        .setPhotoUri(resultUri).build();
-                user.updateProfile(request);
-
-
-                String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                final File thumbFilePath = new File(resultUri.getPath());
-
-                Bitmap thumbNail;
-
-                byte[] thumbBytes = null;
-
-//                try {
-//                    thumbNail =
-//                            new Compressor(this)
-//                                    .setMaxWidth(200)
-//                                    .setMaxHeight(200)
-//                                    .setQuality(75)
-//                                    .compressToBitmap(thumbFilePath);
-//
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    thumbNail.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//                    thumbBytes = baos.toByteArray();
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
-                StorageReference filePath = mImageStorage.child("profile_images")
-                        .child(currentUserID +".jpg");
-
-                final StorageReference thumbnailFilePath = mImageStorage.child("profile_images")
-                        .child("thumbs").child(currentUserID + ".jpg");
-
-                final byte[] finalThumbBytes = thumbBytes;
-
-                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()) {
-
-                            String downloadURL = task.getResult().getDownloadUrl().toString();
-
-                            UploadTask uploadTask = thumbnailFilePath.putBytes(finalThumbBytes);
-                            uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    if(task.isSuccessful()){
-
-                                    }
-                                }
-                            });
-
-                            mUserDatabase.child("image").setValue(downloadURL)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                mDialog.dismiss();
-                                                Toast.makeText(getApplicationContext(), "Sua imagem foi salva.", Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    });
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Erro ao salvar sua imagem.", Toast.LENGTH_LONG).show();
-                            mDialog.dismiss();
-                        }
-                    }
-                });
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
-    }
 }
 
