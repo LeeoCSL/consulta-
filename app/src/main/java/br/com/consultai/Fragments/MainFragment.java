@@ -23,6 +23,8 @@ public class MainFragment extends Fragment {
 
     public static TextView tvSaldo;
 
+    Button selec_dom, selec_seg, selec_ter, selec_qua, selec_qui, selec_sex, selec_sab;
+
 
     public MainFragment() {
 
@@ -33,6 +35,14 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        selec_dom = (Button) view.findViewById(R.id.selec_dom);
+        selec_seg = (Button) view.findViewById(R.id.selec_seg);
+        selec_ter = (Button) view.findViewById(R.id.selec_ter);
+        selec_qua = (Button) view.findViewById(R.id.selec_qua);
+        selec_qui = (Button) view.findViewById(R.id.selec_qui);
+        selec_sex = (Button) view.findViewById(R.id.selec_sex);
+        selec_sab = (Button) view.findViewById(R.id.selec_sab);
 
         tvSaldo = view.findViewById(R.id.txt_valor);
 
