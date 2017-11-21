@@ -8,14 +8,22 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import br.com.consultai.MainActivity;
+import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.User;
 import okhttp3.Request;
 
@@ -83,22 +91,26 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
 
-        Log.i("returnquery", s);
+            String loginToken = jsonObject.getString("login_token");
+            String saldo = jsonObject.getString("user_saldo");
 
-/*        if(s != null){
-            double saldo = Double.parseDouble(s.substring(1, s.length() - 1));
+            LoginActivity.LOGIN_TOKEN = loginToken;
+
             Bundle bundle = new Bundle();
-            bundle.putDouble("saldo", saldo);
+            bundle.putDouble("saldo", Double.parseDouble(saldo));
             Intent intent = new Intent(context, MainActivity.class);
             intent.putExtras(bundle);
             context.startActivity(intent);
-        }*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onPreExecute() {
 
     }
-
 }

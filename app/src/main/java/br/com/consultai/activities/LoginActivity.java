@@ -69,6 +69,8 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static String LOGIN_TOKEN;
+
     public static String emailParam;
     public static String emailGoogle;
     public static String linkFB;
@@ -123,14 +125,14 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+/*        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
             }
-        };
+        };*/
 
         mLoginFacebook = (LoginButton)findViewById(R.id.login_fb);
         mGoogleLogin = (SignInButton) findViewById(R.id.login_google);
@@ -238,13 +240,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthStateListener);
+        //mAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(mAuthStateListener);
+        //mAuth.removeAuthStateListener(mAuthStateListener);
     }
 
     private void signIn() {
