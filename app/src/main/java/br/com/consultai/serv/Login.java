@@ -83,14 +83,17 @@ public class Login extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        if(s != null){
+
+        Log.i("returnquery", s);
+
+/*        if(s != null){
             double saldo = Double.parseDouble(s.substring(1, s.length() - 1));
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", saldo);
             Intent intent = new Intent(context, MainActivity.class);
             intent.putExtras(bundle);
             context.startActivity(intent);
-        }
+        }*/
     }
 
     @Override
