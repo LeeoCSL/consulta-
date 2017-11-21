@@ -3,8 +3,6 @@ package br.com.consultai.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -16,31 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-
-import br.com.consultai.BackgroundWorker;
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
-import br.com.consultai.serv.Register;
+import br.com.consultai.serv.RegisterRequest;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,12 +52,10 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.sp_sexo)
     Spinner mSexo;
 
-    @BindView(R.id.sp_tipo)
-    Spinner mTipo;
+
 
     public static final String REGISTER = "register";
 
-    private String [] resTipo = new String[]{"Comum", "Estudante"};
 
     private String [] resSexo = new String[]{"Masculino", "Feminino"};
 
@@ -90,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     String userSexo;
 
-    String userTipo;
+
 
     String device_brand = android.os.Build.MANUFACTURER;
 
@@ -111,11 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
         mSexo = (Spinner) findViewById(R.id.sp_sexo);
         mSexo.setAdapter(adapter);
 
-        ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, resTipo);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        mTipo = (Spinner) findViewById(R.id.sp_tipo);
-        mTipo.setAdapter(adapterTipo);
 
         String userID = FirebaseInstanceId.getInstance().getId();
         notification_token = FirebaseInstanceId.getInstance().getToken();
@@ -150,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
         user_password = mPassword.getEditText().getText().toString().trim();
         userNasc = mNasc.getEditText().getText().toString().trim();
         userSexo = (String) mSexo.getSelectedItem();
-        userTipo = (String) mTipo.getSelectedItem();
+
 
         if(TextUtils.isEmpty(userName)){
             mName.setError("O campo nome está vazio.");
@@ -168,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if(mNasc.getEditText().getText().toString().isEmpty()){
-            mNasc.setError("Número de telefone vazio.");
+            mNasc.setError("Data de nascimento vazia");
             return;
         }
         createUser(user_email, user_password);
@@ -182,13 +162,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                         String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        Register register = new Register(RegisterActivity.this);
+                        RegisterRequest register = new RegisterRequest(RegisterActivity.this);
+                        //TODO incluir tipo
                         register.execute(user_id, user_email, user_password, notification_token, device_brand);
 
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("userTipo", userTipo.toUpperCase());
-                        editor.commit();
+
 
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

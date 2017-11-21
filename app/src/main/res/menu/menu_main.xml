@@ -7,11 +7,6 @@
         android:title="Inicio" />
 
     <item
-        android:id="@+id/bottomBarConta"
-        android:icon="@drawable/ic_user"
-        android:title="Conta" />
-
-    <item
         android:id="@+id/bottomBarAjuda"
         android:icon="@drawable/ic_como_funciona"
         android:title="Ajuda" />

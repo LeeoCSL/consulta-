@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 import java.io.IOException;
 
 import br.com.consultai.MainActivity;
+import br.com.consultai.activities.CadastroCartaoActivity;
+import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -22,12 +24,12 @@ import okhttp3.Response;
  * Created by leonardo.ribeiro on 13/11/2017.
  */
 
-public class Register extends AsyncTask<String, Void, String> {
+public class RegisterRequest extends AsyncTask<String, Void, String> {
     private Context context;
     private AlertDialog.Builder dialog;
 
 
-    public Register(Context context){
+    public RegisterRequest(Context context){
         this.context = context;
     }
 
@@ -82,13 +84,20 @@ public class Register extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+
+        //if -1 > volta registro
+        if(s.equals("-1")){
+            context.startActivity(new Intent(context, RegisterActivity.class));
+        }
+        else {
+            context.startActivity(new Intent(context, CadastroCartaoActivity.class));
+        }
     }
 
     @Override
     protected void onPreExecute() {
-        dialog = new AlertDialog.Builder(context);
-        dialog.setTitle("Login status");
 
-        context.startActivity(new Intent(context, MainActivity.class));
+
+
     }
 }

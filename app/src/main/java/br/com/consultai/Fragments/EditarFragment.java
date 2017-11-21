@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import br.com.consultai.R;
 import br.com.consultai.Tabs.Tab_Ida;
@@ -20,6 +21,8 @@ import br.com.consultai.Tabs.Tab_Volta;
 
 
 public class EditarFragment extends Fragment {
+
+
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -33,6 +36,8 @@ public class EditarFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_editar, container, false);
+
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
