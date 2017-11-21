@@ -23,14 +23,14 @@ import okhttp3.Request;
  * Created by leonardo.ribeiro on 13/11/2017.
  */
 
-public class Login extends AsyncTask<String, Void, String> {
+public class LoginRequest extends AsyncTask<String, Void, String> {
 
     private Context context;
     private AlertDialog.Builder dialog;
 
     private boolean success = false;
 
-    public Login(Context context) {
+    public LoginRequest(Context context) {
         this.context = context;
     }
 

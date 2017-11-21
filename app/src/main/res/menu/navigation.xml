@@ -7,14 +7,14 @@
         android:title="Início" />
 
     <item
-        android:id="@+id/navigation_conta"
+        android:id="@+id/navigation_cartao"
         android:icon="@drawable/ic_perm_identity_black_24dp"
-        android:title="Conta" />
+        android:title="Cartão" />
 
     <item
         android:id="@+id/navigation_help"
         android:icon="@drawable/ic_help_outline_black_24dp"
-        android:title="Como usar" />
+        android:title="Ajuda" />
 
     <item
         android:id="@+id/navigation_exit"

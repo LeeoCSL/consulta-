@@ -22,12 +22,12 @@ import okhttp3.Response;
  * Created by leonardo.ribeiro on 13/11/2017.
  */
 
-public class Saldo extends AsyncTask<String, Void, String>  {
+public class PostSaldoRequest extends AsyncTask<String, Void, String>  {
     private Context context;
     private AlertDialog.Builder dialog;
 
 
-    public Saldo(Context context){
+    public PostSaldoRequest(Context context){
         this.context = context;
     }
 
@@ -82,7 +82,7 @@ public class Saldo extends AsyncTask<String, Void, String>  {
     @Override
     protected void onPreExecute() {
         dialog = new AlertDialog.Builder(context);
-        dialog.setTitle("Login status");
+        dialog.setTitle("LoginRequest status");
 
         context.startActivity(new Intent(context, MainActivity.class));
     }

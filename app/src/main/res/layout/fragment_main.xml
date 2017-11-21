@@ -21,11 +21,14 @@
     <RelativeLayout
         android:id="@+id/layoutMain"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/img_logo"
         android:layout_margin="15dp"
         android:background="@drawable/borda_layout"
-        android:padding="15dp">
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="30dp">
 
         <TextView
             android:id="@+id/txt_nome_bilhete"
@@ -69,179 +72,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txt_valor"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
             android:foregroundGravity="center"
             android:gravity="center"
             android:padding="5dp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+            <Button
+                android:id="@+id/selec_dom"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/dom2" />
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/btn_default" />
+            <Button
+                android:id="@+id/selec_seg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/seg" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="S"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF" />
-            </FrameLayout>
+            <Button
+                android:id="@+id/selec_ter"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ter" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+            <Button
+                android:id="@+id/selec_qua"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/qua" />
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/btn_default" />
+            <Button
+                android:id="@+id/selec_qui"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/qua" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="T"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF" />
-            </FrameLayout>
+            <Button
+                android:id="@+id/selec_sex"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/seg" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/btn_default" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Q"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/btn_default" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Q"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/btn_default" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="S"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/btn_default" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="S"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/btn_default" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="D"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF" />
-            </FrameLayout>
+            <Button
+                android:id="@+id/selec_sab"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/seg2" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layoutHrs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_dias"
-            android:layout_centerHorizontal="true">
 
-            <TextView
-                android:id="@+id/txt2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_dias"
-                android:text="07:00"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/txt3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_dias"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/txt2"
-                android:text="17:15"
-                android:textSize="20sp" />
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/btnRecarga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layoutHrs"
+            android:layout_below="@+id/layout_dias"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_default"
