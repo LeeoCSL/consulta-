@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
+import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,7 +40,8 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
         String userID = strings[0];
 
-        String url = "https://consultai.000webhostapp.com/user_saldo?id="+userID;
+
+        String url = "https://consultai.000webhostapp.com/user_saldo?id="+userID+"&login_token"+ LoginActivity.LOGIN_TOKEN;
 
         OkHttpClient client = new OkHttpClient();
 

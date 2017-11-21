@@ -105,8 +105,9 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             e.printStackTrace();
 
-            context.startActivity(new Intent(context, RegisterActivity.class));
+            context.startActivity(new Intent(context, LoginActivity.class));
 
+            //TODO desconectar firebase
         }
 
     }
