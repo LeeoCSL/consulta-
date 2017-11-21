@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.login.Login;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -89,6 +91,7 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+
         try {
             JSONObject jsonObject = new JSONObject(s);
 
@@ -104,12 +107,11 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
+            FirebaseAuth.getInstance().signOut();
+            
+            Toast.makeText(context,"Falha na conexão com o servidor. Tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
 
-            context.startActivity(new Intent(context, LoginActivity.class));
-
-            //TODO desconectar firebase
         }
-
     }
 
     @Override
