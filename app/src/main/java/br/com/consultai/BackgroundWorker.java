@@ -212,7 +212,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         dialog = new AlertDialog.Builder(context);
-        dialog.setTitle("Login status");
+        dialog.setTitle("LoginRequest status");
 
         context.startActivity(new Intent(context, MainActivity.class));
     }

@@ -21,11 +21,14 @@
     <RelativeLayout
         android:id="@+id/layoutMain"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/img_logo"
         android:layout_margin="15dp"
         android:background="@drawable/borda_layout"
-        android:padding="15dp">
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="30dp">
 
         <TextView
             android:id="@+id/txt_nome_bilhete"
@@ -79,7 +82,7 @@
                 android:id="@+id/selec_dom"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/dom" />
+                android:background="@drawable/dom2" />
 
             <Button
                 android:id="@+id/selec_seg"
@@ -115,42 +118,17 @@
                 android:id="@+id/selec_sab"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/seg" />
+                android:background="@drawable/seg2" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layoutHrs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_dias"
-            android:layout_centerHorizontal="true">
 
-            <TextView
-                android:id="@+id/txt2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_dias"
-                android:text="07:00"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/txt3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_dias"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/txt2"
-                android:text="17:15"
-                android:textSize="20sp" />
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/btnRecarga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layoutHrs"
+            android:layout_below="@+id/layout_dias"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_default"

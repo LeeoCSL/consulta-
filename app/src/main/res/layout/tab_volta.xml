@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TimePicker
+        <ImageView
             android:id="@+id/tp"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp"
+            app:srcCompat="@drawable/relogio"
+            android:tint="@color/colorPrimary"/>
 
         <LinearLayout
             android:id="@+id/layout_dias"
@@ -28,47 +30,47 @@
             android:gravity="center"
             android:padding="5dp">
 
-            <ImageView
+            <Button
                 android:id="@+id/selec_dom"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/dom" />
+                android:background="@drawable/dom2" />
 
-            <ImageView
+            <Button
                 android:id="@+id/selec_seg"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/seg" />
+                android:background="@drawable/seg" />
 
-            <ImageView
+            <Button
                 android:id="@+id/selec_ter"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ter" />
+                android:background="@drawable/ter" />
 
-            <ImageView
+            <Button
                 android:id="@+id/selec_qua"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/qua" />
+                android:background="@drawable/qua" />
 
-            <ImageView
+            <Button
                 android:id="@+id/selec_qui"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/qua" />
+                android:background="@drawable/qua" />
 
-            <ImageView
+            <Button
                 android:id="@+id/selec_sex"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/seg" />
+                android:background="@drawable/seg" />
 
-            <ImageView
+            <Button
                 android:id="@+id/selec_sab"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/seg" />
+                android:background="@drawable/seg2" />
 
         </LinearLayout>
 
@@ -90,8 +92,14 @@
                 android:textStyle="bold" />
 
 
-            <CheckBox
-                android:id="@+id/checkBox"
+            <RadioGroup
+                android:id="@+id/rgroup"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_below="@+id/txt_uso">
+
+            <RadioButton
+                android:id="@+id/rb_onibus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txt_uso"
@@ -102,50 +110,49 @@
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_below="@+id/checkBox"
+                android:layout_below="@+id/rb_onibus"
                 android:background="#cccccc" />
 
-            <CheckBox
-                android:id="@+id/checkBox2"
+            <RadioButton
+                android:id="@+id/rb_trilho"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_below="@+id/checkBox"
-
+                android:layout_below="@+id/view1"
                 android:text="Metrô/CPTM" />
 
             <View
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_below="@+id/checkBox2"
+                android:layout_below="@+id/rb_trilho"
                 android:background="#cccccc" />
 
-            <CheckBox
-                android:id="@+id/checkBox3"
+            <RadioButton
+                android:id="@+id/rb_integracao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_below="@+id/checkBox2"
-
+                android:layout_below="@+id/view2"
                 android:text="Integração" />
 
             <View
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_below="@+id/checkBox3"
+                android:layout_below="@+id/rb_integracao"
                 android:background="#cccccc" />
+
+            </RadioGroup>
 
         </RelativeLayout>
 
         <Button
             android:id="@+id/btnCancelar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="35dp"
             android:layout_below="@+id/layout_uso"
-            android:layout_toLeftOf="@+id/v"
             android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/v"
+            android:background="@drawable/btn_cinza"
             android:text="CANCELAR" />
 
         <View
@@ -157,12 +164,14 @@
 
         <Button
             android:id="@+id/btnSalvar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="35dp"
             android:layout_below="@+id/layout_uso"
-            android:layout_toRightOf="@+id/v"
             android:layout_marginLeft="20dp"
-            android:text="SALVAR" />
+            android:layout_toRightOf="@+id/v"
+            android:background="@drawable/btn_default"
+            android:text="SALVAR"
+            android:textColor="#FFFFFF"/>
 
 
     </RelativeLayout>

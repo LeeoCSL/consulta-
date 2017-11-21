@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://C:\Users\leonardo.ribeiro\Desktop\consulta-\Consultai3.iml" filepath="C:\Users\leonardo.ribeiro\Desktop\consulta-\Consultai3.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\leonardo.ribeiro\Desktop\consulta-\app\app.iml" filepath="C:\Users\leonardo.ribeiro\Desktop\consulta-\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/consulta-.iml" filepath="$PROJECT_DIR$/consulta-.iml" />
     </modules>
   </component>

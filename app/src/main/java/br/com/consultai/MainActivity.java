@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     fragmentTransaction.replace(R.id.fragment, new MainFragment()).commit();
                     return true;
-                case R.id.navigation_conta:
+                case R.id.navigation_cartao:
                     fragmentTransaction.replace(R.id.fragment, new ContaFragment()).commit();
                     return true;
                 case R.id.navigation_help:
