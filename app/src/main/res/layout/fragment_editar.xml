@@ -10,8 +10,8 @@
        android:layout_height="match_parent">
        <ImageView
            android:id="@+id/logo"
-           android:layout_width="50dp"
-           android:layout_height="50dp"
+           android:layout_width="64dp"
+           android:layout_height="64dp"
            android:src="@drawable/logo_final"
            android:layout_centerHorizontal="true"
            android:layout_margin="10dp"/>

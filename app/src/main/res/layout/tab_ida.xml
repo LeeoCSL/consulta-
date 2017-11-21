@@ -27,13 +27,15 @@
             android:layout_marginTop="20dp"
             android:foregroundGravity="center"
             android:gravity="center"
-            android:padding="5dp">
+            android:padding="5dp"
+            >
 
             <Button
                 android:id="@+id/selec_dom"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/dom2" />
+                android:background="@drawable/dom2"
+                />
 
             <Button
                 android:id="@+id/selec_seg"
@@ -80,7 +82,8 @@
             android:layout_below="@+id/layout_dias"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/txt_uso"
@@ -96,7 +99,7 @@
             <RadioGroup
                 android:id="@+id/rgroup"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/txt_uso">
 
                 <RadioButton
@@ -105,27 +108,15 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt_uso"
                     android:layout_marginTop="5dp"
-                    android:text="Ônibus" />
+                    android:text="Ônibus ou Trilho" />
 
-                <View
-                    android:id="@+id/view1"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_below="@+id/rb_onibus"
-                    android:background="#cccccc" />
 
-                <RadioButton
-                    android:id="@+id/rb_trilho"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/view1"
-                    android:text="Metrô/CPTM" />
 
                 <View
                     android:id="@+id/view2"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/rb_trilho"
+                    android:layout_below="@+id/rb_onibus"
                     android:background="#cccccc" />
 
                 <RadioButton
