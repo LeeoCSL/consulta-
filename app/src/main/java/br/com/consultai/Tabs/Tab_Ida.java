@@ -88,8 +88,7 @@ public class Tab_Ida extends Fragment {
                 if (dom_ativo){
                     weekday = "0";
                     Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
-                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
-                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
+
                 }
                 if (seg_ativo){
                     weekday = "1";
@@ -290,7 +289,8 @@ public class Tab_Ida extends Fragment {
                     mn = String.valueOf(minutos);
                 }
 
-                hora = hr+":"+mn+":"+"00";
+                hora = hr+":"+mn;
+               // hora = hr+":"+mn+":"+"00";
 
             }
         }, hh,mm,true);

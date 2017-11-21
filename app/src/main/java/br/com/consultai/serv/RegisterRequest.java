@@ -4,14 +4,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.facebook.login.Login;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
+import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.User;
 import okhttp3.MediaType;
@@ -84,14 +89,26 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        try {
+            JSONObject jsonObject = new JSONObject(s);
 
-        //if -1 > volta registro
-        if(s.equals("-1")){
+            String loginToken = jsonObject.getString("login_token");
+            String saldo = jsonObject.getString("user_saldo");
+
+            LoginActivity.LOGIN_TOKEN = loginToken;
+
+            Bundle bundle = new Bundle();
+            bundle.putDouble("saldo", Double.parseDouble(saldo));
+            Intent intent = new Intent(context, CadastroCartaoActivity.class);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
             context.startActivity(new Intent(context, RegisterActivity.class));
+
         }
-        else {
-            context.startActivity(new Intent(context, CadastroCartaoActivity.class));
-        }
+
     }
 
     @Override
@@ -101,3 +118,4 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
 
     }
 }
+
