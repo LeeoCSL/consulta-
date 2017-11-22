@@ -100,6 +100,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
 
             }
             //viagem extra 3,8
@@ -118,6 +119,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
 
             }
 //viagem extra 3.0
@@ -136,7 +138,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
-
+                MainFragment.dialog.dismiss();
             }
 //viagem extra 1,9
             else if (tipoGet.equals("4")) {
@@ -154,7 +156,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
-
+                MainFragment.dialog.dismiss();
             }
 
             //viagem a menos 3,8
@@ -173,7 +175,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
-
+                MainFragment.dialog.dismiss();
             }
 //viagem menos 3.0
             else if (tipoGet.equals("6")) {
@@ -191,7 +193,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
-
+                MainFragment.dialog.dismiss();
             }
 //viagem menos 1,9
             else if (tipoGet.equals("7")) {
@@ -209,7 +211,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
-
+                MainFragment.dialog.dismiss();
             }
 
         } catch (Exception e) {

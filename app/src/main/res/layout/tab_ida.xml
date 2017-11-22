@@ -15,8 +15,8 @@
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            app:srcCompat="@drawable/relogio"
-            android:tint="@color/colorPrimary"/>
+            app:srcCompat="@drawable/time"
+            />
 
         <LinearLayout
             android:id="@+id/layout_dias"
