@@ -34,7 +34,7 @@ public class PostSaldoRequest extends AsyncTask<String, Void, String>  {
 
     protected String doInBackground(String... strings) {
 
-//        String type = strings[0];
+
         String userID3 = strings[0];
         String userSaldo = strings[1];
 
@@ -81,9 +81,6 @@ public class PostSaldoRequest extends AsyncTask<String, Void, String>  {
 
     @Override
     protected void onPreExecute() {
-        dialog = new AlertDialog.Builder(context);
-        dialog.setTitle("LoginRequest status");
 
-        context.startActivity(new Intent(context, MainActivity.class));
     }
 }

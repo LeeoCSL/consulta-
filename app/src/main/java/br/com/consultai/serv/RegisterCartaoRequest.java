@@ -37,16 +37,17 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
     protected String doInBackground(String... strings) {
 
-        String cartaoNumero = strings[0];
-        String cartaoApelido = strings[1];
+        String id = strings[0];
+        String cartaoNumero = strings[1];
+        String cartaoApelido = strings[2];
 
 
 
         Cartao cartao = new Cartao();
         cartao.setNumero(cartaoNumero);
         cartao.setApelido(cartaoApelido);
-        cartao.setSaldo(Float.parseFloat(strings[2]));
-        cartao.setEstudante(Boolean.parseBoolean(strings[3]));
+        cartao.setSaldo(Float.parseFloat(strings[3]));
+        cartao.setEstudante(Boolean.parseBoolean(strings[4]));
 
 
         Gson gson2 = new Gson();

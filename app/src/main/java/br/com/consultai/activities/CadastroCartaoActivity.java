@@ -112,7 +112,7 @@ public class CadastroCartaoActivity extends AppCompatActivity {
 
                         RegisterCartaoRequest registerCartao = new RegisterCartaoRequest(this);
                         //TODO incluir tipo
-                        registerCartao.execute(numero, apelido, saldo, estudante);
+                        registerCartao.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), numero, apelido, saldo, estudante);
 
 
 
