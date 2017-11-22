@@ -12,12 +12,14 @@ public class Cartao {
     protected String numero;
     protected float saldo;
     protected boolean estudante;
+    protected String id;
+    protected String token;
 
     public Cartao(){
 
     }
 
-    public Cartao( String apelido, String numero,  float saldo, boolean estudante ) {
+    public Cartao( String apelido, String numero,  float saldo, boolean estudante, String id, String token ) {
         this.apelido = apelido;
         this.numero = numero;
         this.saldo = saldo;
@@ -52,5 +54,21 @@ public class Cartao {
 
     public void setEstudante(Boolean estudante){
         this.estudante = estudante;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public String getToken(){
+        return token;
+    }
+
+    public void setToken(String token){
+        this.token = token;
     }
 }
