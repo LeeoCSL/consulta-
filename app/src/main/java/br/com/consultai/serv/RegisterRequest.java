@@ -108,7 +108,7 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             e.printStackTrace();
             FirebaseAuth.getInstance().signOut();
-            
+
             Toast.makeText(context,"Falha na conexão com o servidor. Tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
 
         }

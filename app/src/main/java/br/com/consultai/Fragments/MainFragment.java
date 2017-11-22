@@ -2,6 +2,7 @@ package br.com.consultai.Fragments;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,15 +24,26 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
+import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.serv.GetSaldoRequest;
+import br.com.consultai.serv.PostSaldoRequest;
+import br.com.consultai.utils.Utility;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class MainFragment extends Fragment {
+
+    private static Context context;
 
     public static double SALDO = 0.0;
     public static ProgressDialog dialog;
 
     public static TextView tvSaldo;
+
+    public static TextView txtVlr;
+
+    String tipoGet;
 
     Button selec_dom, selec_seg, selec_ter, selec_qua, selec_qui, selec_sex, selec_sab;
 
@@ -44,6 +57,11 @@ public class MainFragment extends Fragment {
 
     String tipo;
 
+    public static float saldoGet;
+    public static float saldoPost;
+    Button btnRecarga;
+    public static float recarga;
+
     public MainFragment() {
 
     }
@@ -51,8 +69,46 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        context = getApplicationContext();
+
+        txtVlr = (TextView) view.findViewById(R.id.txtVlr);
+
+        btnRecarga = (Button) view.findViewById(R.id.btnRecarga);
+
+        btnRecarga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tipoGet = "1";
+               AlertDialog.Builder rec = new AlertDialog.Builder(getContext());
+               rec.setTitle("Digite o valor da recarga");
+
+               final EditText input = new EditText(getContext());
+                   rec.setView(input);
+                    rec.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                                recarga = Float.parseFloat(input.getText().toString());
+
+                            Toast.makeText(getContext(), String.valueOf(recarga), Toast.LENGTH_SHORT).show();
+
+                            GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+                            getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+
+
+
+//                            saldoPost = Float.valueOf(saldoGet)+recarga;
+//                            Toast.makeText(getContext(), String.valueOf(recarga), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), saldoGet, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), String.valueOf(saldoPost), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    rec.create();
+                AlertDialog dialog = rec.create();
+                dialog.show();
+            }
+        });
 
         selec_dom = (Button) view.findViewById(R.id.selec_dom);
         selec_seg = (Button) view.findViewById(R.id.selec_seg);
@@ -112,6 +168,7 @@ public class MainFragment extends Fragment {
                         builder.create();
                         AlertDialog dialog = builder.create();
                         dialog.show();
+
                     }
                 });
 
@@ -180,8 +237,10 @@ public class MainFragment extends Fragment {
                 dialog.setTitle("Aguarde");
                 dialog.show();
 
+                tipoGet = "0";
+
                 GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
             }
         });
 
@@ -196,6 +255,15 @@ public class MainFragment extends Fragment {
             }
         });
         return view;
+    }
+
+
+    public static void metodoPost(){
+
+
+
+        PostSaldoRequest postSaldoRequest = new PostSaldoRequest(context);
+        postSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(saldoPost));
     }
 
     @Override
