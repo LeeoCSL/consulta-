@@ -41,7 +41,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
     public static String sd;
 
-    public GetSaldoRequest(Context context){
+    public GetSaldoRequest(Context context) {
         this.context = context;
     }
 
@@ -52,7 +52,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
         String userID = strings[0];
         tipoGet = strings[1];
 
-        String url = "https://consultai.000webhostapp.com/user_saldo?id="+userID+"&login_token="+ LoginActivity.LOGIN_TOKEN;
+        String url = "https://consultai.000webhostapp.com/user_saldo?id=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
 
         OkHttpClient client = new OkHttpClient();
 
@@ -73,38 +73,144 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         try {
-           if(tipoGet.equals("0")){
-               JSONObject jsonObject = new JSONObject(s);
+            if (tipoGet.equals("0")) {
+                JSONObject jsonObject = new JSONObject(s);
 
 
+                String saldo = jsonObject.getString("user_saldo");
 
-            String saldo = jsonObject.getString("user_saldo");
-
-            Bundle bundle = new Bundle();
-            bundle.putDouble("saldo", Double.parseDouble(saldo));
-            MainFragment.tvSaldo.setText("R$ " +saldo);
-            MainFragment.dialog.dismiss();}
-
-            else if(tipoGet.equals("1")){
-               JSONObject jsonObject = new JSONObject(s);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", Double.parseDouble(saldo));
+                MainFragment.tvSaldo.setText("R$ " + saldo);
+                MainFragment.dialog.dismiss();
+            } else if (tipoGet.equals("1")) {
+                JSONObject jsonObject = new JSONObject(s);
 
 
+                String saldo = jsonObject.getString("user_saldo");
 
-               String saldo = jsonObject.getString("user_saldo");
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", Double.parseDouble(saldo));
 
-               Bundle bundle = new Bundle();
-               bundle.putDouble("saldo", Double.parseDouble(saldo));
+                MainFragment.saldoGet = Float.parseFloat(saldo);
 
-               MainFragment.saldoGet = Float.parseFloat(saldo);
-
-               saldoPost = saldoGet+ recarga;
+                saldoPost = saldoGet + recarga;
 
 
-               MainFragment.tvSaldo.setText("R$ " + saldoPost);
+                MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-               MainFragment.metodoPost();
+                MainFragment.metodoPost();
 
-           }
+            }
+            //viagem extra 3,8
+            else if (tipoGet.equals("2")) {
+                JSONObject jsonObject = new JSONObject(s);
+
+                String saldo = jsonObject.getString("user_saldo");
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", Double.parseDouble(saldo));
+
+                MainFragment.saldoGet = Float.parseFloat(saldo);
+
+                saldoPost = saldoGet - 3.8f;
+
+                MainFragment.tvSaldo.setText("R$ " + saldoPost);
+
+                MainFragment.metodoPost();
+
+            }
+//viagem extra 3.0
+            else if (tipoGet.equals("3")) {
+                JSONObject jsonObject = new JSONObject(s);
+
+                String saldo = jsonObject.getString("user_saldo");
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", Double.parseDouble(saldo));
+
+                MainFragment.saldoGet = Float.parseFloat(saldo);
+
+                saldoPost = saldoGet - 3.0f;
+
+                MainFragment.tvSaldo.setText("R$ " + saldoPost);
+
+                MainFragment.metodoPost();
+
+            }
+//viagem extra 1,9
+            else if (tipoGet.equals("4")) {
+                JSONObject jsonObject = new JSONObject(s);
+
+                String saldo = jsonObject.getString("user_saldo");
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", Double.parseDouble(saldo));
+
+                MainFragment.saldoGet = Float.parseFloat(saldo);
+
+                saldoPost = saldoGet - 1.9f;
+
+                MainFragment.tvSaldo.setText("R$ " + saldoPost);
+
+                MainFragment.metodoPost();
+
+            }
+
+            //viagem a menos 3,8
+            else if (tipoGet.equals("5")) {
+                JSONObject jsonObject = new JSONObject(s);
+
+                String saldo = jsonObject.getString("user_saldo");
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", Double.parseDouble(saldo));
+
+                MainFragment.saldoGet = Float.parseFloat(saldo);
+
+                saldoPost = saldoGet + 3.8f;
+
+                MainFragment.tvSaldo.setText("R$ " + saldoPost);
+
+                MainFragment.metodoPost();
+
+            }
+//viagem menos 3.0
+            else if (tipoGet.equals("6")) {
+                JSONObject jsonObject = new JSONObject(s);
+
+                String saldo = jsonObject.getString("user_saldo");
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", Double.parseDouble(saldo));
+
+                MainFragment.saldoGet = Float.parseFloat(saldo);
+
+                saldoPost = saldoGet + 3.0f;
+
+                MainFragment.tvSaldo.setText("R$ " + saldoPost);
+
+                MainFragment.metodoPost();
+
+            }
+//viagem menos 1,9
+            else if (tipoGet.equals("7")) {
+                JSONObject jsonObject = new JSONObject(s);
+
+                String saldo = jsonObject.getString("user_saldo");
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", Double.parseDouble(saldo));
+
+                MainFragment.saldoGet = Float.parseFloat(saldo);
+
+                saldoPost = saldoGet + 1.9f;
+
+                MainFragment.tvSaldo.setText("R$ " + saldoPost);
+
+                MainFragment.metodoPost();
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

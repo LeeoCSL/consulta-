@@ -169,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mCallbackManager = CallbackManager.Factory.create();
 
-        mLoginFacebook.setReadPermissions(Arrays.asList("user_email", "public_profile", "user_birthday"));
+        mLoginFacebook.setReadPermissions(Arrays.asList("email", "public_profile", "user_birthday"));
 
         mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -186,27 +186,28 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 Log.v("LoginActivity", response.toString());
-                                try {
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                    SharedPreferences.Editor editor = sharedPref.edit();
-                                    String gender = object.getString("gender");
-                                    editor.putString("gender", gender);
-                                    editor.commit();
-                                    String age = object.getString("birthday");
-                                    editor.putString("birthday", age);
-                                    editor.commit();
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+//                                try {
+//                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                                    SharedPreferences.Editor editor = sharedPref.edit();
+//
+//                                    editor.commit();
+//                                    String age = object.getString("birthday");
+//                                    editor.putString("birthday", age);
+//                                    editor.commit();
+//
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
                                 // Application code
 
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "user_id,name,user_email,gender,birthday");
+                parameters.putString("fields", "user_id,name,user_email");
                 request.setParameters(parameters);
                 request.executeAsync();
+
+
 
                 handleFacebookAcessToken(loginResult.getAccessToken());
             }
@@ -557,9 +558,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 ref.setValue(user);
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+//                String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//                user_email = authResult.getUser().getEmail();
+//                LoginRequest login = new LoginRequest(LoginActivity.this);
+//                login.execute(user_id, user_email, "000000", notification_token, device_brand);
+
+
                 finish();
             }
         })
@@ -567,6 +571,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         DialogFactory.hideLoadingDialog();
+
+                        Toast.makeText(LoginActivity.this, user_email, Toast.LENGTH_SHORT).show();
 
                         if (e.getClass() == FirebaseAuthUserCollisionException.class) {
                             Toast.makeText(LoginActivity.this, "Este user_email está vinculado a uma outra conta com o facebook.", Toast.LENGTH_LONG).show();

@@ -86,43 +86,44 @@ public class Tab_Ida extends Fragment {
                 }
 
                 if (dom_ativo){
-                    weekday = "0";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
-
+                    weekday = "1";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
+                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (seg_ativo){
-                    weekday = "1";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    weekday = "2";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (ter_ativo){
-                    weekday = "2";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    weekday = "3";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (qua_ativo){
-                    weekday = "3";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    weekday = "4";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (qui_ativo){
-                    weekday = "4";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    weekday = "5";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (sex_ativo){
-                    weekday = "5";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    weekday = "6";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (sab_ativo){
-                    weekday = "6";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    weekday = "7";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }

@@ -155,6 +155,7 @@ public class MainFragment extends Fragment {
                 Button maisEstudante = (Button) mView.findViewById(R.id.btnMaisEstudante);
                 Button maisIntegracaoComum = (Button) mView.findViewById(R.id.btnMaisIntegracaoComum);
 
+
                 Button menosOnibusComum = (Button) mView.findViewById(R.id.btnMenosOnibusComum);
                 Button menosIntegracaoComum = (Button) mView.findViewById(R.id.btnMenosIntegracaoComum);
                 Button menosEstudante = (Button) mView.findViewById(R.id.btnMenosEstudante);
@@ -211,7 +212,11 @@ public class MainFragment extends Fragment {
                 maisOnibusComum.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        tipoGet = "2";
                         Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
+
+                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
 
                     }
                 });
@@ -220,6 +225,9 @@ public class MainFragment extends Fragment {
                     public void onClick(View view) {
                         Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
 
+                        tipoGet = "3";
+                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
 
                     }
                 });
@@ -229,6 +237,37 @@ public class MainFragment extends Fragment {
                     public void onClick(View view) {
                         Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
 
+                        tipoGet = "4";
+                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+
+                    }
+                });
+
+                menosOnibusComum.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tipoGet = "5";
+                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                    }
+                });
+
+                menosIntegracaoComum.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tipoGet = "6";
+                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                    }
+                });
+
+                menosEstudante.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tipoGet = "7";
+                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
                     }
                 });
 
