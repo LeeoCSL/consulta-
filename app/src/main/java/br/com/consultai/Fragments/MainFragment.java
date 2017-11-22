@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
+import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.serv.GetSaldoRequest;
 import br.com.consultai.serv.PostSaldoRequest;
@@ -62,6 +64,8 @@ public class MainFragment extends Fragment {
     Button btnRecarga;
     public static float recarga;
 
+    Button btnExcluir;
+
     public MainFragment() {
 
     }
@@ -71,11 +75,24 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        tipoGet = "0";
+        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+
         context = getApplicationContext();
+
+        btnExcluir = (Button) view.findViewById(R.id.btnExcluir);
 
         txtVlr = (TextView) view.findViewById(R.id.txtVlr);
 
         btnRecarga = (Button) view.findViewById(R.id.btnRecarga);
+
+        btnExcluir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), CadastroCartaoActivity.class));
+            }
+        });
 
         btnRecarga.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,5 +298,13 @@ public class MainFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putDouble("saldo", SALDO);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tipoGet = "0";
+        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
     }
 }

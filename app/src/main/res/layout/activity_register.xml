@@ -10,11 +10,11 @@
 
     <ImageView
         android:id="@+id/img_logo"
-        android:layout_width="50dp"
+        android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_default" />
+        android:background="@drawable/logo_final" android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,8 @@
             android:layout_gravity="center_horizontal"
             android:text="Preencha os campos abaixo \npara realizar seu cadastro!"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"/>
 
 
         <ScrollView
