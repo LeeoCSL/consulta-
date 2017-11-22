@@ -8,18 +8,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
+import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static br.com.consultai.Fragments.MainFragment.recarga;
+import static br.com.consultai.Fragments.MainFragment.saldoGet;
+import static br.com.consultai.Fragments.MainFragment.saldoPost;
+import static br.com.consultai.Fragments.MainFragment.txtVlr;
 
 /**
  * Created by leonardo.ribeiro on 13/11/2017.
@@ -28,7 +37,9 @@ import okhttp3.Response;
 public class GetSaldoRequest extends AsyncTask<String, Void, String> {
     private Context context;
     private AlertDialog.Builder dialog;
+    String tipoGet;
 
+    public static String sd;
 
     public GetSaldoRequest(Context context){
         this.context = context;
@@ -37,9 +48,11 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
     protected String doInBackground(String... strings) {
 
-        String userID = strings[0];
 
-        String url = "https://consultai.000webhostapp.com/user_saldo?id="+userID;
+        String userID = strings[0];
+        tipoGet = strings[1];
+
+        String url = "https://consultai.000webhostapp.com/user_saldo?id="+userID+"&login_token="+ LoginActivity.LOGIN_TOKEN;
 
         OkHttpClient client = new OkHttpClient();
 
@@ -59,12 +72,42 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        if(s != null){
-            Log.i("recebi", s);
-            double saldo = Double.parseDouble(s.substring(1, s.length() - 1));
+        try {
+           if(tipoGet.equals("0")){
+               JSONObject jsonObject = new JSONObject(s);
 
-            MainFragment.tvSaldo.setText("R$ "+saldo);
-            MainFragment.dialog.dismiss();
+
+
+            String saldo = jsonObject.getString("user_saldo");
+
+            Bundle bundle = new Bundle();
+            bundle.putDouble("saldo", Double.parseDouble(saldo));
+            MainFragment.tvSaldo.setText("R$ " +saldo);
+            MainFragment.dialog.dismiss();}
+
+            else if(tipoGet.equals("1")){
+               JSONObject jsonObject = new JSONObject(s);
+
+
+
+               String saldo = jsonObject.getString("user_saldo");
+
+               Bundle bundle = new Bundle();
+               bundle.putDouble("saldo", Double.parseDouble(saldo));
+
+               MainFragment.saldoGet = Float.parseFloat(saldo);
+
+               saldoPost = saldoGet+ recarga;
+
+
+               MainFragment.tvSaldo.setText("R$ " + saldoPost);
+
+               MainFragment.metodoPost();
+
+           }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
+import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Cartao;
 import br.com.consultai.model.User;
@@ -37,23 +38,27 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
     protected String doInBackground(String... strings) {
 
-        String cartaoNumero = strings[0];
-        String cartaoApelido = strings[1];
+        String id = strings[0];
+        String token = strings[1];
+        String cartaoNumero = strings[2];
+        String cartaoApelido = strings[3];
 
 
 
         Cartao cartao = new Cartao();
+        cartao.setId(id);
+        cartao.setToken(token);
         cartao.setNumero(cartaoNumero);
         cartao.setApelido(cartaoApelido);
-        cartao.setSaldo(Float.parseFloat(strings[2]));
-        cartao.setEstudante(Boolean.parseBoolean(strings[3]));
+        cartao.setSaldo(Float.parseFloat(strings[4]));
+        cartao.setEstudante(Boolean.parseBoolean(strings[5]));
 
 
         Gson gson2 = new Gson();
 
         OkHttpClient client2 = new OkHttpClient();
 
-        String url2 = "https://consultai.000webhostapp.com/register";
+        String url2 = "https://consultai.000webhostapp.com/novo_cartao";
 
         Request.Builder builder2 = new Request.Builder();
 

@@ -425,6 +425,7 @@ public class LoginActivity extends AppCompatActivity {
                         bundle.putString("nome", sharedPref.getString("nome", " "));
                         mFirebaseAnalytics.logEvent("login_email_ok", bundle);
 
+
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
             @Override
@@ -620,3 +621,4 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 }
+//TODO tratar erro de digitação
