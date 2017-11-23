@@ -138,7 +138,7 @@ public class Tab_Ida extends Fragment {
             @Override
             public void onClick(View view) {
                 TimeDialog();
-                Toast.makeText(getContext(), hora , Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), hora , Toast.LENGTH_SHORT).show();
             }
         });
 

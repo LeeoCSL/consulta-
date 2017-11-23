@@ -60,7 +60,7 @@ public class Tab_Volta extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_ida, container, false);
+        View rootView = inflater.inflate(R.layout.tab_volta, container, false);
 
         btnSalvar = (Button) rootView.findViewById(R.id.btnSalvar);
 
@@ -86,44 +86,44 @@ public class Tab_Volta extends Fragment {
 
                 if (dom_ativo){
                     weekday = "0";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
 
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (seg_ativo){
                     weekday = "1";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (ter_ativo){
                     weekday = "2";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (qua_ativo){
                     weekday = "3";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (qui_ativo){
                     weekday = "4";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (sex_ativo){
                     weekday = "5";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
                 if (sab_ativo){
                     weekday = "6";
-                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);
                 }
@@ -138,7 +138,7 @@ public class Tab_Volta extends Fragment {
             @Override
             public void onClick(View view) {
                 TimeDialog();
-                Toast.makeText(getContext(), hora , Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), hora , Toast.LENGTH_SHORT).show();
             }
         });
 

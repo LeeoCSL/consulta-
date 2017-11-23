@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.login.Login;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
@@ -35,6 +36,7 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
     private Context context;
     private AlertDialog.Builder dialog;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public RegisterRequest(Context context){
         this.context = context;
@@ -42,6 +44,8 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
 
 
     protected String doInBackground(String... strings) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
         String userID2 = strings[0];
         String userEmail2 = strings[1];
@@ -98,6 +102,19 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
 
             LoginActivity.LOGIN_TOKEN = loginToken;
 
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("acelerometro_x", null);
+            bundle2.putString("acelerometro_y", null);
+            bundle2.putString("acelerometro_z", null);
+            bundle2.putString("velocidade_digitacao", null);
+            bundle2.putString("velocidade_clique", null);
+            bundle2.putString("posicao_clique", null);
+            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
+
+            //TODO popular evento
+
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", Double.parseDouble(saldo));
             Intent intent = new Intent(context, CadastroCartaoActivity.class);
@@ -105,6 +122,19 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("acelerometro_x", null);
+            bundle.putString("acelerometro_y", null);
+            bundle.putString("acelerometro_z", null);
+            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("velocidade_clique", null);
+            bundle.putString("posicao_clique", null);
+            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("cadastro_erro", bundle);
+            //TODO popular evento
+
             FirebaseAuth.getInstance().signOut();
 
             Toast.makeText(context,"Falha na conexão com o servidor. Tente novamente mais tarde.", Toast.LENGTH_SHORT).show();

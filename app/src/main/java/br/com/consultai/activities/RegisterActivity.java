@@ -168,12 +168,15 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
+
+
+
                 Toast.makeText(RegisterActivity.this,  "Algum erro ocorreu. Tente novamente.", Toast.LENGTH_LONG).show();
             }
         });

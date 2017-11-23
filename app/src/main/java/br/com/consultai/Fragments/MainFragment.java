@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,9 +76,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        tipoGet = "0";
-        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+
 
         context = getApplicationContext();
 
@@ -102,13 +101,18 @@ public class MainFragment extends Fragment {
                rec.setTitle("Digite o valor da recarga");
 
                final EditText input = new EditText(getContext());
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
                    rec.setView(input);
                     rec.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog = new ProgressDialog(getContext());
+                            dialog.setTitle("Aguarde");
+
+                            dialog.show();
                                 recarga = Float.parseFloat(input.getText().toString());
 
-                            Toast.makeText(getContext(), String.valueOf(recarga), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), String.valueOf(recarga), Toast.LENGTH_SHORT).show();
 
                             GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
                             getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
@@ -213,8 +217,10 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         tipoGet = "2";
-                        Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
+                        dialog = new ProgressDialog(getContext());
+                        dialog.setTitle("Aguarde");
+                        dialog.show();
                         GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
                         getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
 
@@ -223,8 +229,10 @@ public class MainFragment extends Fragment {
                 maisIntegracaoComum.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
+                        dialog = new ProgressDialog(getContext());
+                        dialog.setTitle("Aguarde");
+                        dialog.show();
                         tipoGet = "3";
                         GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
                         getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
@@ -235,8 +243,10 @@ public class MainFragment extends Fragment {
                 maisEstudante.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
+                        dialog = new ProgressDialog(getContext());
+                        dialog.setTitle("Aguarde");
+                        dialog.show();
                         tipoGet = "4";
                         GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
                         getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
@@ -247,6 +257,9 @@ public class MainFragment extends Fragment {
                 menosOnibusComum.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        dialog = new ProgressDialog(getContext());
+                        dialog.setTitle("Aguarde");
+                        dialog.show();
                         tipoGet = "5";
                         GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
                         getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
@@ -256,6 +269,9 @@ public class MainFragment extends Fragment {
                 menosIntegracaoComum.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        dialog = new ProgressDialog(getContext());
+                        dialog.setTitle("Aguarde");
+                        dialog.show();
                         tipoGet = "6";
                         GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
                         getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
@@ -265,6 +281,9 @@ public class MainFragment extends Fragment {
                 menosEstudante.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        dialog = new ProgressDialog(getContext());
+                        dialog.setTitle("Aguarde");
+                        dialog.show();
                         tipoGet = "7";
                         GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
                         getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
