@@ -76,7 +76,6 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
 
         RequestBody body2 = RequestBody.create(mediaType2, gson2.toJson(user2));
 
-        Log.i("JSON2", gson2.toJson(user2));
 
         builder2.post(body2);
 
@@ -84,7 +83,6 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
 
         try {
             Response response = client2.newCall(request2).execute();
-            Log.i("resp_server", response.body().string());
             return response.body().toString();
         } catch (IOException e) {
             e.printStackTrace();
