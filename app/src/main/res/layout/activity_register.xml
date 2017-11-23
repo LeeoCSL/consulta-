@@ -56,7 +56,7 @@
                         android:id="@+id/edt_nome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Seu nome completo"
+                        android:hint="Seu nome"
                         android:inputType="text"
                         android:textColor="#000000" />
 

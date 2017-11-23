@@ -5,24 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.LoginActivity;
@@ -60,11 +51,11 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
         //String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         User user = new User();
-        user.setUser_id(userID);
-        user.setUser_email(userEmail);
-        user.setUser_password(userPassword);
+        user.setId(userID);
+        user.setEmail(userEmail);
+        user.setSenha(userPassword);
         user.setNotification_token(notificationToken);
-        user.setDevice_brand(userDeviceBrand);
+        user.setModelo(userDeviceBrand);
 
 
         Gson gson = new Gson();

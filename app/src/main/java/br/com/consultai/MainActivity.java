@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
@@ -25,11 +26,15 @@ import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.BottomNavigationViewHelper;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -89,6 +94,19 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.fragment, new ComoUsarFragment()).commit();
                     return true;
                 case R.id.navigation_exit:
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("acelerometro_x", null);
+                    bundle.putString("acelerometro_y", null);
+                    bundle.putString("acelerometro_z", null);
+                    bundle.putString("velocidade_digitacao", null);
+                    bundle.putString("velocidade_clique", null);
+                    bundle.putString("posicao_clique", null);
+                    bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle.putString("id_celular", null);
+                    mFirebaseAnalytics.logEvent("cadastro_erro", bundle);
+
+
                     logout();
                     return true;
             }

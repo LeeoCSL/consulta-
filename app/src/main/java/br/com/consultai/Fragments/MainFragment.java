@@ -164,6 +164,8 @@ public class MainFragment extends Fragment {
                 Button menosIntegracaoComum = (Button) mView.findViewById(R.id.btnMenosIntegracaoComum);
                 Button menosEstudante = (Button) mView.findViewById(R.id.btnMenosEstudante);
 
+                //TODO separação estudante/comum
+
                 if(tipo.equals("COMUM")){
                     maisOnibusComum.setVisibility(View.VISIBLE);
                     maisIntegracaoComum.setVisibility(View.VISIBLE);

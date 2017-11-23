@@ -117,9 +117,9 @@ return view;
 
         GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
         getSaldoRequest.execute(user_id);
-//        txt_valor.setText(Utility.formatValue(Float.parseFloat(user_id)));
+//        txt_valor.setText(Utility.formatValue(Float.parseFloat(id)));
 //        BackgroundWorker worker = new BackgroundWorker(MainActivity.this);
-//        worker.execute(SALDO, user_id, user_saldo);
+//        worker.execute(SALDO, id, user_saldo);
     }
 
 
