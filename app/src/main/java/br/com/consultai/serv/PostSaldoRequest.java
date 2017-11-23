@@ -2,7 +2,6 @@ package br.com.consultai.serv;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,7 +9,6 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
-import br.com.consultai.MainActivity;
 import br.com.consultai.model.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,7 +37,7 @@ public class PostSaldoRequest extends AsyncTask<String, Void, String>  {
         String userSaldo = strings[1];
 
         User user3 = new User();
-        user3.setUser_id(userID3);
+        user3.setId(userID3);
 
         user3.setUser_saldo(userSaldo);
 

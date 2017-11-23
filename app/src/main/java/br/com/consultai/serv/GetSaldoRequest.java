@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
@@ -38,6 +39,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
     private Context context;
     private AlertDialog.Builder dialog;
     String tipoGet;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static String sd;
 
@@ -47,6 +49,8 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
 
     protected String doInBackground(String... strings) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
 
         String userID = strings[0];
@@ -83,6 +87,19 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
                 MainFragment.tvSaldo.setText("R$ " + saldo);
                 MainFragment.dialog.dismiss();
+
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("acelerometro_x", null);
+                bundle2.putString("acelerometro_y", null);
+                bundle2.putString("acelerometro_z", null);
+                bundle2.putString("velocidade_digitacao", null);
+                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("atualizacao_saldo_sucesso", bundle2);
+
+
             } else if (tipoGet.equals("1")) {
                 JSONObject jsonObject = new JSONObject(s);
 
@@ -100,6 +117,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
 
             }
             //viagem extra 3,8
@@ -118,6 +136,19 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
+
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("acelerometro_x", null);
+                bundle2.putString("acelerometro_y", null);
+                bundle2.putString("acelerometro_z", null);
+                bundle2.putString("velocidade_digitacao", null);
+                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("viagem_extra_3_80", bundle2);
+
 
             }
 //viagem extra 3.0
@@ -136,7 +167,18 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
 
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("acelerometro_x", null);
+                bundle2.putString("acelerometro_y", null);
+                bundle2.putString("acelerometro_z", null);
+                bundle2.putString("velocidade_digitacao", null);
+                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("viagem_extra_3_00", bundle2);
             }
 //viagem extra 1,9
             else if (tipoGet.equals("4")) {
@@ -154,7 +196,18 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
 
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("acelerometro_x", null);
+                bundle2.putString("acelerometro_y", null);
+                bundle2.putString("acelerometro_z", null);
+                bundle2.putString("velocidade_digitacao", null);
+                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("viagem_extra_1_90", bundle2);
             }
 
             //viagem a menos 3,8
@@ -173,7 +226,18 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
 
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("acelerometro_x", null);
+                bundle2.putString("acelerometro_y", null);
+                bundle2.putString("acelerometro_z", null);
+                bundle2.putString("velocidade_digitacao", null);
+                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("viagem_menos_3_80", bundle2);
             }
 //viagem menos 3.0
             else if (tipoGet.equals("6")) {
@@ -191,7 +255,18 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
 
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("acelerometro_x", null);
+                bundle2.putString("acelerometro_y", null);
+                bundle2.putString("acelerometro_z", null);
+                bundle2.putString("velocidade_digitacao", null);
+                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("viagem_menos_3_00", bundle2);
             }
 //viagem menos 1,9
             else if (tipoGet.equals("7")) {
@@ -209,7 +284,18 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
                 MainFragment.metodoPost();
+                MainFragment.dialog.dismiss();
 
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("acelerometro_x", null);
+                bundle2.putString("acelerometro_y", null);
+                bundle2.putString("acelerometro_z", null);
+                bundle2.putString("velocidade_digitacao", null);
+                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("viagem_menos_1_90", bundle2);
             }
 
         } catch (Exception e) {

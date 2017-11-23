@@ -4,9 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -29,6 +34,7 @@ import okhttp3.Response;
 public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
     private Context context;
     private AlertDialog.Builder dialog;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     public RegisterCartaoRequest(Context context){
@@ -37,6 +43,10 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
 
     protected String doInBackground(String... strings) {
+
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
 
         String id = strings[0];
         String token = strings[1];
@@ -89,7 +99,38 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        //if -1 > volta registro
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+
+            String loginToken = jsonObject.getString("login_token");
+            String saldo = jsonObject.getString("user_saldo");
+
+            LoginActivity.LOGIN_TOKEN = loginToken;
+
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("acelerometro_x", null);
+            bundle2.putString("acelerometro_y", null);
+            bundle2.putString("acelerometro_z", null);
+            bundle2.putString("velocidade_digitacao", null);
+            bundle2.putString("velocidade_clique", null);
+            bundle2.putString("posicao_clique", null);
+            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("cadastro_bilhete_sucesso", bundle2);
+            //TODO popular evento
+
+            Bundle bundle = new Bundle();
+            bundle.putDouble("saldo", Double.parseDouble(saldo));
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+
+
+
+        }
 
     }
 

@@ -59,7 +59,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
                     String postData =
                             URLEncoder.encode("user_name", "UTF-8") + "=" + URLEncoder.encode(userEmail, "UTF-8") + "&" +
-                            URLEncoder.encode("user_password", "UTF-8") + "=" +URLEncoder.encode(userPassword, "UTF-8") + "&" +
+                            URLEncoder.encode("senha", "UTF-8") + "=" +URLEncoder.encode(userPassword, "UTF-8") + "&" +
                             URLEncoder.encode("notification_token", "UTF-8") + "=" +URLEncoder.encode(notificationToken, "UTF-8") + "&" +
                             URLEncoder.encode("user_device_brand", "UTF-8") + "=" +URLEncoder.encode(userDeviceBrand, "UTF-8");
 
@@ -108,9 +108,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     BufferedWriter writer  = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
                     String postData =
-                            URLEncoder.encode("user_id","UTF-8") + "=" +URLEncoder.encode(userID, "UTF-8") + "&" +
-                            URLEncoder.encode("user_email", "UTF-8") + "=" + URLEncoder.encode(userEmail, "UTF-8") + "&" +
-                                    URLEncoder.encode("user_password", "UTF-8") + "=" +URLEncoder.encode(userPassword, "UTF-8") + "&" +
+                            URLEncoder.encode("id","UTF-8") + "=" +URLEncoder.encode(userID, "UTF-8") + "&" +
+                            URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(userEmail, "UTF-8") + "&" +
+                                    URLEncoder.encode("senha", "UTF-8") + "=" +URLEncoder.encode(userPassword, "UTF-8") + "&" +
                                     URLEncoder.encode("notification_token", "UTF-8") + "=" +URLEncoder.encode(notifcationToken, "UTF-8") + "&" +
                                     URLEncoder.encode("user_device_brand", "UTF-8") + "=" +URLEncoder.encode(userDeviceBrand, "UTF-8");
 
@@ -162,7 +162,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     BufferedWriter writer  = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
                     String postData =
-                            URLEncoder.encode("user_id","UTF-8") + "=" +URLEncoder.encode(userID, "UTF-8") + "&" +
+                            URLEncoder.encode("id","UTF-8") + "=" +URLEncoder.encode(userID, "UTF-8") + "&" +
                                     URLEncoder.encode("horario", "UTF-8") + "=" + URLEncoder.encode(horario, "UTF-8") + "&" +
                                     URLEncoder.encode("valor", "UTF-8") + "=" +URLEncoder.encode(valor, "UTF-8") + "&" +
                                     URLEncoder.encode("dia", "UTF-8") + "=" +URLEncoder.encode(dia, "UTF-8");

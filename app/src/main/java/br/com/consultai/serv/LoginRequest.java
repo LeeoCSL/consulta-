@@ -5,22 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.LoginActivity;
@@ -35,6 +28,7 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
 
     private Context context;
     private AlertDialog.Builder dialog;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private boolean success = false;
 
@@ -43,6 +37,9 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
     }
 
     protected String doInBackground(String... strings) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
 
         String userID = strings[0];
         String userEmail = strings[1];
@@ -54,11 +51,11 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
         //String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         User user = new User();
-        user.setUser_id(userID);
-        user.setUser_email(userEmail);
-        user.setUser_password(userPassword);
+        user.setId(userID);
+        user.setEmail(userEmail);
+        user.setSenha(userPassword);
         user.setNotification_token(notificationToken);
-        user.setDevice_brand(userDeviceBrand);
+        user.setModelo(userDeviceBrand);
 
 
         Gson gson = new Gson();
@@ -100,6 +97,18 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
 
             LoginActivity.LOGIN_TOKEN = loginToken;
 
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("acelerometro_x", null);
+            bundle2.putString("acelerometro_y", null);
+            bundle2.putString("acelerometro_z", null);
+            bundle2.putString("velocidade_digitacao", null);
+            bundle2.putString("velocidade_clique", null);
+            bundle2.putString("posicao_clique", null);
+            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
+            //TODO popular evento
+
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", Double.parseDouble(saldo));
             Intent intent = new Intent(context, MainActivity.class);
@@ -107,6 +116,19 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("acelerometro_x", null);
+            bundle.putString("acelerometro_y", null);
+            bundle.putString("acelerometro_z", null);
+            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("velocidade_clique", null);
+            bundle.putString("posicao_clique", null);
+            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("login_email_erro", bundle);
+
+
         }
     }
 

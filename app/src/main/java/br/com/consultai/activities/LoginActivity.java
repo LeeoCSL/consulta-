@@ -53,7 +53,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -89,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.input_password)
     EditText mPassword;
 
-//    @BindView(R.user_id.iv_background)
+//    @BindView(R.id.iv_background)
 //    ImageView mBackgroundImage;
 
     private FirebaseAuth mAuth;
@@ -204,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "user_id,name,user_email");
+                parameters.putString("fields", "id,name,email");
                 request.setParameters(parameters);
                 request.executeAsync();
 
@@ -277,21 +276,21 @@ public class LoginActivity extends AppCompatActivity {
                         authResult.getUser().updateProfile(profUpdate);
 
                         User user = new User();
-                        user.setUser_email(authResult.getUser().getEmail());
+                        user.setEmail(authResult.getUser().getEmail());
 //                        user.setName(authResult.getUser().getDisplayName());
 
 
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("emailGoogle", user.getUser_email());
+                        editor.putString("emailGoogle", user.getEmail());
 //                        editor.putString("nome", user.getName());
                         editor.commit();
 
                         ref.setValue(user);
 
                         Bundle bundle = new Bundle();
-                        bundle.putString("email_google", user.getUser_email());
+                        bundle.putString("email_google", user.getEmail());
                         bundle.putString("nome", sharedPref.getString("nome", ""));
                         mFirebaseAnalytics.logEvent("login_google_ok", bundle);
 
@@ -423,7 +422,7 @@ public class LoginActivity extends AppCompatActivity {
                         login.execute(user_id, user_email, user_password, notification_token, device_brand);
 
                         Bundle bundle = new Bundle();
-                        bundle.putString("user_email", sharedPref.getString("emailParam", " "));
+                        bundle.putString("email", sharedPref.getString("emailParam", " "));
                         bundle.putString("nome", sharedPref.getString("nome", " "));
                         mFirebaseAnalytics.logEvent("login_email_ok", bundle);
 
@@ -451,7 +450,7 @@ public class LoginActivity extends AppCompatActivity {
                             "Erro ao fazer login, tente novamente mais tarde.");
                 }
                 Bundle bundle = new Bundle();
-                bundle.putString("user_email", user_email);
+                bundle.putString("email", user_email);
                 mFirebaseAnalytics.logEvent("login_email_erro", bundle);
                 e.printStackTrace();
             }
@@ -468,7 +467,7 @@ public class LoginActivity extends AppCompatActivity {
 
 //    public void loginWithFacebook(View view) {
 //        mCallbackManager = CallbackManager.Factory.create();
-//        mLoginFacebook.setReadPermissions("user_email", "public_profile");
+//        mLoginFacebook.setReadPermissions("email", "public_profile");
 //        mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
 //            @Override
 //            public void onSuccess(LoginResult loginResult) {
@@ -526,7 +525,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 User user = new User();
-                user.setUser_email(authResult.getUser().getEmail());
+                user.setEmail(authResult.getUser().getEmail());
 //                user.setName(authResult.getUser().getDisplayName());
 
 
@@ -534,7 +533,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
 //                editor.putString("nome", user.getName());
-                editor.putString("emailFB", user.getUser_email());
+                editor.putString("emailFB", user.getEmail());
 
                 editor.commit();
 
@@ -559,10 +558,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 ref.setValue(user);
 
-//                String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//                user_email = authResult.getUser().getEmail();
+//                String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//                email = authResult.getUser().getEmail();
 //                LoginRequest login = new LoginRequest(LoginActivity.this);
-//                login.execute(user_id, user_email, "000000", notification_token, device_brand);
+//                login.execute(id, email, "000000", notification_token, modelo);
 
 
                 finish();
@@ -576,7 +575,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, user_email, Toast.LENGTH_SHORT).show();
 
                         if (e.getClass() == FirebaseAuthUserCollisionException.class) {
-                            Toast.makeText(LoginActivity.this, "Este user_email está vinculado a uma outra conta com o facebook.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Este email está vinculado a uma outra conta com o facebook.", Toast.LENGTH_LONG).show();
                             LoginManager.getInstance().logOut();
                         }
                         if (e.getClass() == FirebaseAuthInvalidUserException.class) {

@@ -23,14 +23,14 @@ public class EditarActivity extends AppCompatActivity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         tipo = sharedPref.getString("userTipo", "");
 
-        Toast.makeText(this, tipo, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, tipo, Toast.LENGTH_SHORT).show();
         if(tipo.equals("COMUM")){
             txteste.setText("Comum");
-            Toast.makeText(this, "COMUM", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "COMUM", Toast.LENGTH_SHORT).show();
         }
         else if (tipo.equals("ESTUDANTE")){
             txteste.setText("Estudante");
-            Toast.makeText(this, "ESTUDANTE", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "ESTUDANTE", Toast.LENGTH_SHORT).show();
 
         }
 

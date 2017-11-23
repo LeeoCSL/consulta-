@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -29,6 +32,8 @@ import okhttp3.Response;
 public class PostRotinaRequest extends AsyncTask<String, Void, String> {
     private Context context;
     private AlertDialog.Builder dialog;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String tp;
 
 
     public PostRotinaRequest(Context context){
@@ -38,12 +43,16 @@ public class PostRotinaRequest extends AsyncTask<String, Void, String> {
 
     protected String doInBackground(String... strings) {
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
+
         String id_usuario = strings[0];
         String hora = strings[1];
         String valor = strings[2];
         String weekday = strings[3];
         String tipo = strings[4];
 
+        tp = tipo;
 
         Rotina rotina = new Rotina();
         rotina.setId_usuario(id_usuario);
@@ -88,6 +97,35 @@ public class PostRotinaRequest extends AsyncTask<String, Void, String> {
         super.onPostExecute(s);
 
         //if -1 > volta registro
+        if(tp == "0") {
+
+            Bundle bundle = new Bundle();
+            bundle.putString("tipo_rotina", "ida");
+            bundle.putString("acelerometro_x", null);
+            bundle.putString("acelerometro_y", null);
+            bundle.putString("acelerometro_z", null);
+            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("velocidade_clique", null);
+            bundle.putString("posicao_clique", null);
+            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("cadastro_erro", bundle);
+        }
+
+        if(tp == "1") {
+
+            Bundle bundle = new Bundle();
+            bundle.putString("tipo_rotina", "volta");
+            bundle.putString("acelerometro_x", null);
+            bundle.putString("acelerometro_y", null);
+            bundle.putString("acelerometro_z", null);
+            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("velocidade_clique", null);
+            bundle.putString("posicao_clique", null);
+            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("cadastro_erro", bundle);
+        }
 
     }
 
