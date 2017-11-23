@@ -23,17 +23,18 @@ import br.com.consultai.serv.RegisterCartaoRequest;
 import br.com.consultai.serv.RegisterRequest;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class CadastroCartaoActivity extends AppCompatActivity {
 
     @BindView(R.id.edt_apelido)
-    TextInputLayout mApelido;
+    EditText mApelido;
 
     @BindView(R.id.edt_saldo)
-    TextInputLayout mSaldo;
+    EditText mSaldo;
 
     @BindView(R.id.edt_numero)
-    TextInputLayout mNumero;
+    EditText mNumero;
 
     String apelido, numero;
     int saldo;
@@ -49,14 +50,11 @@ public class CadastroCartaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_cartao);
 
+        ButterKnife.bind(this);
+
         checkEstudante = (CheckBox) findViewById(R.id.checkEstudante);
 
         btnProximo = (Button) findViewById(R.id.btnProximo);
-
-        mApelido = (TextInputLayout) findViewById(R.id.edt_apelido);
-        mSaldo = (TextInputLayout) findViewById(R.id.edt_saldo);
-        mNumero = (TextInputLayout) findViewById(R.id.edt_numero);
-
 
         btnProximo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,9 +70,9 @@ public class CadastroCartaoActivity extends AppCompatActivity {
 
 
     private void validateDataFromEditText() {
-        apelido = mApelido.getEditText().getText().toString().trim();
-        String saldoStr = mSaldo.getEditText().getText().toString().trim();
-        numero = mNumero.getEditText().getText().toString().trim();
+        apelido = mApelido.getText().toString().trim();
+        String saldoStr = mSaldo.getText().toString().trim();
+        numero = mNumero.getText().toString().trim();
 
 
         if (TextUtils.isEmpty(apelido)) {
@@ -100,7 +98,7 @@ public class CadastroCartaoActivity extends AppCompatActivity {
             estudante = false;
         }
 
-        saldo = Integer.parseInt(mSaldo.getEditText().getText().toString().trim());
+        saldo = Integer.parseInt(mSaldo.getText().toString().trim());
 
         createCartao(numero, apelido, String.valueOf(saldo), String.valueOf(estudante));
     }

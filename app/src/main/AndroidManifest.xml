@@ -84,8 +84,9 @@
         <activity
             android:name=".activities.BottomBar"
             android:label="@string/title_activity_bottom_bar" />
-        <activity android:name=".activities.CadastroCartaoActivity" />
         <activity android:name=".activities.LoginActivity"/>
+        <activity
+            android:windowSoftInputMode="adjustPan"
+            android:name=".activities.CadastroCartaoActivity"/>
     </application>
-
 </manifest>
