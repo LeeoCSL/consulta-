@@ -41,10 +41,7 @@ public class SplashScreen extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("origem", Origem);
                     bundle.putString("campanha", Campanha);
-                    bundle.putString("email", LoginActivity.emailParam);
-                    bundle.putString("link_fb", LoginActivity.linkFB);
-                    bundle.putString("nome", LoginActivity.nomeFB);
-                    bundle.putString("id", LoginActivity.idFacebook);
+
                     mFirebaseAnalytics.logEvent("Tracking", bundle);
 
                 }

@@ -7,7 +7,7 @@
     tools:context="br.com.consultai.activities.SplashScreen"
     android:background="@color/colorPrimary">
     
-    <
+    <ImageView
         android:id="@+id/logo"
         android:layout_width="200dp"
         android:layout_height="200dp"
