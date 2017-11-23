@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,12 +101,14 @@ public class MainFragment extends Fragment {
                rec.setTitle("Digite o valor da recarga");
 
                final EditText input = new EditText(getContext());
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
                    rec.setView(input);
                     rec.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialog = new ProgressDialog(getContext());
                             dialog.setTitle("Aguarde");
+
                             dialog.show();
                                 recarga = Float.parseFloat(input.getText().toString());
 
