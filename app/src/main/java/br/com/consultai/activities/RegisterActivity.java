@@ -1,13 +1,16 @@
 package br.com.consultai.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -57,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
     public static final String REGISTER = "register";
 
 
+
     private String [] resSexo = new String[]{"Masculino", "Feminino"};
 
     private StorageReference mImageStorage;
@@ -73,16 +77,27 @@ public class RegisterActivity extends AppCompatActivity {
 
     private String userName, user_email, user_password, userNasc;
 
+    String sexo;
+
     String userSexo;
 
-
+String SO = "android";
 
     String device_brand = android.os.Build.MANUFACTURER;
+
+    String serial_number = Build.SERIAL;
+
+    String imei = "00000000000000";
+
+    TelephonyManager tm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+//        imei = tm.getDeviceId();
 
         ButterKnife.bind(this);
 
@@ -131,6 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
         userNasc = mNasc.getEditText().getText().toString().trim();
         userSexo = (String) mSexo.getSelectedItem();
 
+         sexo = String.valueOf(userSexo.charAt(0));
 
         if(TextUtils.isEmpty(userName)){
             mName.setError("O campo nome está vazio.");
@@ -161,10 +177,10 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
 
                         String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+                        Toast.makeText(RegisterActivity.this, imei, Toast.LENGTH_SHORT).show();
                         RegisterRequest register = new RegisterRequest(RegisterActivity.this);
                         //TODO incluir tipo
-                        register.execute(user_id, user_email, user_password, notification_token, device_brand);
+                        register.execute(user_id, user_email, userName, user_password,sexo , notification_token, serial_number, device_brand, SO, serial_number, imei );
 
 
 

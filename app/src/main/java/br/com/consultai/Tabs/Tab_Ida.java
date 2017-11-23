@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
@@ -59,6 +60,8 @@ public class Tab_Ida extends Fragment {
     public static final  String integracao_estudante = "3,80";
     public static final  String tipo = "0"; //ida
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     RadioButton rb_onibus, rb_integracao;
 
@@ -68,6 +71,9 @@ public class Tab_Ida extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_ida, container, false);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+
 
         btnSalvar = (Button) rootView.findViewById(R.id.btnSalvar);
 
@@ -123,6 +129,51 @@ public class Tab_Ida extends Fragment {
                 }
                 if (sab_ativo){
                     weekday = "7";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
+                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
+                }
+
+                //subir 0
+
+                if (!dom_ativo){
+                    weekday = "0";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
+                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
+                }
+                if (!seg_ativo){
+                    weekday = "0";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
+                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
+                }
+                if (!ter_ativo){
+                    weekday = "0";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
+                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
+                }
+                if (!qua_ativo){
+                    weekday = "0";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
+                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
+                }
+                if (!qui_ativo){
+                    weekday = "0";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
+                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
+                }
+                if (!sex_ativo){
+                    weekday = "0";
+//                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
+                    PostRotinaRequest rotina = new PostRotinaRequest(getContext());
+                    rotina.execute(id_usuario, hora, valor, weekday, tipo);
+                }
+                if (!sab_ativo){
+                    weekday = "0";
 //                    Toast.makeText(getContext(),"dia"+ weekday + "valor" + valor + "hora" + hora, Toast.LENGTH_SHORT).show();
                     PostRotinaRequest rotina = new PostRotinaRequest(getContext());
                     rotina.execute(id_usuario, hora, valor, weekday, tipo);

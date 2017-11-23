@@ -5,16 +5,18 @@ package br.com.consultai.model;
  */
 
 public class User {
-
-//    protected String key;
-//    protected String name;
-//    protected String dtn;
-    protected String user_email;
-    protected String user_password;
-//    protected String sexo;
-    protected String device_brand;
+    protected String id;
+    protected String email;
+    protected String nome;
+    protected String senha;
+    protected String sexo;
     protected String notification_token;
-    protected String user_id;
+    protected String serial_mobile;
+    protected String modelo;
+    protected String sistema_operacional;
+    protected String imei;
+
+
     protected String user_saldo;
 //    protected String user_tipo;
 
@@ -24,22 +26,47 @@ public class User {
     public User() {
 
     }
-// String key, String name, String dtn, String sexo,  String user_tipo
-    public User( String user_email, String user_password,  String device_brand, String notification_token, String user_id, String user_saldo ) {
+// String key, String dtn, String sexo,  String user_tipo
+    public User( String serial_mobile, String sistema_operacional, String user_email, String nome, String sexo, String user_password,  String device_brand, String notification_token, String user_id, String imei) {
 //        this.key = key;
-//        this.name = name;
+        this.nome = nome;
 //        this.dtn = dtn;
-        this.user_email = user_email;
-        this.user_password = user_password;
-//        this.sexo = sexo;
-        this.device_brand = device_brand;
+        this.email = user_email;
+        this.senha = user_password;
+        this.sexo = sexo;
+        this.modelo = device_brand;
         this.notification_token = notification_token;
-        this.user_id = user_id;
-        this.user_saldo = user_saldo;
+        this.id = user_id;
+
+        this.sistema_operacional = sistema_operacional;
+        this.serial_mobile = serial_mobile;
+        this.imei = imei;
 //this.user_tipo = user_tipo;
     }
 
+    public String getImei(){
+        return imei;
+    }
 
+    public void setImei(String imei){
+        this.imei = imei;
+    }
+
+    public String getSerial_mobile(){
+        return serial_mobile;
+    }
+
+    public void setSerial_mobile(String serial_mobile){
+        this.serial_mobile = serial_mobile;
+    }
+
+    public String getSistema_operacional(){
+        return sistema_operacional;
+    }
+
+    public void setSistema_operacional(String sistema_operacional){
+        this.sistema_operacional = sistema_operacional;
+    }
 
     public String getUser_saldo(){
         return user_saldo;
@@ -49,20 +76,20 @@ public class User {
         this.user_saldo = user_saldo;
     }
 
-    public String getUser_id(){
-        return user_id;
+    public String getId(){
+        return id;
     }
 
-    public void setUser_id(String user_id){
-        this.user_id = user_id;
+    public void setId(String id){
+        this.id = id;
     }
 
-    public String getDevice_brand(){
-        return device_brand;
+    public String getModelo(){
+        return modelo;
     }
 
-    public void setDevice_brand(String device_brand){
-        this.device_brand = device_brand;
+    public void setModelo(String modelo){
+        this.modelo = modelo;
     }
 
     public String getNotification_token(){
@@ -81,13 +108,13 @@ public class User {
 //        this.user_tipo = user_tipo;
 //    }
 
-//    public String getSexo(){
-//        return sexo;
-//    }
-//
-//    public void setSexo(String sexo){
-//        this.sexo = sexo;
-//    }
+    public String getSexo(){
+        return sexo;
+    }
+
+    public void setSexo(String sexo){
+        this.sexo = sexo;
+    }
 //
 //    public String getKey() {
 //        return key;
@@ -97,20 +124,20 @@ public class User {
 //        this.key = key;
 //    }
 //
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-
-    public String getUser_email() {
-        return user_email;
+    public String getNome() {
+        return nome;
     }
 
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 //    public String getDtn() {
@@ -120,12 +147,12 @@ public class User {
 //    public void setDtn(String dtn) {
 //        this.dtn = dtn;
 //    }
-    public String getUser_password() {
-        return user_password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
 
@@ -137,8 +164,8 @@ public class User {
 //                "key='" + key + '\'' +
 //                ", name='" + name + '\'' +
 //                ", dtn='" + dtn + '\'' +
-                ", user_email='" + user_email + '\'' +
-                ", user_password='" + user_password + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
                 '}';
     }
 }
