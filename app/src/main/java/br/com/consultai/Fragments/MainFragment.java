@@ -38,7 +38,7 @@ public class MainFragment extends Fragment {
 
     private static Context context;
 
-    public static double SALDO = 0.0;
+    public static double SALDO = -1;
     public static ProgressDialog dialog;
 
     public static TextView tvSaldo;
@@ -76,8 +76,9 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         tipoGet = "0";
-        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+
+
+
 
         context = getApplicationContext();
 
@@ -343,7 +344,12 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
         tipoGet = "0";
-        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+
+        if(SALDO < 0){
+            GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
+            getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+        }else {
+            tvSaldo.setText("R$ " +SALDO);
+        }
     }
 }
