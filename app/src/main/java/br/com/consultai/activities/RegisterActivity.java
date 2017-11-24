@@ -12,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,6 +32,8 @@ import com.google.firebase.storage.StorageReference;
 
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
+import br.com.consultai.model.Mobile;
+import br.com.consultai.model.Usuario;
 import br.com.consultai.serv.RegisterRequest;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
@@ -37,35 +41,25 @@ import butterknife.ButterKnife;
 
 
 public class RegisterActivity extends AppCompatActivity {
+
     private FirebaseAuth mAuth;
-    private static final int GALLERY_PICK = 1;
 
     @BindView(R.id.edt_email)
-    TextInputLayout mEmail;
+    EditText mEmail;
 
     @BindView(R.id.edt_senha)
-    TextInputLayout mPassword;
+    EditText mPassword;
 
-    @BindView(R.id.til_nome)
-    TextInputLayout mName;
-
-    @BindView(R.id.edt_dtn)
-    TextInputLayout mNasc;
+    @BindView(R.id.edt_nome)
+    EditText mName;
 
     @BindView(R.id.sp_sexo)
     Spinner mSexo;
 
-
-
     public static final String REGISTER = "register";
-
-
 
     private String [] resSexo = new String[]{"Masculino", "Feminino"};
 
-    private StorageReference mImageStorage;
-
-    private DatabaseReference mUserDatabase;
 
     private ProgressDialog mDialog;
 
@@ -75,17 +69,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     private String notification_token;
 
-    private String userName, user_email, user_password, userNasc;
+    private String userName, userEmail, userPassword, userNasc;
 
     String sexo;
 
     String userSexo;
 
-String SO = "android";
+    String SO = "android";
 
-    String device_brand = android.os.Build.MANUFACTURER;
+    String deviceBrand = android.os.Build.MANUFACTURER;
 
-    String serial_number = Build.SERIAL;
+    String serialNumber = Build.SERIAL;
 
     String imei = "00000000000000";
 
@@ -108,27 +102,16 @@ String SO = "android";
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, resSexo);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        mSexo = (Spinner) findViewById(R.id.sp_sexo);
         mSexo.setAdapter(adapter);
 
-
-        String userID = FirebaseInstanceId.getInstance().getId();
         notification_token = FirebaseInstanceId.getInstance().getToken();
 
-        mUserDatabase = FirebaseDatabase.getInstance().getReference()
-                .child("users").child(userID);
-
-        mImageStorage = FirebaseStorage.getInstance().getReference();
 
 
         mAuth = FirebaseAuth.getInstance();
 
         mDialog = new ProgressDialog(this);
-
-        mEmail = (TextInputLayout)findViewById(R.id.edt_email);
-        mPassword = (TextInputLayout)findViewById(R.id.edt_senha);
     }
-
 
 
     public void handlerLogin(View v){
@@ -140,34 +123,29 @@ String SO = "android";
     }
 
     private void validateDataFromEditText(){
-        userName = mName.getEditText().getText().toString().trim();
-        user_email = mEmail.getEditText().getText().toString().trim();
-        user_password = mPassword.getEditText().getText().toString().trim();
-        userNasc = mNasc.getEditText().getText().toString().trim();
+        userName = mName.getText().toString().trim();
+        userEmail = mEmail.getText().toString().trim();
+        userPassword = mPassword.getText().toString().trim();
         userSexo = (String) mSexo.getSelectedItem();
 
-         sexo = String.valueOf(userSexo.charAt(0));
+        sexo = String.valueOf(userSexo.charAt(0));
 
         if(TextUtils.isEmpty(userName)){
             mName.setError("O campo nome está vazio.");
             return;
         }
 
-        if(!Utility.isEmailValid(user_email)){
+        if(!Utility.isEmailValid(userEmail)){
             mEmail.setError("Email inválido.");
             return;
         }
 
-        if(user_password.length() < 6){
+        if(userPassword.length() < 6){
             mPassword.setError("Sua senha deve ter no mínimo 6 caracteres.");
             return;
         }
 
-        if(mNasc.getEditText().getText().toString().isEmpty()){
-            mNasc.setError("Data de nascimento vazia");
-            return;
-        }
-        createUser(user_email, user_password);
+        createUser(userEmail, userPassword);
     }
 
     private void createUser(String email, String password){
@@ -176,28 +154,30 @@ String SO = "android";
                     @Override
                     public void onSuccess(AuthResult authResult) {
 
-                        String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Toast.makeText(RegisterActivity.this, imei, Toast.LENGTH_SHORT).show();
+                        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        Usuario usuario = new Usuario();
+                        usuario.setId(userID);
+                        usuario.setEmail(userEmail);
+                        usuario.setSenha(userPassword);
+                        usuario.setNome(userName);
+                        usuario.setNotificationToken(notification_token);
+                        usuario.setSexo(sexo.charAt(0));
+                        usuario.setModelo(deviceBrand);
+                        usuario.setSerialMobile(serialNumber);
+                        usuario.setIdUsuario(userID);
+
+                        Log.i("usuario", usuario.toString());
+
                         RegisterRequest register = new RegisterRequest(RegisterActivity.this);
-                        //TODO incluir tipo
-                        register.execute(user_id, user_email, userName, user_password,sexo , notification_token, serial_number, device_brand, SO, serial_number, imei );
-
-
-
-                        finish();
+                        register.execute(usuario);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
-
-
-
                 Toast.makeText(RegisterActivity.this,  "Algum erro ocorreu. Tente novamente.", Toast.LENGTH_LONG).show();
             }
         });
     }
-
-
 }
 

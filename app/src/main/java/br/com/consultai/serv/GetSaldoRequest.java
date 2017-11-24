@@ -36,6 +36,7 @@ import static br.com.consultai.Fragments.MainFragment.txtVlr;
  */
 
 public class GetSaldoRequest extends AsyncTask<String, Void, String> {
+
     private Context context;
     private AlertDialog.Builder dialog;
     String tipoGet;

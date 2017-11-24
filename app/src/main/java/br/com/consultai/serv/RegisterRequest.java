@@ -19,6 +19,7 @@ import java.io.IOException;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.User;
+import br.com.consultai.model.Usuario;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,7 +30,8 @@ import okhttp3.Response;
  * Created by leonardo.ribeiro on 13/11/2017.
  */
 
-public class RegisterRequest extends AsyncTask<String, Void, String> {
+public class RegisterRequest extends AsyncTask<Usuario, Void, Usuario> {
+
     private Context context;
     private AlertDialog.Builder dialog;
 
@@ -40,57 +42,36 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
     }
 
 
-    protected String doInBackground(String... strings) {
+    protected Usuario doInBackground(Usuario... usuarios) {
+
+        Usuario usuario = usuarios[0];
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
-        String id = strings[0];
-        String email = strings[1];
-        String nome = strings[2];
-        String senha = strings[3];
-        String sexo = strings[4];
-        String notification_token = strings[5];
-        String serial_mobile = strings[6];
-        String modelo = strings[7];
-        String sistema_operacional = strings[8];
-        String imei = strings[9];
+        Gson gson = new Gson();
 
+        OkHttpClient client = new OkHttpClient();
 
-        User user2 = new User();
-        user2.setId(id);
-        user2.setEmail(email);
-        user2.setNome(nome);
-        user2.setSenha(senha);
-        user2.setSexo(sexo);
-        user2.setNotification_token(notification_token);
-        user2.setSerial_mobile(serial_mobile);
-        user2.setModelo(modelo);
-        user2.setSistema_operacional(sistema_operacional);
-        user2.setImei(imei);
+        String url = "https://zazzytec.com.br/register";
 
-        Gson gson2 = new Gson();
+        Request.Builder builder = new Request.Builder();
 
-        OkHttpClient client2 = new OkHttpClient();
-
-        String url2 = "https://consultai.000webhostapp.com/register";
-
-        Request.Builder builder2 = new Request.Builder();
-
-        builder2.url(url2);
+        builder.url(url);
 
         MediaType mediaType2 =
                 MediaType.parse("application/json; charset=utf-8");
 
-        RequestBody body2 = RequestBody.create(mediaType2, gson2.toJson(user2));
+        Log.i("userGson", gson.toJson(usuario));
+        RequestBody body = RequestBody.create(mediaType2, gson.toJson(usuario));
 
-
-        builder2.post(body2);
-
-        Request request2 = builder2.build();
+        builder.post(body);
+        Request request = builder.build();
 
         try {
-            Response response = client2.newCall(request2).execute();
-            return response.body().toString();
+            Response response = client.newCall(request).execute();
+            Gson gson1 = new Gson();
+            Log.i("resposta", response.body().string());
+            return gson1.fromJson(response.body().string(), Usuario.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,10 +79,12 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+    protected void onPostExecute(Usuario usuario) {
 
-        try {
+        Log.i("USUARIO", usuario.toString());
+
+
+      /*  try {
             JSONObject jsonObject = new JSONObject(s);
 
             String loginToken = jsonObject.getString("login_token");
@@ -146,13 +129,11 @@ public class RegisterRequest extends AsyncTask<String, Void, String> {
 
             Toast.makeText(context,"Falha na conexão com o servidor. Tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
 
-        }
+        }*/
     }
 
     @Override
     protected void onPreExecute() {
-
-
 
     }
 }
