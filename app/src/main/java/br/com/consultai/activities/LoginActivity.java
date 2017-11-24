@@ -62,6 +62,7 @@ import br.com.consultai.R;
 import br.com.consultai.model.User;
 import br.com.consultai.serv.LoginRequest;
 import br.com.consultai.utils.DialogFactory;
+import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,6 +112,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog mDialog;
     private String notification_token;
 
+    String tempoEmail, tempoSenha;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };*/
 
-        mLoginFacebook = (LoginButton)findViewById(R.id.login_fb);
+        mLoginFacebook = (LoginButton) findViewById(R.id.login_fb);
         mGoogleLogin = (SignInButton) findViewById(R.id.login_google);
 
 
@@ -179,7 +182,6 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 
-
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -208,7 +210,6 @@ public class LoginActivity extends AppCompatActivity {
                 request.executeAsync();
 
 
-
                 handleFacebookAcessToken(loginResult.getAccessToken());
             }
 
@@ -235,6 +236,36 @@ public class LoginActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
+
+        mLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    UtilTempoDigitacao.inicioTempo();
+
+                } else {
+                    UtilTempoDigitacao.fimTempo();
+                }
+
+                tempoEmail =  String.valueOf(UtilTempoDigitacao.dtfs);
+
+
+            }
+
+        });
+
+        mPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    UtilTempoDigitacao.inicioTempo();
+                } else {
+                    UtilTempoDigitacao.fimTempo();
+                }
+              tempoSenha =  String.valueOf(UtilTempoDigitacao.dtfs);
+            }
+        });
+
 
     }
 
@@ -422,8 +453,16 @@ public class LoginActivity extends AppCompatActivity {
                         login.execute(user_id, user_email, user_password, notification_token, device_brand);
 
                         Bundle bundle = new Bundle();
-                        bundle.putString("email", sharedPref.getString("emailParam", " "));
-                        bundle.putString("nome", sharedPref.getString("nome", " "));
+                        bundle.putString("acelerometro_x", null);
+                        bundle.putString("acelerometro_y", null);
+                        bundle.putString("acelerometro_z", null);
+                        bundle.putString("velocidade_digi_email", tempoEmail);
+                        bundle.putString("velocidade_digi_senha", tempoSenha);
+                        bundle.putString("velocidade_clique", null);
+                        bundle.putString("posicao_clique", null);
+                        bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        bundle.putString("id_celular", null);
+
                         mFirebaseAnalytics.logEvent("login_email_ok", bundle);
 
 
@@ -529,7 +568,6 @@ public class LoginActivity extends AppCompatActivity {
 //                user.setName(authResult.getUser().getDisplayName());
 
 
-
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
 //                editor.putString("nome", user.getName());
@@ -543,7 +581,6 @@ public class LoginActivity extends AppCompatActivity {
                 bundle.putString("sexo", sharedPref.getString("gender", ""));
 
                 mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
-
 
 
                 Profile currentProfile = Profile.getCurrentProfile();
@@ -612,8 +649,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void handlerFakeFacebookLogin(View v){
-        if(v.getId() == R.id.login_fb_fake){
+    public void handlerFakeFacebookLogin(View v) {
+        if (v.getId() == R.id.login_fb_fake) {
             mLoginFacebook.performClick();
 //            loginWithFacebook(v);
         }
