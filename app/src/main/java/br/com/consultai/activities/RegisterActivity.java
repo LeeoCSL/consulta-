@@ -106,8 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         notification_token = FirebaseInstanceId.getInstance().getToken();
 
-
-
         mAuth = FirebaseAuth.getInstance();
 
         mDialog = new ProgressDialog(this);
@@ -150,6 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createUser(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
+
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
@@ -166,8 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
                         usuario.setModelo(deviceBrand);
                         usuario.setSerialMobile(serialNumber);
                         usuario.setIdUsuario(userID);
-
-                        Log.i("usuario", usuario.toString());
+                        usuario.setSistemaOperacional("ANDROID");
 
                         RegisterRequest register = new RegisterRequest(RegisterActivity.this);
                         register.execute(usuario);

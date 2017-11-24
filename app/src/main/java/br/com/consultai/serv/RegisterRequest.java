@@ -1,25 +1,24 @@
 package br.com.consultai.serv;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 import br.com.consultai.activities.CadastroCartaoActivity;
-import br.com.consultai.activities.LoginActivity;
-import br.com.consultai.model.User;
 import br.com.consultai.model.Usuario;
+import br.com.consultai.utils.DialogFactory;
+import br.com.consultai.utils.DialogUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,19 +29,19 @@ import okhttp3.Response;
  * Created by leonardo.ribeiro on 13/11/2017.
  */
 
-public class RegisterRequest extends AsyncTask<Usuario, Void, Usuario> {
+public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     private Context context;
     private AlertDialog.Builder dialog;
 
     private FirebaseAnalytics mFirebaseAnalytics;
-
     public RegisterRequest(Context context){
         this.context = context;
     }
 
+    private ProgressDialog mDialog;
 
-    protected Usuario doInBackground(Usuario... usuarios) {
+    protected String doInBackground(Usuario... usuarios) {
 
         Usuario usuario = usuarios[0];
 
@@ -55,23 +54,18 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, Usuario> {
         String url = "https://zazzytec.com.br/register";
 
         Request.Builder builder = new Request.Builder();
-
         builder.url(url);
 
         MediaType mediaType2 =
                 MediaType.parse("application/json; charset=utf-8");
 
-        Log.i("userGson", gson.toJson(usuario));
         RequestBody body = RequestBody.create(mediaType2, gson.toJson(usuario));
-
         builder.post(body);
         Request request = builder.build();
 
         try {
             Response response = client.newCall(request).execute();
-            Gson gson1 = new Gson();
-            Log.i("resposta", response.body().string());
-            return gson1.fromJson(response.body().string(), Usuario.class);
+            return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,9 +73,23 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, Usuario> {
     }
 
     @Override
-    protected void onPostExecute(Usuario usuario) {
+    protected void onPostExecute(String response) {
 
-        Log.i("USUARIO", usuario.toString());
+        DialogUtil.hideProgressDialog(mDialog);
+        context.startActivity(new Intent(context, CadastroCartaoActivity.class));
+
+/*
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+
+            String loginToken = jsonObject.getString("login_token");
+
+            Log.i("logintoken", loginToken);
+
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+*/
 
 
       /*  try {
@@ -134,7 +142,7 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, Usuario> {
 
     @Override
     protected void onPreExecute() {
-
+        mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos processando seus dados.");
     }
 }
 
