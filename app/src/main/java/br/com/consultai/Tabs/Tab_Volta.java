@@ -81,10 +81,8 @@ public class Tab_Volta extends Tab {
                     }
                 }
 
-                RotinaPostRequest request = new RotinaPostRequest(getContext());
+                RotinaPostRequest request = new RotinaPostRequest(getActivity());
                 request.execute(rotina);
-
-                getActivity().finish();
             }
         });
 

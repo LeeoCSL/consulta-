@@ -1,14 +1,17 @@
 package br.com.consultai.post;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import br.com.consultai.R;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.Request;
@@ -19,10 +22,12 @@ import okhttp3.Request;
 
 public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
-    private Context context;
+    private Activity context;
     private ProgressDialog mDialog;
 
-    public RotinaPostRequest(Context context){
+    public static boolean firstTab;
+
+    public RotinaPostRequest(Activity context){
         this.context = context;
     }
 
@@ -64,9 +69,14 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-
-        Log.i("rotinas", s);
-
-        DialogUtil.hideProgressDialog(mDialog);
+        if(firstTab){
+            DialogUtil.hideProgressDialog(mDialog);
+            TabLayout tabhost = (TabLayout) context.findViewById(R.id.tabs);
+            tabhost.getTabAt(1).select();
+            firstTab = false;
+        }else{
+            DialogUtil.hideProgressDialog(mDialog);
+            context.finish();
+        }
     }
 }
