@@ -57,7 +57,7 @@ public class EditarFragment extends Fragment {
 
 
 
-return view;
+        return view;
     }
 
 

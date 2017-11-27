@@ -24,14 +24,23 @@ public class Tab_Volta extends Tab {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_volta, container, false);
 
-        initializeCheckeds();
-        initializeUncheckeds();
         initializeButtons(rootView);
 
         btnSalvar = (Button) rootView.findViewById(R.id.btnSalvar);
         rb_onibus = (RadioButton) rootView.findViewById(R.id.rb_onibus);
         rb_integracao = (RadioButton) rootView.findViewById(R.id.rb_integracao);
         tp = (ImageView) rootView.findViewById(R.id.tp);
+
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+
+        initializeCheckeds();
+        initializeUncheckeds();
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,21 +75,6 @@ public class Tab_Volta extends Tab {
                 }
             });
         }
-
-        return rootView;
-    }
-
-
-    public void onResume(LayoutInflater inflater, ViewGroup container,
-                         Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_ida, container, false);
-        super.onResume();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
     }
 }
 

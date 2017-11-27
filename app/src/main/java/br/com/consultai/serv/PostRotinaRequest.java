@@ -55,11 +55,6 @@ public class PostRotinaRequest extends AsyncTask<String, Void, String> {
         tp = tipo;
 
         Rotina rotina = new Rotina();
-        rotina.setId_usuario(id_usuario);
-        rotina.setHora(hora);
-        rotina.setValor(valor);
-        rotina.setWeekday(weekday);
-        rotina.setTipo(tipo);
 
         Gson gson2 = new Gson();
 

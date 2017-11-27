@@ -88,31 +88,31 @@
                 android:id="@+id/selec_seg"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/checked1" />
+                android:background="@drawable/unchecked1" />
 
             <Button
                 android:id="@+id/selec_ter"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/checked2" />
+                android:background="@drawable/unchecked2" />
 
             <Button
                 android:id="@+id/selec_qua"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/checked3" />
+                android:background="@drawable/unchecked3" />
 
             <Button
                 android:id="@+id/selec_qui"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/checked4" />
+                android:background="@drawable/unchecked4" />
 
             <Button
                 android:id="@+id/selec_sex"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/checked5" />
+                android:background="@drawable/unchecked5" />
 
             <Button
                 android:id="@+id/selec_sab"

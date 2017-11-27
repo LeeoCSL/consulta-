@@ -39,8 +39,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainFragment extends Fragment {
 
-    private static Context context;
-
     public static double SALDO = -1;
     public static String APELIDO;
 
@@ -56,15 +54,7 @@ public class MainFragment extends Fragment {
 
     Button selec_dom, selec_seg, selec_ter, selec_qua, selec_qui, selec_sex, selec_sab;
 
-    Boolean dom_ativo = false;
-    Boolean seg_ativo = true;
-    Boolean ter_ativo = true;
-    Boolean qua_ativo = true;
-    Boolean qui_ativo = true;
-    Boolean sex_ativo = true;
-    Boolean sab_ativo = false;
-
-   public static TextView txtNomeBilhete;
+    public static TextView txtNomeBilhete;
 
 
     String tipo;
@@ -89,8 +79,6 @@ public class MainFragment extends Fragment {
 
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
-
-        context = getApplicationContext();
 
         btnExcluir = (Button) view.findViewById(R.id.btnExcluir);
 
@@ -135,14 +123,6 @@ public class MainFragment extends Fragment {
 
             }
         });
-
-        selec_dom = (Button) view.findViewById(R.id.selec_dom);
-        selec_seg = (Button) view.findViewById(R.id.selec_seg);
-        selec_ter = (Button) view.findViewById(R.id.selec_ter);
-        selec_qua = (Button) view.findViewById(R.id.selec_qua);
-        selec_qui = (Button) view.findViewById(R.id.selec_qui);
-        selec_sex = (Button) view.findViewById(R.id.selec_sex);
-        selec_sab = (Button) view.findViewById(R.id.selec_sab);
 
         tvSaldo = view.findViewById(R.id.txt_valor);
 
@@ -317,10 +297,7 @@ public class MainFragment extends Fragment {
 
 
     public static void metodoPost(){
-
-
-
-        PostSaldoRequest postSaldoRequest = new PostSaldoRequest(context);
+        PostSaldoRequest postSaldoRequest = new PostSaldoRequest(getApplicationContext());
         postSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(saldoPost));
     }
 
@@ -329,10 +306,10 @@ public class MainFragment extends Fragment {
         super.onResume();
         tipoGet = "0";
 
-        Log.i("resumeh", ""+SALDO);
 
         if(SALDO < 0){
-
+            br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
+            request.execute();
         }else {
             tvSaldo.setText("R$ " +SALDO);
         }
