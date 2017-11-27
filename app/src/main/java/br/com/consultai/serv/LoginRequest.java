@@ -3,8 +3,10 @@ package br.com.consultai.serv;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.User;
@@ -45,7 +48,7 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
         String userEmail = strings[1];
         String userPassword = strings[2];
         String notificationToken = strings[3];
-        String userDeviceBrand = strings[4];
+
 
 
         //String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -55,14 +58,14 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
         user.setEmail(userEmail);
         user.setSenha(userPassword);
         user.setNotification_token(notificationToken);
-        user.setModelo(userDeviceBrand);
+
 
 
         Gson gson = new Gson();
 
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
 
-        String url = "https://consultai.000webhostapp.com/auth";
+        String url = "https://zazzytec.com.br/auth";
 
         Request.Builder builder = new Request.Builder();
 
@@ -94,8 +97,15 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
 
             String loginToken = jsonObject.getString("login_token");
             String saldo = jsonObject.getString("user_saldo");
+            String estudante = jsonObject.getString("estudante");
+            String apelido = jsonObject.getString("apelido");
+
+            
+
 
             LoginActivity.LOGIN_TOKEN = loginToken;
+            MainFragment.apelido_bilhete = apelido;
+            MainFragment.SALDO = Double.parseDouble(saldo);
 
             Bundle bundle2 = new Bundle();
             bundle2.putString("acelerometro_x", null);

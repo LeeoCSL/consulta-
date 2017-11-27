@@ -450,7 +450,7 @@ public class LoginActivity extends AppCompatActivity {
                         String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                         LoginRequest login = new LoginRequest(LoginActivity.this);
-                        login.execute(user_id, user_email, user_password, notification_token, device_brand);
+                        login.execute(user_id, user_email, user_password, notification_token);
 
                         Bundle bundle = new Bundle();
                         bundle.putString("acelerometro_x", null);
