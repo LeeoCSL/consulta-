@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import br.com.consultai.R;
@@ -21,8 +22,11 @@ public class ContaFragment extends Fragment {
     public static EditText mApelido;
     public static EditText mNumero;
 
+    private CheckBox mEstudante;
+
     public static String apelido;
     public static String numero;
+    public static int estudante;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,20 +35,25 @@ public class ContaFragment extends Fragment {
 
         mApelido = view.findViewById(R.id.edt_apelido);
         mNumero = view.findViewById(R.id.edt_numero);
+        mEstudante = view.findViewById(R.id.cb_estudante);
 
         GetCartaoRequest request = new GetCartaoRequest(getContext());
         request.execute();
 
-/*
-        if(mApelido.getText().toString().isEmpty() || mNumero.getText().toString().isEmpty()){
-
-        }else{
-            mApelido.setText(apelido);
-            mNumero.setText(numero);
-        }
-*/
-
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mApelido.setText(apelido);
+        mNumero.setText(numero);
+
+        if(estudante == 1){
+            mEstudante.setChecked(true);
+        }else{
+            mEstudante.setChecked(false);
+        }
     }
 }

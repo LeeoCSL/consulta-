@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
@@ -40,11 +42,15 @@ public class MainFragment extends Fragment {
     private static Context context;
 
     public static double SALDO = -1;
+    public static String APELIDO;
+
     public static ProgressDialog dialog;
 
     public static TextView tvSaldo;
 
     public static TextView txtVlr;
+
+    public static int ESTUDANTE;
 
     String tipoGet;
 
@@ -58,8 +64,8 @@ public class MainFragment extends Fragment {
     Boolean sex_ativo = true;
     Boolean sab_ativo = false;
 
-   public static TextView txt_nome_bilhete;
-   public static String apelido_bilhete;
+   public static TextView txtNomeBilhete;
+
 
     String tipo;
 
@@ -81,9 +87,8 @@ public class MainFragment extends Fragment {
 
         tipoGet = "0";
 
-        txt_nome_bilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
+        txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
-        txt_nome_bilhete.setText("Bilhete: " + apelido_bilhete);
 
         context = getApplicationContext();
 
@@ -104,32 +109,30 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 tipoGet = "1";
-               AlertDialog.Builder rec = new AlertDialog.Builder(getContext());
-               rec.setTitle("Digite o valor da recarga");
 
-               final EditText input = new EditText(getContext());
-                   rec.setView(input);
-                    rec.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Digite o valor da recarga");
+
+                final CurrencyEditText input = new CurrencyEditText(getContext(), null);
+                builder.setView(input);
+
+                br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
+                request.execute();
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                                recarga = Float.parseFloat(input.getText().toString());
 
-                            Toast.makeText(getContext(), String.valueOf(recarga), Toast.LENGTH_SHORT).show();
+                            double value = Utility.stringToFloat(input.getText().toString());
+                            double saldo = SALDO + value;
 
-                            GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                            getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
-
-
-
-//                            saldoPost = Float.valueOf(saldoGet)+recarga;
-//                            Toast.makeText(getContext(), String.valueOf(recarga), Toast.LENGTH_SHORT).show();
-//                            Toast.makeText(getContext(), saldoGet, Toast.LENGTH_SHORT).show();
-//                            Toast.makeText(getContext(), String.valueOf(saldoPost), Toast.LENGTH_SHORT).show();
+                            br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(getContext());
+                            post.execute(saldo);
                         }
                     });
-                    rec.create();
-                AlertDialog dialog = rec.create();
-                dialog.show();
+
+                builder.show();
+
             }
         });
 
@@ -284,25 +287,12 @@ public class MainFragment extends Fragment {
         });
 
 
-
-
-        if(getArguments() != null){
-            SALDO = getArguments().getDouble("saldo");
-            tvSaldo.setText("R$ " +SALDO);
-        }
-
         Button btnAtualizar = view.findViewById(R.id.btnAtualizar);
         btnAtualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog = new ProgressDialog(getContext());
-                dialog.setTitle("Aguarde");
-                dialog.show();
-
-                tipoGet = "0";
-
-                GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
+                request.execute();
             }
         });
 
@@ -335,32 +325,18 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if(savedInstanceState != null){
-            SALDO = savedInstanceState.getDouble("saldo");
-            tvSaldo.setText("R$ " +SALDO);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putDouble("saldo", SALDO);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         tipoGet = "0";
 
+        Log.i("resumeh", ""+SALDO);
+
         if(SALDO < 0){
-            GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-            getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+
         }else {
             tvSaldo.setText("R$ " +SALDO);
         }
+
+        txtNomeBilhete.setText(APELIDO);
     }
 }

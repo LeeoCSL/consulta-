@@ -6,9 +6,6 @@ package br.com.consultai.utils;
 
 public class FirebaseEventsUtil {
 
-    public static void doEvent(){
 
-
-    }
 
 }
