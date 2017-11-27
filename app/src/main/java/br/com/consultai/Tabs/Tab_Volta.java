@@ -56,33 +56,40 @@ public class Tab_Volta extends Tab {
         initializeUncheckeds();
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
-                Rotina rotina = new Rotina();
-
-                rotina.setHora(hora);
-                rotina.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                rotina.setFlag(0);
-                rotina.setTipo(1);
-                rotina.setDays(diasAtivosCod);
-                rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
-
-                if(ContaFragment.estudante == 0){
-                    if(mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus){
-                        rotina.setValor(Tab.TARIFA_COMUM);
-                    }else{
-                        rotina.setValor(Tab.TARIFA_INTEGRACAO);
-                    }
-                }else{
-                    if(mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus){
-                        rotina.setValor(Tab.TARIFA_ESTUDANTE);
-                    }else{
-                        rotina.setValor(Tab.TARIFA_COMUM);
-                    }
+                if(hora == null || diasAtivosCod == null) {
+                    Toast.makeText(getContext(), "voce nao selecionou", Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    Rotina rotina = new Rotina();
 
-                RotinaPostRequest request = new RotinaPostRequest(getActivity());
-                request.execute(rotina);
+                    rotina.setHora(hora);
+                    rotina.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    rotina.setFlag(0);
+                    rotina.setTipo(1);
+                    rotina.setDays(diasAtivosCod);
+                    rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
+
+                    if (ContaFragment.estudante == 0) {
+                        if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                            rotina.setValor(Tab.TARIFA_COMUM);
+                        } else {
+                            rotina.setValor(Tab.TARIFA_INTEGRACAO);
+                        }
+                    } else {
+                        if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                            rotina.setValor(Tab.TARIFA_ESTUDANTE);
+                        } else {
+                            rotina.setValor(Tab.TARIFA_COMUM);
+                        }
+                    }
+
+                    RotinaPostRequest request = new RotinaPostRequest(getActivity());
+                    request.execute(rotina);
+                }
             }
         });
 
