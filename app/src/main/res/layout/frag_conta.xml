@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.consultai.Fragments.ComoUsarFragment"
-    android:paddingBottom="50dp">
+    tools:context="br.com.consultai.Fragments.ComoUsarFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,6 +33,7 @@
                 android:textSize="20sp" />
 
             <android.support.design.widget.TextInputLayout
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -61,22 +61,21 @@
             </android.support.design.widget.TextInputLayout>
 
             <CheckBox
+                android:id="@+id/cb_estudante"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Estudante?" />
-
-
         </LinearLayout>
 
         <Button
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
+            android:layout_margin="12dp"
             android:background="@drawable/btn_default"
-            android:text="SALVAR"
+            android:text="Salvar"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
     </RelativeLayout>

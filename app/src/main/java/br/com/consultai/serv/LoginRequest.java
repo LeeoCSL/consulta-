@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.LoginActivity;
@@ -82,13 +83,18 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             double saldo = jsonObject.getDouble("user_saldo");
             String apelido = jsonObject.getString("apelido");
             int estudante = jsonObject.getInt("estudante");
+            String numero = jsonObject.getString("numero_cartao");
 
             LoginActivity.LOGIN_TOKEN = loginToken;
             MainFragment.APELIDO = apelido;
             MainFragment.SALDO = saldo;
+            Log.i("saldi", ""+saldo);
             MainFragment.ESTUDANTE = estudante;
 
-
+            ContaFragment.apelido = apelido;
+            ContaFragment.estudante = estudante;
+            ContaFragment.numero = numero;
+            ContaFragment.estudante = estudante;
 
             Bundle bundle2 = new Bundle();
             bundle2.putString("acelerometro_x", null);

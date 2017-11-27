@@ -118,7 +118,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -129,14 +128,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-/*        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() != null) {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                }
-            }
-        };*/
 
         mLoginFacebook = (LoginButton) findViewById(R.id.login_fb);
         mGoogleLogin = (SignInButton) findViewById(R.id.login_google);
@@ -433,11 +424,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginWithEmailAndPassword() {
-        DialogFactory.loadingDialog(this);
-        mDialog.setTitle("Entrando");
-        mDialog.setMessage("Por favor, espere enquanto fazemos o login");
-        mDialog.show();
-        mDialog.setCanceledOnTouchOutside(false);
 
         mAuth.signInWithEmailAndPassword(user_email, user_password)
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
@@ -458,11 +444,7 @@ public class LoginActivity extends AppCompatActivity {
                         usuario.setNotificationToken(notification_token);
 
                         LoginRequest login = new LoginRequest(LoginActivity.this);
-<<<<<<< HEAD
                         login.execute(usuario);
-=======
-                        login.execute(user_id, user_email, user_password, notification_token);
->>>>>>> 96aa0d74911b8d7c9e397040fb264a83ee0b3713
 
                         Bundle bundle = new Bundle();
                         bundle.putString("acelerometro_x", null);
@@ -482,7 +464,6 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(this, new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                DialogFactory.hideLoadingDialog();
 
                 if (e.getClass() == FirebaseAuthUserCollisionException.class) {
                     Utility.makeText(LoginActivity.this,

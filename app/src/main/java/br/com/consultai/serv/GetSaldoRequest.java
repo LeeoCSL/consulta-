@@ -55,9 +55,10 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
 
         String userID = strings[0];
-        tipoGet = strings[1];
 
-        String url = "https://consultai.000webhostapp.com/user_saldo?id=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
+        String url = "https://zazzytec.com.br/user_saldo?id=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
+
+        Log.i("url", url);
 
         OkHttpClient client = new OkHttpClient();
 
