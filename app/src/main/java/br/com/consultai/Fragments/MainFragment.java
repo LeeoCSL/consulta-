@@ -63,6 +63,7 @@ public class MainFragment extends Fragment {
 
    public static TextView txtNomeBilhete;
 
+
     String tipo;
 
     public static float saldoGet;
@@ -85,7 +86,7 @@ public class MainFragment extends Fragment {
 
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
-
+        
         context = getApplicationContext();
 
         btnExcluir = (Button) view.findViewById(R.id.btnExcluir);

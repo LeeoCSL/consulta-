@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,6 +78,7 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             JSONObject jsonObject = new JSONObject(s);
 
             String loginToken = jsonObject.getString("login_token");
+
             double saldo = jsonObject.getDouble("user_saldo");
             String apelido = jsonObject.getString("apelido");
             int estudante = jsonObject.getInt("estudante");
@@ -84,6 +87,7 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             MainFragment.APELIDO = apelido;
             MainFragment.SALDO = saldo;
             MainFragment.ESTUDANTE = estudante;
+
 
 
             Bundle bundle2 = new Bundle();

@@ -49,5 +49,12 @@ public class Tab_Ida extends Tab {
 
         return rootView;
     }
+
+
+    public void onResume(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.tab_ida, container, false);
+        super.onResume();
+    }
 }
 

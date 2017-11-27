@@ -458,7 +458,11 @@ public class LoginActivity extends AppCompatActivity {
                         usuario.setNotificationToken(notification_token);
 
                         LoginRequest login = new LoginRequest(LoginActivity.this);
+<<<<<<< HEAD
                         login.execute(usuario);
+=======
+                        login.execute(user_id, user_email, user_password, notification_token);
+>>>>>>> 96aa0d74911b8d7c9e397040fb264a83ee0b3713
 
                         Bundle bundle = new Bundle();
                         bundle.putString("acelerometro_x", null);
