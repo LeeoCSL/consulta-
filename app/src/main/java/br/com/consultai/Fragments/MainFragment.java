@@ -58,6 +58,7 @@ public class MainFragment extends Fragment {
     Boolean sab_ativo = false;
 
    public static TextView txt_nome_bilhete;
+   public static String apelido_bilhete;
 
     String tipo;
 
@@ -81,6 +82,7 @@ public class MainFragment extends Fragment {
 
         txt_nome_bilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
+        txt_nome_bilhete.setText("Bilhete: " + apelido_bilhete);
 
         context = getApplicationContext();
 

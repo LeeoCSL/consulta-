@@ -2,6 +2,7 @@ package br.com.consultai.Tabs;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,19 @@ public class Tab_Volta extends Tab {
         }
 
         return rootView;
+    }
+
+
+    public void onResume(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.tab_ida, container, false);
+        super.onResume();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
     }
 }
 
