@@ -35,6 +35,7 @@ import br.com.consultai.R;
 import br.com.consultai.model.Mobile;
 import br.com.consultai.model.Usuario;
 import br.com.consultai.serv.RegisterRequest;
+import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,6 +86,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     TelephonyManager tm;
 
+    public static String tempoEmail, tempoSenha, tempoNome, tempoSexo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +112,57 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         mDialog = new ProgressDialog(this);
+        mEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    UtilTempoDigitacao.inicioTempo();
+
+                } else {
+                    UtilTempoDigitacao.fimTempo();
+                }
+
+                tempoEmail =  String.valueOf(UtilTempoDigitacao.dtfs);
+
+
+            }
+
+        });
+
+        mPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    UtilTempoDigitacao.inicioTempo();
+                } else {
+                    UtilTempoDigitacao.fimTempo();
+                }
+                tempoSenha =  String.valueOf(UtilTempoDigitacao.dtfs);
+            }
+        });
+
+        mName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    UtilTempoDigitacao.inicioTempo();
+                } else {
+                    UtilTempoDigitacao.fimTempo();
+                }
+                tempoNome =  String.valueOf(UtilTempoDigitacao.dtfs);
+            }
+        });
+        mSexo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    UtilTempoDigitacao.inicioTempo();
+                } else {
+                    UtilTempoDigitacao.fimTempo();
+                }
+                tempoSexo =  String.valueOf(UtilTempoDigitacao.dtfs);
+            }
+        });
     }
 
 

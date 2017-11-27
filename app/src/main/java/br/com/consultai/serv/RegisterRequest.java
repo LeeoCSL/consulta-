@@ -15,7 +15,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.activities.CadastroCartaoActivity;
+import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Usuario;
 import br.com.consultai.utils.DialogFactory;
 import br.com.consultai.utils.DialogUtil;
@@ -78,18 +80,47 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
         DialogUtil.hideProgressDialog(mDialog);
         context.startActivity(new Intent(context, CadastroCartaoActivity.class));
 
-/*
         try{
             JSONObject jsonObject = new JSONObject(response);
+//
+            LoginActivity.LOGIN_TOKEN = jsonObject.getString("login_token");
 
-            String loginToken = jsonObject.getString("login_token");
-
-            Log.i("logintoken", loginToken);
-
+//
+            Log.i("logintoken", LoginActivity.LOGIN_TOKEN);
+//
+//            Bundle bundle2 = new Bundle();
+//            bundle2.putString("acelerometro_x", null);
+//            bundle2.putString("acelerometro_y", null);
+//            bundle2.putString("acelerometro_z", null);
+//            bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
+//            bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
+//            bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
+//            bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
+//            bundle2.putString("velocidade_clique", null);
+//            bundle2.putString("posicao_clique", null);
+//            bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+//            bundle2.putString("id_celular", null);
+//            mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
+//
+//            //TODO popular evento
+//
         }catch (JSONException e) {
             e.printStackTrace();
+        //            Bundle bundle2 = new Bundle();
+//            bundle2.putString("acelerometro_x", null);
+//            bundle2.putString("acelerometro_y", null);
+//            bundle2.putString("acelerometro_z", null);
+//            bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
+//            bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
+//            bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
+//            bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
+//            bundle2.putString("velocidade_clique", null);
+//            bundle2.putString("posicao_clique", null);
+//            bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+//            bundle2.putString("id_celular", null);
+//            mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
         }
-*/
+
 
 
       /*  try {
@@ -104,10 +135,13 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
             bundle2.putString("acelerometro_x", null);
             bundle2.putString("acelerometro_y", null);
             bundle2.putString("acelerometro_z", null);
-            bundle2.putString("velocidade_digitacao", null);
+            bundle2.putString("velocidade_digi_email", tempoEmail);
+            bundle2.putString("velocidade_digi_senha", tempoSenha);
+            bundle2.putString("velocidade_digi_nome", tempoNome);
+            bundle2.putString("velocidade_digi_sexo", tempoSexo);
             bundle2.putString("velocidade_clique", null);
             bundle2.putString("posicao_clique", null);
-            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
             bundle2.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
 
@@ -128,7 +162,7 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
             bundle.putString("velocidade_digitacao", null);
             bundle.putString("velocidade_clique", null);
             bundle.putString("posicao_clique", null);
-            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
             bundle.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("cadastro_erro", bundle);
             //TODO popular evento

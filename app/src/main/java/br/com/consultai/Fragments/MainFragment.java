@@ -57,6 +57,8 @@ public class MainFragment extends Fragment {
     Boolean sex_ativo = true;
     Boolean sab_ativo = false;
 
+   public static TextView txt_nome_bilhete;
+
     String tipo;
 
     public static float saldoGet;
@@ -77,7 +79,7 @@ public class MainFragment extends Fragment {
 
         tipoGet = "0";
 
-
+        txt_nome_bilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
 
         context = getApplicationContext();
