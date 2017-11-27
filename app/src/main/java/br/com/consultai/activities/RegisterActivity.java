@@ -51,6 +51,9 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.edt_senha)
     EditText mPassword;
 
+    @BindView(R.id.edt_confirmar_senha)
+    EditText mPasswordC;
+
     @BindView(R.id.edt_nome)
     EditText mName;
 
@@ -70,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private String notification_token;
 
-    private String userName, userEmail, userPassword, userNasc;
+    private String userName, userEmail, userPassword, userNasc, userPasswordC;
 
     String sexo;
 
@@ -178,6 +181,7 @@ public class RegisterActivity extends AppCompatActivity {
         userName = mName.getText().toString().trim();
         userEmail = mEmail.getText().toString().trim();
         userPassword = mPassword.getText().toString().trim();
+        userPasswordC = mPasswordC.getText().toString().trim();
         userSexo = (String) mSexo.getSelectedItem();
 
         sexo = String.valueOf(userSexo.charAt(0));
@@ -194,6 +198,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(userPassword.length() < 6){
             mPassword.setError("Sua senha deve ter no mínimo 6 caracteres.");
+            return;
+        }
+        if(userPassword != userPasswordC){
+            mPassword.setError("As senhas nao correspondem.");
+            mPasswordC.setError("As senhas nao correspondem.");
             return;
         }
 
