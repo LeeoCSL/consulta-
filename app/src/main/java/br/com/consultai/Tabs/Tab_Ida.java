@@ -29,6 +29,8 @@ public class Tab_Ida extends Tab {
 
     private RadioGroup mRadioGroup;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class Tab_Ida extends Tab {
         initializeCheckeds();
         initializeUncheckeds();
 
+        RotinaPostRequest.firstTab = true;
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,12 +84,8 @@ public class Tab_Ida extends Tab {
                     }
                 }
 
-                RotinaPostRequest request = new RotinaPostRequest(getContext());
+                RotinaPostRequest request = new RotinaPostRequest(getActivity());
                 request.execute(rotina);
-
-                TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
-                tabhost.getTabAt(1).select();
-
             }
         });
 
