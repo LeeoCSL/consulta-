@@ -37,6 +37,7 @@ public class EditarActivity extends AppCompatActivity {
 //                EditarFragment editarFragment = new EditarFragment();
 //                fragmentTransaction.replace(R.id.fragment, editarFragment).commit();
 
+/*
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         tipo = sharedPref.getString("userTipo", "");
 
@@ -51,6 +52,7 @@ public class EditarActivity extends AppCompatActivity {
 
         }
 
+*/
 
 
     }

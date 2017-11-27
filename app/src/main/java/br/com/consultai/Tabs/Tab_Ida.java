@@ -2,6 +2,7 @@ package br.com.consultai.Tabs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,14 +23,24 @@ public class Tab_Ida extends Tab {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_ida, container, false);
 
-        initializeCheckeds();
-        initializeUncheckeds();
         initializeButtons(rootView);
 
         btnSalvar = (Button) rootView.findViewById(R.id.btnSalvar);
         rb_onibus = (RadioButton) rootView.findViewById(R.id.rb_onibus);
         rb_integracao = (RadioButton) rootView.findViewById(R.id.rb_integracao);
         tp = (ImageView) rootView.findViewById(R.id.tp);
+
+        return rootView;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        initializeCheckeds();
+        initializeUncheckeds();
+
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,11 +77,6 @@ public class Tab_Ida extends Tab {
                 }
             });
         }
-
-        return rootView;
     }
-
-
-
 }
 

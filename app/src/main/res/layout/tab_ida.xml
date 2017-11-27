@@ -15,7 +15,7 @@
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            app:srcCompat="@drawable/time"
+            app:srcCompat="@drawable/unchecked0"
             />
 
         <LinearLayout
