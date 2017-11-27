@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
@@ -56,9 +58,9 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
 
         Cartao cartao = new Cartao();
-        cartao.setId(id);
-        cartao.setToken(token);
-        cartao.setNumero(cartaoNumero);
+        cartao.setId_usuario(id);
+        cartao.setLogin_token(token);
+        cartao.setNumero_cartao(cartaoNumero);
         cartao.setApelido(cartaoApelido);
         cartao.setSaldo(Float.parseFloat(strings[4]));
         cartao.setEstudante(Boolean.parseBoolean(strings[5]));
@@ -68,7 +70,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
         OkHttpClient client2 = new OkHttpClient();
 
-        String url2 = "https://consultai.000webhostapp.com/novo_cartao";
+        String url2 = "https://zazzytec.com.br/novo_cartao";
 
         Request.Builder builder2 = new Request.Builder();
 
@@ -103,9 +105,15 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             JSONObject jsonObject = new JSONObject(s);
 
             String loginToken = jsonObject.getString("login_token");
-            String saldo = jsonObject.getString("user_saldo");
+            String saldo = jsonObject.getString("saldo");
+            String apelido = jsonObject.getString("apelido");
 
             LoginActivity.LOGIN_TOKEN = loginToken;
+            MainFragment.SALDO = Double.parseDouble(saldo);
+            MainFragment.tvSaldo.setText(saldo);
+            MainFragment.txt_nome_bilhete.setText(apelido);
+            Toast.makeText(context, apelido, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, saldo, Toast.LENGTH_SHORT).show();
 
             Bundle bundle2 = new Bundle();
             bundle2.putString("acelerometro_x", null);

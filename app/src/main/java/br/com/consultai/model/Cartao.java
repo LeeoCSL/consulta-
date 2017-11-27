@@ -9,21 +9,23 @@ import java.util.Date;
 public class Cartao {
 
     protected String apelido;
-    protected String numero;
+    protected String numero_cartao;
     protected float saldo;
     protected boolean estudante;
-    protected String id;
-    protected String token;
+    protected String id_usuario;
+    protected String login_token;
 
     public Cartao(){
 
     }
 
-    public Cartao( String apelido, String numero,  float saldo, boolean estudante, String id, String token ) {
+    public Cartao( String apelido, String numero_cartao,  float saldo, boolean estudante, String id_usuario, String login_token ) {
         this.apelido = apelido;
-        this.numero = numero;
+        this.numero_cartao = numero_cartao;
         this.saldo = saldo;
         this.estudante = estudante;
+        this.id_usuario = id_usuario;
+        this.login_token = login_token;
 
     }
 
@@ -34,12 +36,12 @@ public class Cartao {
     public void setApelido(String apelido){
         this.apelido = apelido;
     }
-    public String getNumero(){
-        return numero;
+    public String getNumero_cartao(){
+        return numero_cartao;
     }
 
-    public void setNumero(String numero){
-        this.numero = numero;
+    public void setNumero_cartao(String numero_cartao){
+        this.numero_cartao = numero_cartao;
     }
     public float getSaldo(){
         return saldo;
@@ -56,19 +58,19 @@ public class Cartao {
         this.estudante = estudante;
     }
 
-    public String getId(){
-        return id;
+    public String getId_usuario(){
+        return id_usuario;
     }
 
-    public void setId(String id){
-        this.id = id;
+    public void setId_usuario(String id_usuario){
+        this.id_usuario = id_usuario;
     }
 
-    public String getToken(){
-        return token;
+    public String getLogin_token(){
+        return login_token;
     }
 
-    public void setToken(String token){
-        this.token = token;
+    public void setLogin_token(String login_token){
+        this.login_token = login_token;
     }
 }
