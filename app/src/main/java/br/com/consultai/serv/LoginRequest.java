@@ -100,7 +100,7 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
             String estudante = jsonObject.getString("estudante");
             String apelido = jsonObject.getString("apelido");
 
-            
+
 
 
             LoginActivity.LOGIN_TOKEN = loginToken;

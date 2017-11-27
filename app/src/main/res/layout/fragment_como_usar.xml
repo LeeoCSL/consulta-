@@ -17,5 +17,70 @@
         android:src="@drawable/logo_final"
         android:layout_centerHorizontal="true"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_logo"
+            android:layout_margin="20dp"
+            android:background="@drawable/borda_como_usar"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="COMO USAR"
+                android:layout_gravity="center"
+
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ROTINA"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Na tela inicial, clique em 'EDITAR', para programar sua rotina \n
+Escolha qual o horário da viagem de ida, os dias da semana e qual meio de transporte publico
+é utilizado \ NÂO ESQUECA DE SALVAR! \nFaça o mesmo para a volta."/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RECARGA"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Sempre que fizer uma recarga, clique em 'RECARREGUEI MEU BILHETE' e digite o valor da recarga"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EXCLUIR"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Você também pode excluir sua rotina clicando em 'EXCLUIR' na tela inicial"/>
+
+
+        </LinearLayout>
+
     </RelativeLayout>
 </FrameLayout>

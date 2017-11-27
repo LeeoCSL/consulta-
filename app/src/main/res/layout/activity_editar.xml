@@ -6,25 +6,8 @@
     android:layout_height="match_parent"
     tools:context="br.com.consultai.activities.EditarActivity">
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/fragmentEdt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/img_logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_default"
- />
-
-    <TimePicker
-        android:layout_below="@+id/img_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
-
-    </RelativeLayout>
+        android:layout_height="match_parent" />
 </FrameLayout>

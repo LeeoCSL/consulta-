@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     bundle.putString("posicao_clique", null);
                     bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     bundle.putString("id_celular", null);
-                    mFirebaseAnalytics.logEvent("cadastro_erro", bundle);
+                    mFirebaseAnalytics.logEvent("logout", bundle);
 
 
                     logout();

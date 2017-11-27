@@ -1,6 +1,9 @@
 package br.com.consultai.Tabs;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 
+import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 
 /**
@@ -41,9 +45,13 @@ public class Tab extends Fragment {
     protected RadioButton rb_onibus, rb_integracao;
     protected Button btnSalvar;
 
+    Button btnCancelar;
+
     protected ImageView tp;
 
     protected String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
 
     protected void initializeCheckeds(){
         String mDrawableName = "checked";
@@ -62,6 +70,7 @@ public class Tab extends Fragment {
     }
 
     protected void initializeButtons(View rootView){
+        btnCancelar = rootView.findViewById(R.id.btnCancelar);
         btnDias[0] = rootView.findViewById(R.id.selec_dom);
         btnDias[1] = rootView.findViewById(R.id.selec_seg);
         btnDias[2] = rootView.findViewById(R.id.selec_ter);
