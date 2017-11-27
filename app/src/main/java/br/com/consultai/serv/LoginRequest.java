@@ -79,7 +79,6 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             JSONObject jsonObject = new JSONObject(s);
 
             String loginToken = jsonObject.getString("login_token");
-
             double saldo = jsonObject.getDouble("user_saldo");
             String apelido = jsonObject.getString("apelido");
             int estudante = jsonObject.getInt("estudante");

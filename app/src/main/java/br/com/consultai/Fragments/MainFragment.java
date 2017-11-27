@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
 import br.com.consultai.activities.CadastroCartaoActivity;
+import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.serv.GetSaldoRequest;
 import br.com.consultai.serv.PostSaldoRequest;
@@ -299,10 +300,16 @@ public class MainFragment extends Fragment {
         btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                EditarFragment editarFragment = new EditarFragment();
-                fragmentTransaction.replace(R.id.fragment, editarFragment).commit();
+                startActivity(new Intent(getApplicationContext(), EditarActivity.class));
+//                FragmentManager fragmentManager = getChildFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                EditarFragment editarFragment = new EditarFragment();
+//                fragmentTransaction.replace(R.id.fragment, editarFragment).commit();
+
+//                Fragment editarFragment = new EditarFragment();
+//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//                transaction.add(R.id.fragment, editarFragment).commit();
+
             }
         });
         return view;
