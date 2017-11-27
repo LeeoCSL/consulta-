@@ -22,5 +22,4 @@ public class DialogUtil {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-
 }

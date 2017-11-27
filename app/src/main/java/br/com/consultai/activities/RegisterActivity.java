@@ -202,7 +202,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createUser(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
-
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
