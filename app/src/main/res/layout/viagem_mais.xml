@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/btn_default"
-            android:text="1,9"
+            android:text="1,90"
             android:textColor="@color/white"
             android:visibility="invisible"
 
@@ -194,7 +194,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/btn_default"
-            android:text="3,00"
+            android:text="1,90"
             android:textColor="@color/white"
             android:visibility="invisible"
 

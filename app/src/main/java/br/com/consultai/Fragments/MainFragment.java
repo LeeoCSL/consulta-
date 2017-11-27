@@ -144,7 +144,7 @@ public class MainFragment extends Fragment {
         tvSaldo = view.findViewById(R.id.txt_valor);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        tipo = sharedPref.getString("userTipo", "COMUM");
+        tipo = sharedPref.getString("userTipo", "ESTUDANTE");
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
