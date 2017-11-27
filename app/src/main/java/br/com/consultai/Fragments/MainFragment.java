@@ -39,11 +39,15 @@ public class MainFragment extends Fragment {
     private static Context context;
 
     public static double SALDO = -1;
+    public static String APELIDO;
+
     public static ProgressDialog dialog;
 
     public static TextView tvSaldo;
 
     public static TextView txtVlr;
+
+    public static int ESTUDANTE;
 
     String tipoGet;
 
@@ -57,7 +61,7 @@ public class MainFragment extends Fragment {
     Boolean sex_ativo = true;
     Boolean sab_ativo = false;
 
-   public static TextView txt_nome_bilhete;
+   public static TextView txtNomeBilhete;
 
     String tipo;
 
@@ -79,7 +83,7 @@ public class MainFragment extends Fragment {
 
         tipoGet = "0";
 
-        txt_nome_bilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
+        txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
 
         context = getApplicationContext();
@@ -353,5 +357,7 @@ public class MainFragment extends Fragment {
         }else {
             tvSaldo.setText("R$ " +SALDO);
         }
+
+        txtNomeBilhete.setText(APELIDO);
     }
 }

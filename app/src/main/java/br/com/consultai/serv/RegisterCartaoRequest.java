@@ -109,9 +109,10 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             String apelido = jsonObject.getString("apelido");
 
             LoginActivity.LOGIN_TOKEN = loginToken;
+
             MainFragment.SALDO = Double.parseDouble(saldo);
-            MainFragment.tvSaldo.setText(saldo);
-            MainFragment.txt_nome_bilhete.setText(apelido);
+            MainFragment.APELIDO = apelido;
+
             Toast.makeText(context, apelido, Toast.LENGTH_SHORT).show();
             Toast.makeText(context, saldo, Toast.LENGTH_SHORT).show();
 

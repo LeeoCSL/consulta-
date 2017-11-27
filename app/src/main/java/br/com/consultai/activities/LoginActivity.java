@@ -60,6 +60,7 @@ import java.util.Arrays;
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.model.User;
+import br.com.consultai.model.Usuario;
 import br.com.consultai.serv.LoginRequest;
 import br.com.consultai.utils.DialogFactory;
 import br.com.consultai.utils.UtilTempoDigitacao;
@@ -437,6 +438,7 @@ public class LoginActivity extends AppCompatActivity {
         mDialog.setMessage("Por favor, espere enquanto fazemos o login");
         mDialog.show();
         mDialog.setCanceledOnTouchOutside(false);
+
         mAuth.signInWithEmailAndPassword(user_email, user_password)
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
@@ -447,10 +449,16 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("emailParam", user_email);
                         editor.commit();
 
-                        String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        Usuario usuario = new Usuario();
+                        usuario.setId(userID);
+                        usuario.setEmail(user_email);
+                        usuario.setSenha(user_password);
+                        usuario.setNotificationToken(notification_token);
 
                         LoginRequest login = new LoginRequest(LoginActivity.this);
-                        login.execute(user_id, user_email, user_password, notification_token, device_brand);
+                        login.execute(usuario);
 
                         Bundle bundle = new Bundle();
                         bundle.putString("acelerometro_x", null);
@@ -471,6 +479,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 DialogFactory.hideLoadingDialog();
+
                 if (e.getClass() == FirebaseAuthUserCollisionException.class) {
                     Utility.makeText(LoginActivity.this,
                             "Email já está sendo usado em uma conta do facebook.");

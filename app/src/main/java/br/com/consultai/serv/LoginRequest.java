@@ -1,6 +1,7 @@
 package br.com.consultai.serv;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,71 +16,53 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.User;
+import br.com.consultai.model.Usuario;
+import br.com.consultai.utils.DialogUtil;
 import okhttp3.Request;
 
 /**
  * Created by leonardo.ribeiro on 13/11/2017.
  */
 
-public class LoginRequest extends AsyncTask<String, Void, String> {
+public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
     private Context context;
-    private AlertDialog.Builder dialog;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    private boolean success = false;
+    private ProgressDialog mDialog;
 
     public LoginRequest(Context context) {
         this.context = context;
     }
 
-    protected String doInBackground(String... strings) {
+    protected String doInBackground(Usuario... usuarios) {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
-
-        String userID = strings[0];
-        String userEmail = strings[1];
-        String userPassword = strings[2];
-        String notificationToken = strings[3];
-        String userDeviceBrand = strings[4];
-
-
-        //String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        User user = new User();
-        user.setId(userID);
-        user.setEmail(userEmail);
-        user.setSenha(userPassword);
-        user.setNotification_token(notificationToken);
-        user.setModelo(userDeviceBrand);
-
+        Usuario usuario = usuarios[0];
 
         Gson gson = new Gson();
-
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
 
-        String url = "https://consultai.000webhostapp.com/auth";
+        String url = "https://zazzytec.com.br/auth";
 
         Request.Builder builder = new Request.Builder();
-
         builder.url(url);
 
         okhttp3.MediaType mediaType =
                 okhttp3.MediaType.parse("application/json; charset=utf-8");
 
-
-        okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType, gson.toJson(user));
+        okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType, gson.toJson(usuario));
         builder.post(body);
 
         Request request = builder.build();
 
         try {
             okhttp3.Response response = client.newCall(request).execute();
-//            Log.i("resp_server_login", response.body().string());
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,9 +76,15 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
             JSONObject jsonObject = new JSONObject(s);
 
             String loginToken = jsonObject.getString("login_token");
-            String saldo = jsonObject.getString("user_saldo");
+            double saldo = jsonObject.getDouble("user_saldo");
+            String apelido = jsonObject.getString("apelido");
+            int estudante = jsonObject.getInt("estudante");
 
             LoginActivity.LOGIN_TOKEN = loginToken;
+            MainFragment.APELIDO = apelido;
+            MainFragment.SALDO = saldo;
+            MainFragment.ESTUDANTE = estudante;
+
 
             Bundle bundle2 = new Bundle();
             bundle2.putString("acelerometro_x", null);
@@ -109,11 +98,10 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
             mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
             //TODO popular evento
 
-            Bundle bundle = new Bundle();
-            bundle.putDouble("saldo", Double.parseDouble(saldo));
+            DialogUtil.hideProgressDialog(mDialog);
             Intent intent = new Intent(context, MainActivity.class);
-            intent.putExtras(bundle);
             context.startActivity(intent);
+
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -134,6 +122,6 @@ public class LoginRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
-
+        mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos autenticando seus dados.");
     }
 }

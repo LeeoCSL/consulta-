@@ -34,7 +34,6 @@ import okhttp3.Response;
 public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     private Context context;
-    private AlertDialog.Builder dialog;
 
     private FirebaseAnalytics mFirebaseAnalytics;
     public RegisterRequest(Context context){
