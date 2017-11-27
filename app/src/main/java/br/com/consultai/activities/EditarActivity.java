@@ -32,27 +32,6 @@ public class EditarActivity extends AppCompatActivity {
         fragT.replace(R.id.fragmentEdt, editar);
         fragT.commit();
 
-        //                FragmentManager fragmentManager = getChildFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                EditarFragment editarFragment = new EditarFragment();
-//                fragmentTransaction.replace(R.id.fragment, editarFragment).commit();
-
-/*
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        tipo = sharedPref.getString("userTipo", "");
-
-//        Toast.makeText(this, tipo, Toast.LENGTH_SHORT).show();
-        if(tipo.equals("COMUM")){
-            txteste.setText("Comum");
-//            Toast.makeText(this, "COMUM", Toast.LENGTH_SHORT).show();
-        }
-        else if (tipo.equals("ESTUDANTE")){
-            txteste.setText("Estudante");
-//            Toast.makeText(this, "ESTUDANTE", Toast.LENGTH_SHORT).show();
-
-        }
-
-*/
 
 
     }

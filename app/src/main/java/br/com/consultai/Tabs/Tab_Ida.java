@@ -3,6 +3,7 @@ package br.com.consultai.Tabs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +11,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.EditarFragment;
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
+import br.com.consultai.activities.LoginActivity;
+import br.com.consultai.model.Rotina;
+import br.com.consultai.post.RotinaPostRequest;
 
 public class Tab_Ida extends Tab {
+
+    private RadioGroup mRadioGroup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +40,8 @@ public class Tab_Ida extends Tab {
         rb_onibus = (RadioButton) rootView.findViewById(R.id.rb_onibus);
         rb_integracao = (RadioButton) rootView.findViewById(R.id.rb_integracao);
         tp = (ImageView) rootView.findViewById(R.id.tp);
+
+        mRadioGroup = (RadioGroup) rootView.findViewById(R.id.rgroup);
 
         return rootView;
     }
@@ -45,9 +58,34 @@ public class Tab_Ida extends Tab {
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO subir rotina
-                Tab_Volta tab2 = new Tab_Volta();
+                Rotina rotina = new Rotina();
 
+                rotina.setHora(hora);
+                rotina.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                rotina.setFlag(0);
+                rotina.setTipo(0);
+                rotina.setDays(diasAtivosCod);
+                rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
+
+                if(ContaFragment.estudante == 0){
+                    if(mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus){
+                        rotina.setValor(Tab.TARIFA_COMUM);
+                    }else{
+                        rotina.setValor(Tab.TARIFA_INTEGRACAO);
+                    }
+                }else{
+                    if(mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus){
+                        rotina.setValor(Tab.TARIFA_ESTUDANTE);
+                    }else{
+                        rotina.setValor(Tab.TARIFA_COMUM);
+                    }
+                }
+
+                RotinaPostRequest request = new RotinaPostRequest(getContext());
+                request.execute(rotina);
+
+                TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
+                tabhost.getTabAt(1).select();
 
             }
         });

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,17 +33,19 @@ public class Tab extends Fragment {
 
     protected Button[] btnDias = new Button[7];
 
-    public static final  String TARIFA_COMUM = "3.80";
-    public static final  String TARIFA_INTEGRACAO = "6.80";
-    public static final  String TARIFA_ESTUDANTE = "1.90";
-    public static final  String INTEGRACAO_ESTUDANTE = "3,80";
+    public static final double TARIFA_COMUM = 3.8;
+    public static final double TARIFA_INTEGRACAO = 6.80;
+    public static final double TARIFA_ESTUDANTE = 1.90;
+    public static final double INTEGRACAO_ESTUDANTE = 3.80;
+
     public static final  String TIPO = "0"; //ida
 
     protected int hh, mm, ss = 0;
-    protected String hora = "hh:mm:ss";
+    protected String hora;
     protected Boolean estudante = false;
 
     protected RadioButton rb_onibus, rb_integracao;
+
     protected Button btnSalvar;
 
     Button btnCancelar;
@@ -95,6 +98,7 @@ public class Tab extends Fragment {
     protected void TimeDialog(){
 
         final Calendar c= Calendar.getInstance();
+
         hh=c.get(Calendar.HOUR_OF_DAY);
         mm=c.get(Calendar.MINUTE);
 
@@ -116,12 +120,10 @@ public class Tab extends Fragment {
                     mn = String.valueOf(minutos);
                 }
 
-                hora = hr+":"+mn;
-                // hora = hr+":"+mn+":"+"00";
+                hora = hr+ ":" +mn+ ":00";
 
             }
         }, hh,mm,true);
         time.show();
-//        Log.v("time", hora);
     }
 }
