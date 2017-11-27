@@ -1,4 +1,8 @@
 package br.com.consultai.utils;
+import android.util.Log;
+
+import java.util.Date;
+
 
 import android.util.Log;
 
@@ -11,7 +15,7 @@ import java.util.Date;
  */
 
 public class UtilTempoDigitacao {
-  public static  Date dt1, dt2;
+  public static Date dt1, dt2;
    static long dtf;
 
     public static long dtfs;
@@ -62,3 +66,4 @@ public class UtilTempoDigitacao {
 
     }
 }
+
