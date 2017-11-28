@@ -22,7 +22,7 @@ import okhttp3.Request;
 
 public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
-    private Activity context;
+    private static Activity context;
     private ProgressDialog mDialog;
 
     public static boolean firstTab;
@@ -71,12 +71,16 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
     protected void onPostExecute(String s) {
         if(firstTab){
             DialogUtil.hideProgressDialog(mDialog);
-            TabLayout tabhost = (TabLayout) context.findViewById(R.id.tabs);
-            tabhost.getTabAt(1).select();
-            firstTab = false;
+            alteraTab();
         }else{
             DialogUtil.hideProgressDialog(mDialog);
             context.finish();
         }
+    }
+
+    public static void alteraTab(){
+        TabLayout tabhost = (TabLayout) context.findViewById(R.id.tabs);
+        tabhost.getTabAt(1).select();
+        firstTab = false;
     }
 }
