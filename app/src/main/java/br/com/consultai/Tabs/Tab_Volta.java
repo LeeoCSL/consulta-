@@ -1,6 +1,8 @@
 package br.com.consultai.Tabs;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -60,10 +62,54 @@ public class Tab_Volta extends Tab {
 
             @Override
             public void onClick(View view) {
-                if(hora == null || diasAtivosCod == null) {
-                    Toast.makeText(getContext(), "voce nao selecionou", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                if (hora == null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Você não cadastrou a hora da rotina de ida.")
+                            .setPositiveButton("Cadastrar hora", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.create();
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
+                    if (diasAtivosCod[0] == 0 && diasAtivosCod[1] == 0 && diasAtivosCod[2] == 0 && diasAtivosCod[3] == 0 &&
+                            diasAtivosCod[4] == 0 && diasAtivosCod[5] == 0 && diasAtivosCod[6] == 0) {
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                        builder2.setMessage("Você não cadastrou os dias da rotina de ida.")
+                                .setPositiveButton("Cadastrar dias", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder2.create();
+                        AlertDialog dialog2 = builder2.create();
+                        dialog2.show();
+
+                        if (!rb_onibus.isChecked() && !rb_integracao.isChecked()) {
+                            AlertDialog.Builder builder3 = new AlertDialog.Builder(getContext());
+                            builder3.setMessage("Você não cadastrou o tipo de viagem da rotina de ida.")
+                                    .setPositiveButton("Cadastrar tipo", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                            builder3.create();
+                            AlertDialog dialog3 = builder3.create();
+                            dialog3.show();
+
+
+                        }
+
+                    }
+
+
+                } else {
                     Rotina rotina = new Rotina();
 
                     rotina.setHora(hora);
@@ -104,12 +150,12 @@ public class Tab_Volta extends Tab {
             @Override
             public void onClick(View view) {
                 TimeDialog();
-                Toast.makeText(getContext(), hora , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), hora, Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        for(int i = 0; i < btnDias.length; i++){
+        for (int i = 0; i < btnDias.length; i++) {
             final int tmp = i;
             btnDias[i].setOnClickListener(new View.OnClickListener() {
                 @Override

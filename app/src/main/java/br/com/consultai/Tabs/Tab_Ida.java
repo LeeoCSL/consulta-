@@ -26,6 +26,8 @@ import br.com.consultai.R;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.post.RotinaPostRequest;
+import br.com.consultai.serv.PostRotinaRequest;
+import br.com.consultai.utils.DialogFactory;
 
 public class Tab_Ida extends Tab {
 
@@ -63,53 +65,83 @@ public class Tab_Ida extends Tab {
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hora == null || diasAtivosCod == null) {
+                if (hora == null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("Você nao cadastrou rotina de ida, tem certeza de que nao quer cadastrar?");
+                    builder.setMessage("Você não cadastrou a hora da rotina de ida.")
+                            .setPositiveButton("Cadastrar hora", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                    builder.setPositiveButton("Tenho certeza", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //TODO
-                        }
-                    }).setNegativeButton("Quero cadastrar a rotina", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.cancel();
-                        }
-                    });
+                                }
+                            });
                     builder.create();
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }
-                else{
-                Rotina rotina = new Rotina();
 
-                rotina.setHora(hora);
-                rotina.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                rotina.setFlag(0);
-                rotina.setTipo(0);
-                rotina.setDays(diasAtivosCod);
-                rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
 
-                if(ContaFragment.estudante == 0){
-                    if(mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus){
-                        rotina.setValor(Tab.TARIFA_COMUM);
-                    }else{
-                        rotina.setValor(Tab.TARIFA_INTEGRACAO);
+                    if(diasAtivosCod[0] == 0 && diasAtivosCod[1] == 0 && diasAtivosCod[2] == 0 && diasAtivosCod[3] == 0 &&
+                            diasAtivosCod[4] == 0 && diasAtivosCod[5] == 0 && diasAtivosCod[6] == 0) {
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                        builder2.setMessage("Você não cadastrou os dias da rotina de ida.")
+                                .setPositiveButton("Cadastrar dias", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder2.create();
+                        AlertDialog dialog2 = builder2.create();
+                        dialog2.show();
+
+                        if (!rb_onibus.isChecked() && ! rb_integracao.isChecked()){
+                            AlertDialog.Builder builder3 = new AlertDialog.Builder(getContext());
+                            builder3.setMessage("Você não cadastrou o tipo de viagem da rotina de ida.")
+                                    .setPositiveButton("Cadastrar tipo", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                            builder3.create();
+                            AlertDialog dialog3 = builder3.create();
+                            dialog3.show();
+
+
+                        }
+
                     }
-                }else{
-                    if(mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus){
-                        rotina.setValor(Tab.TARIFA_ESTUDANTE);
-                    }else{
-                        rotina.setValor(Tab.TARIFA_COMUM);
-                    }
-                }
 
-                RotinaPostRequest request = new RotinaPostRequest(getActivity());
-                request.execute(rotina);
+
+
+                } else {
+                    Rotina rotina = new Rotina();
+
+                    rotina.setHora(hora);
+                    rotina.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    rotina.setFlag(0);
+                    rotina.setTipo(0);
+                    rotina.setDays(diasAtivosCod);
+                    rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
+
+                    if (ContaFragment.estudante == 0) {
+                        if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                            rotina.setValor(Tab.TARIFA_COMUM);
+                        } else {
+                            rotina.setValor(Tab.TARIFA_INTEGRACAO);
+                        }
+                    } else {
+                        if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                            rotina.setValor(Tab.TARIFA_ESTUDANTE);
+                        } else {
+                            rotina.setValor(Tab.TARIFA_COMUM);
+                        }
+                    }
+
+                    RotinaPostRequest request = new RotinaPostRequest(getActivity());
+                    request.execute(rotina);
                 }
             }
+
         });
 
         btnCancelar.setOnClickListener(new View.OnClickListener() {
