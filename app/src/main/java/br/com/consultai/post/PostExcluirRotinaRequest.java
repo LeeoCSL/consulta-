@@ -38,6 +38,7 @@ import okhttp3.Response;
  */
 
 public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> {
+
     private Context context;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -80,20 +81,11 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> 
 
     @Override
     protected void onPostExecute(String s) {
-        try {
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-
-
-
-        }
+        mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos excluindo suas rotinas.");
     }
 
     @Override
     protected void onPreExecute() {
-
+        DialogUtil.hideProgressDialog(mDialog);
     }
 }

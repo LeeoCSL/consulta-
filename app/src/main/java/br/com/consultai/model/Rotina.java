@@ -11,6 +11,9 @@ import java.util.Date;
 
 public class Rotina implements Serializable{
 
+    @SerializedName("id_rotina")
+    private String idRotina;
+
     @SerializedName("id_usuario")
     private String idUsuario;
 
@@ -35,7 +38,8 @@ public class Rotina implements Serializable{
 
     public Rotina(){}
 
-    public Rotina(String idUsuario, String loginToken, int domingo, int segunda, int terca, int quarta, int quinta, int sexta, int sabado, int flag, String hora, double valor, int tipo) {
+    public Rotina(String idRotina, String idUsuario, String loginToken, int domingo, int segunda, int terca, int quarta, int quinta, int sexta, int sabado, int flag, String hora, double valor, int tipo) {
+        this.idRotina = idRotina;
         this.idUsuario = idUsuario;
         this.loginToken = loginToken;
         this.domingo = domingo;
@@ -59,6 +63,14 @@ public class Rotina implements Serializable{
         quinta = days[4];
         sexta = days[5];
         sabado = days[6];
+    }
+
+    public String getIdRotina() {
+        return idRotina;
+    }
+
+    public void setIdRotina(String idRotina) {
+        this.idRotina = idRotina;
     }
 
     public String getIdUsuario() {
@@ -168,7 +180,8 @@ public class Rotina implements Serializable{
     @Override
     public String toString() {
         return "Rotina{" +
-                "idUsuario='" + idUsuario + '\'' +
+                "idRotina=" + idRotina +
+                ", idUsuario='" + idUsuario + '\'' +
                 ", loginToken='" + loginToken + '\'' +
                 ", domingo=" + domingo +
                 ", segunda=" + segunda +

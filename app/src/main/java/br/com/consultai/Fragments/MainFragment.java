@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,6 +42,14 @@ public class MainFragment extends Fragment {
     public static double SALDO = -1;
     public static String APELIDO;
 
+    private boolean[] diasAtivos = new boolean[7];
+    public static int[] DIAS_ATIVOS = new int[7];
+
+    private static int[] checkedImg = new int[7];
+    private static int[] uncheckedImg = new int[7];
+
+    private static Button[] btnDias = new Button[7];
+
     public static ProgressDialog dialog;
 
     public static TextView tvSaldo;
@@ -51,8 +60,6 @@ public class MainFragment extends Fragment {
 
     ImageView img_logo;
     String tipoGet;
-
-    Button selec_dom, selec_seg, selec_ter, selec_qua, selec_qui, selec_sex, selec_sab;
 
     public static TextView txtNomeBilhete;
 
@@ -71,11 +78,46 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initializeCheckeds();
+        initializeUncheckeds();
+
+    }
+
+    protected void initializeCheckeds(){
+        String mDrawableName = "checked";
+
+        for(int i = 0; i < 7; i++){
+            checkedImg[i] = getResources().getIdentifier(mDrawableName + i , "drawable", getContext().getPackageName());
+        }
+    }
+
+    protected void initializeUncheckeds(){
+        String mDrawableName = "unchecked";
+
+        for(int i = 0; i < 7; i++){
+            uncheckedImg[i] = getResources().getIdentifier(mDrawableName + i , "drawable", getContext().getPackageName());
+        }
+    }
+
+    private void initializeButtons(View rootView){
+        btnDias[0] = rootView.findViewById(R.id.selec_dom);
+        btnDias[1] = rootView.findViewById(R.id.selec_seg);
+        btnDias[2] = rootView.findViewById(R.id.selec_ter);
+        btnDias[3] = rootView.findViewById(R.id.selec_qua);
+        btnDias[4] = rootView.findViewById(R.id.selec_qui);
+        btnDias[5] = rootView.findViewById(R.id.selec_sex);
+        btnDias[6] = rootView.findViewById(R.id.selec_sab);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-
+        initializeButtons(view);
 
         tipoGet = "0";
 
@@ -92,7 +134,7 @@ public class MainFragment extends Fragment {
         img_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetRotinaRequest rotina = new GetRotinaRequest();
+                GetRotinaRequest rotina = new GetRotinaRequest(getContext());
                 rotina.execute();
             }
         });
@@ -101,12 +143,31 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                Usuario2 user = new Usuario2();
+
+                final Usuario2 user = new Usuario2();
                 user.setId_Usuario(userID);
                 user.setLogin_token(LoginActivity.LOGIN_TOKEN);
 
-                PostExcluirRotinaRequest excluir = new PostExcluirRotinaRequest(getContext());
-                excluir.execute(user);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Atenção");
+                builder.setMessage("Tem certeza que deseja excluir suas rotinas?");
+
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        PostExcluirRotinaRequest excluir = new PostExcluirRotinaRequest(getContext());
+                        excluir.execute(user);
+                    }
+                });
+
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                builder.show();
             }
         });
 
@@ -332,5 +393,17 @@ public class MainFragment extends Fragment {
         }
 
         txtNomeBilhete.setText(APELIDO);
+
+        loadImages();
+    }
+
+    public static void loadImages(){
+        for(int i = 0; i < DIAS_ATIVOS.length; i++){
+            if(DIAS_ATIVOS[i] == i + 1){
+                btnDias[i].setBackgroundResource(checkedImg[i]);
+            }else{
+                btnDias[i].setBackgroundResource(uncheckedImg[i]);
+            }
+        }
     }
 }

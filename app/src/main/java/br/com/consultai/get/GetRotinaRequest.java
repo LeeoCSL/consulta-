@@ -9,14 +9,18 @@ import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
+import br.com.consultai.model.Rotina;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -36,6 +40,9 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 
     public static String sd;
 
+    public GetRotinaRequest(Context context){
+        this.context = context;
+    }
 
     protected String doInBackground(String... strings) {
 
@@ -47,7 +54,6 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 
         String url = "https://zazzytec.com.br/get_rotina?id_usuario=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
 
-        Log.i("url", url);
 
         OkHttpClient client = new OkHttpClient();
 
@@ -57,9 +63,6 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 
         try {
             Response response = client.newCall(request).execute();
-            Log.i("resp_server", response.body().string());
-
-
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,18 +74,76 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         try {
+            JSONArray array = new JSONArray(s);
 
-//                JSONObject jsonObject = new JSONObject(s);
-//            JSONArray jArray = new JSONArray(s);
-//            JSONArray array2 = jArray.getJSONArray(1);
-//            JSONArray array1 = jArray.getJSONArray(2);
-//
-//            Log.v("array 1", String.valueOf(array1));
-//            Log.v("array 2", String.valueOf(array2));
-            Toast.makeText(context, "post exec", Toast.LENGTH_SHORT).show();
-//            Toast.makeText(context, String.valueOf(array1), Toast.LENGTH_SHORT).show();
-//                String saldo = jsonObject.getString("user_saldo");
+            List<Rotina> rotinas = new ArrayList<>();
 
+            if(array.length() < 1){
+                for(int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++){
+                    MainFragment.DIAS_ATIVOS[i] = 0;
+                }
+                MainFragment.loadImages();
+                return;
+            }
+
+            for(int i = 0; i < array.length(); i++){
+                JSONObject object = (JSONObject) array.get(i);
+
+                Rotina rotina = new Rotina();
+
+                rotina.setIdRotina(object.getString("id_rotina"));
+                rotina.setDomingo(object.getInt("domingo"));
+                rotina.setSegunda(object.getInt("segunda"));
+                rotina.setTerca(object.getInt("terca"));
+                rotina.setQuarta(object.getInt("quarta"));
+                rotina.setQuinta(object.getInt("quinta"));
+                rotina.setSexta(object.getInt("sexta"));
+                rotina.setSabado(object.getInt("sabado"));
+                rotina.setHora(object.getString("hora"));
+                rotina.setValor(object.getDouble("valor"));
+                rotina.setTipo(object.getInt("tipo"));
+
+                rotinas.add(rotina);
+            }
+
+            Rotina ida = rotinas.get(0);
+            Rotina volta = rotinas.get(1);
+
+            if(ida != null){
+                MainFragment.DIAS_ATIVOS[0] = ida.getDomingo();
+                MainFragment.DIAS_ATIVOS[1] = ida.getSegunda();
+                MainFragment.DIAS_ATIVOS[2] = ida.getTerca();
+                MainFragment.DIAS_ATIVOS[3] = ida.getQuarta();
+                MainFragment.DIAS_ATIVOS[4] = ida.getQuinta();
+                MainFragment.DIAS_ATIVOS[5] = ida.getSexta();
+                MainFragment.DIAS_ATIVOS[6] = ida.getSabado();
+            }
+
+            if(volta != null){
+                if(MainFragment.DIAS_ATIVOS[0] == 0){
+                    MainFragment.DIAS_ATIVOS[0] = volta.getDomingo();
+                }
+                if(MainFragment.DIAS_ATIVOS[1] == 0){
+                    MainFragment.DIAS_ATIVOS[1] = volta.getSegunda();
+                }
+                if(MainFragment.DIAS_ATIVOS[2] == 0){
+                    MainFragment.DIAS_ATIVOS[2] = volta.getTerca();
+                }
+                if(MainFragment.DIAS_ATIVOS[3] == 0){
+                    MainFragment.DIAS_ATIVOS[3] = volta.getQuarta();
+                }
+                if(MainFragment.DIAS_ATIVOS[4] == 0){
+                    MainFragment.DIAS_ATIVOS[4] = volta.getQuinta();
+                }
+                if(MainFragment.DIAS_ATIVOS[5] == 0){
+                    MainFragment.DIAS_ATIVOS[5] = volta.getSexta();
+                }
+                if(MainFragment.DIAS_ATIVOS[6] == 0){
+                    MainFragment.DIAS_ATIVOS[6] = volta.getSabado();
+                }
+            }
+
+            MainFragment.loadImages();
 
 //                Bundle bundle = new Bundle();
 //                bundle.putDouble("saldo", Double.parseDouble(saldo));
