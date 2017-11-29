@@ -1,67 +1,67 @@
-package br.com.consultai.serv;
 
-import android.app.AlertDialog;
+package br.com.consultai.get;
+
+/**
+ * Created by leonardo.ribeiro on 29/11/2017.
+ */
+
 import android.content.Context;
-import android.content.Intent;
+import android.os.AsyncTask;
+
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 import br.com.consultai.Fragments.MainFragment;
-import br.com.consultai.MainActivity;
 import br.com.consultai.activities.LoginActivity;
-import br.com.consultai.model.User;
-import okhttp3.MediaType;
+import br.com.consultai.utils.DialogUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static br.com.consultai.Fragments.MainFragment.recarga;
 import static br.com.consultai.Fragments.MainFragment.saldoGet;
 import static br.com.consultai.Fragments.MainFragment.saldoPost;
-import static br.com.consultai.Fragments.MainFragment.txtVlr;
 
-/**
- * Created by leonardo.ribeiro on 13/11/2017.
- */
 
-public class GetSaldoRequest extends AsyncTask<String, Void, String> {
+public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
-    private Context context;
-    private AlertDialog.Builder dialog;
-    String tipoGet;
+    private Context mContext;
+    private ProgressDialog mDialog;
+
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public static String sd;
-
-    public GetSaldoRequest(Context context) {
-        this.context = context;
+    public GetSaldoExtraRequest(Context context) {
+        this.mContext = context;
     }
 
+    @Override
+    protected void onPreExecute() {
+        mDialog = DialogUtil.showProgressDialog(mContext, "Aguarde", "Estamos atualizando seu saldo.");
+    }
 
+    @Override
     protected String doInBackground(String... strings) {
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
 
-
-        String userID = strings[0];
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         String url = "https://zazzytec.com.br/user_saldo?id=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
 
-        Log.i("url", url);
+        Log.i("urlman", url);
 
         OkHttpClient client = new OkHttpClient();
-
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -78,8 +78,10 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+        DialogUtil.hideProgressDialog(mDialog);
+
         try {
-            if (tipoGet.equals("0")) {
+            if (MainFragment.tipoGet.equals("0")) {
                 JSONObject jsonObject = new JSONObject(s);
 
 
@@ -102,7 +104,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 mFirebaseAnalytics.logEvent("atualizacao_saldo_sucesso", bundle2);
 
 
-            } else if (tipoGet.equals("1")) {
+            } else if (MainFragment.tipoGet.equals("1")) {
                 JSONObject jsonObject = new JSONObject(s);
 
 
@@ -118,15 +120,16 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.metodoPost();
-                MainFragment.dialog.dismiss();
+                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                post.execute(saldoPost);
+//                MainFragment.dialog.dismiss();
 
             }
             //viagem extra 3,8
-            else if (tipoGet.equals("2")) {
+            else if (MainFragment.tipoGet.equals("2")) {
                 JSONObject jsonObject = new JSONObject(s);
 
-                String saldo = jsonObject.getString("user_saldo");
+                String saldo = jsonObject.getString("saldo");
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
@@ -137,8 +140,9 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.metodoPost();
-                MainFragment.dialog.dismiss();
+                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                post.execute(saldoPost);
+//                MainFragment.dialog.dismiss();
 
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("acelerometro_x", null);
@@ -154,10 +158,10 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
             }
 //viagem extra 3.0
-            else if (tipoGet.equals("3")) {
+            else if (MainFragment.tipoGet.equals("3")) {
                 JSONObject jsonObject = new JSONObject(s);
 
-                String saldo = jsonObject.getString("user_saldo");
+                String saldo = jsonObject.getString("saldo");
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
@@ -168,8 +172,9 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.metodoPost();
-                MainFragment.dialog.dismiss();
+                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                post.execute(saldoPost);
+//                MainFragment.dialog.dismiss();
 
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("acelerometro_x", null);
@@ -183,10 +188,10 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 mFirebaseAnalytics.logEvent("viagem_extra_3_00", bundle2);
             }
 //viagem extra 1,9
-            else if (tipoGet.equals("4")) {
+            else if (MainFragment.tipoGet.equals("4")) {
                 JSONObject jsonObject = new JSONObject(s);
 
-                String saldo = jsonObject.getString("user_saldo");
+                String saldo = jsonObject.getString("saldo");
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
@@ -197,8 +202,9 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.metodoPost();
-                MainFragment.dialog.dismiss();
+                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                post.execute(saldoPost);
+//                MainFragment.dialog.dismiss();
 
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("acelerometro_x", null);
@@ -213,10 +219,10 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
             }
 
             //viagem a menos 3,8
-            else if (tipoGet.equals("5")) {
+            else if (MainFragment.tipoGet.equals("5")) {
                 JSONObject jsonObject = new JSONObject(s);
 
-                String saldo = jsonObject.getString("user_saldo");
+                String saldo = jsonObject.getString("saldo");
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
@@ -227,8 +233,9 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.metodoPost();
-                MainFragment.dialog.dismiss();
+                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                post.execute(saldoPost);
+//                MainFragment.dialog.dismiss();
 
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("acelerometro_x", null);
@@ -242,10 +249,10 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 mFirebaseAnalytics.logEvent("viagem_menos_3_80", bundle2);
             }
 //viagem menos 3.0
-            else if (tipoGet.equals("6")) {
+            else if (MainFragment.tipoGet.equals("6")) {
                 JSONObject jsonObject = new JSONObject(s);
 
-                String saldo = jsonObject.getString("user_saldo");
+                String saldo = jsonObject.getString("saldo");
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
@@ -256,8 +263,9 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.metodoPost();
-                MainFragment.dialog.dismiss();
+                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                post.execute(saldoPost);
+//                MainFragment.dialog.dismiss();
 
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("acelerometro_x", null);
@@ -271,10 +279,10 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 mFirebaseAnalytics.logEvent("viagem_menos_3_00", bundle2);
             }
 //viagem menos 1,9
-            else if (tipoGet.equals("7")) {
+            else if (MainFragment.tipoGet.equals("7")) {
                 JSONObject jsonObject = new JSONObject(s);
 
-                String saldo = jsonObject.getString("user_saldo");
+                String saldo = jsonObject.getString("saldo");
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
@@ -285,8 +293,9 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
                 MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.metodoPost();
-                MainFragment.dialog.dismiss();
+                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                post.execute(saldoPost);
+//                MainFragment.dialog.dismiss();
 
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("acelerometro_x", null);
@@ -300,13 +309,8 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
                 mFirebaseAnalytics.logEvent("viagem_menos_1_90", bundle2);
             }
 
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void onPreExecute() {
-
     }
 }
