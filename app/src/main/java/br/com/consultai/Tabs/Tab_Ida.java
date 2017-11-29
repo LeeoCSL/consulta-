@@ -65,73 +65,88 @@ public class Tab_Ida extends Tab {
                             .setPositiveButton("Cadastrar hora", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    dialogInterface.dismiss();
                                 }
                             });
                     builder.create();
                     AlertDialog dialog = builder.create();
                     dialog.show();
+
+                    return;
                 }
 
-                    if(diasAtivosCod[0] == 0 && diasAtivosCod[1] == 0 && diasAtivosCod[2] == 0 && diasAtivosCod[3] == 0 &&
-                            diasAtivosCod[4] == 0 && diasAtivosCod[5] == 0 && diasAtivosCod[6] == 0) {
-                        AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
-                        builder2.setMessage("Você não cadastrou os dias da rotina de ida.")
-                                .setPositiveButton("Cadastrar dias", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                int count = 0;
+                for(int i = 0; i < diasAtivosCod.length; i++){
+                    count += diasAtivosCod[i];
+                }
 
-                                    }
-                                });
+                if(count == 0){
+                    AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                    builder2.setMessage("Você não cadastrou os dias da rotina de ida.")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
 
-                        builder2.create();
-                        AlertDialog dialog2 = builder2.create();
-                        dialog2.show();
-                    }
-                        if (!rb_onibus.isChecked() && ! rb_integracao.isChecked()){
-                            AlertDialog.Builder builder3 = new AlertDialog.Builder(getContext());
-                            builder3.setMessage("Você não cadastrou o tipo de viagem da rotina de ida.")
-                                    .setPositiveButton("Cadastrar tipo", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
+                    builder2.create();
+                    AlertDialog dialog2 = builder2.create();
+                    dialog2.show();
 
-                                        }
-                                    });
-                            builder3.create();
-                            AlertDialog dialog3 = builder3.create();
-                            dialog3.show();
-
-                    }
+                    return;
+                }
 
 
+                if (!rb_onibus.isChecked() && ! rb_integracao.isChecked()){
+                     AlertDialog.Builder builder3 = new AlertDialog.Builder(getContext());
+                     builder3.setMessage("Você não cadastrou o tipo de viagem da rotina de ida.")
+                     .setPositiveButton("Cadastrar tipo", new DialogInterface.OnClickListener() {
 
-                 else {
-                    Rotina rotina = new Rotina();
+                         @Override
+                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                    rotina.setHora(hora);
-                    rotina.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    rotina.setFlag(0);
-                    rotina.setTipo(0);
-                    rotina.setDays(diasAtivosCod);
-                    rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
+                         }
+                     });
 
-                    if (ContaFragment.estudante == 0) {
-                        if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
-                            rotina.setValor(Tab.TARIFA_COMUM);
-                        } else {
-                            rotina.setValor(Tab.TARIFA_INTEGRACAO);
-                        }
+                     builder3.create();
+                     AlertDialog dialog3 = builder3.create();
+                     dialog3.show();
+
+                    return;
+                }
+
+                Rotina rotina = new Rotina();
+
+                if(ROTINA_IDA != null){
+                    rotina.setIdRotina(ROTINA_IDA.getIdRotina());
+                }
+
+                rotina.setHora(hora);
+                rotina.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                rotina.setFlag(0);
+                rotina.setTipo(0);
+                rotina.setDays(diasAtivosCod);
+                rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
+
+                if (ContaFragment.estudante == 0) {
+                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                        rotina.setValor(Tab.TARIFA_COMUM);
                     } else {
-                        if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
-                            rotina.setValor(Tab.TARIFA_ESTUDANTE);
-                        } else {
-                            rotina.setValor(Tab.TARIFA_COMUM);
-                        }
+                        rotina.setValor(Tab.TARIFA_INTEGRACAO);
                     }
-
-                    RotinaPostRequest request = new RotinaPostRequest(getActivity());
-                    request.execute(rotina);
+                } else {
+                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                        rotina.setValor(Tab.TARIFA_ESTUDANTE);
+                    } else {
+                        rotina.setValor(Tab.TARIFA_COMUM);
+                    }
                 }
+
+                Log.i("rotinado", rotina.toString());
+
+                RotinaPostRequest request = new RotinaPostRequest(getActivity());
+                request.execute(rotina);
             }
 
         });
@@ -160,17 +175,12 @@ public class Tab_Ida extends Tab {
                 }
             });
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
 
         if(ROTINA_IDA != null){
             for(int i = 0; i < 7; i++){
-                checkedImg[i] = ROTINA_IDA.getDays()[i];
+                diasAtivosCod[i] = ROTINA_IDA.getDays()[i];
 
-                if(ROTINA_IDA.getDays()[i] == i){
+                if(ROTINA_IDA.getDays()[i] - 1 == i){
                     btnDias[i].setBackgroundResource(checkedImg[i]);
                 }else{
                     btnDias[i].setBackgroundResource(uncheckedImg[i]);
@@ -178,5 +188,6 @@ public class Tab_Ida extends Tab {
             }
         }
     }
+
 }
 

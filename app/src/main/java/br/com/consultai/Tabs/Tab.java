@@ -20,6 +20,7 @@ import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.get.GetRotinaRequest;
 import br.com.consultai.model.Rotina;
+import br.com.consultai.post.RotinaPostRequest;
 
 /**
  * Created by renan.boni on 23/11/2017.
@@ -103,10 +104,11 @@ public class Tab extends Fragment {
             diasAtivosCod[day] = (day + 1);
             btnDias[day].setBackgroundResource(checkedImg[day]);
         }else{
-            diasAtivos[day] =! diasAtivos[day];
+            diasAtivos[day] = !diasAtivos[day];
             diasAtivosCod[day] = 0;
             btnDias[day].setBackgroundResource(uncheckedImg[day]);
         }
+        RotinaPostRequest.INDEXES[day] = 1;
     }
 
     protected void TimeDialog(){

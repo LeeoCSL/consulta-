@@ -11,7 +11,10 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.R;
+import br.com.consultai.Tabs.Tab_Ida;
+import br.com.consultai.Tabs.Tab_Volta;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.Request;
@@ -24,6 +27,9 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
     private static Activity context;
     private ProgressDialog mDialog;
+    private Rotina rotina;
+
+    public static int[] INDEXES = new int[7];
 
     public static boolean firstTab;
 
@@ -40,7 +46,7 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
     @Override
     protected String doInBackground(Rotina... rotinas) {
 
-        Rotina rotina = rotinas[0];
+        rotina = rotinas[0];
 
         Gson gson = new Gson();
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
@@ -69,13 +75,72 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+        Log.i("response_int", s);
+        int response = Integer.parseInt(s);
+
         if(firstTab){
-            DialogUtil.hideProgressDialog(mDialog);
-            alteraTab();
+            if(response == 1){
+                DialogUtil.hideProgressDialog(mDialog);
+
+                changeImage();
+
+                MainFragment.loadImages();
+                //Tab_Ida.ROTINA_IDA.setDays(rotina.getDays());
+
+                alteraTab();
+            }
         }else{
-            DialogUtil.hideProgressDialog(mDialog);
-            context.finish();
+            if(response == 1){
+                DialogUtil.hideProgressDialog(mDialog);
+
+                changeImage();
+
+                MainFragment.loadImages();
+                Tab_Volta.ROTINA_VOLTA.setDays(rotina.getDays());
+
+                context.finish();
+            }
         }
+    }
+
+    public void changeImage(){
+/*        if(MainFragment.DIAS_ATIVOS[0] == 0){
+            MainFragment.DIAS_ATIVOS[0] = rotina.getDomingo();
+        }
+        if(MainFragment.DIAS_ATIVOS[1] == 0){
+            MainFragment.DIAS_ATIVOS[1] = rotina.getSegunda();
+        }
+        if(MainFragment.DIAS_ATIVOS[2] == 0){
+            MainFragment.DIAS_ATIVOS[2] = rotina.getTerca();
+        }
+        if(MainFragment.DIAS_ATIVOS[3] == 0){
+            MainFragment.DIAS_ATIVOS[3] = rotina.getQuarta();
+        }
+        if(MainFragment.DIAS_ATIVOS[4] == 0){
+            MainFragment.DIAS_ATIVOS[4] = rotina.getQuinta();
+        }
+        if(MainFragment.DIAS_ATIVOS[5] == 0){
+            MainFragment.DIAS_ATIVOS[5] = rotina.getSexta();
+        }
+        if(MainFragment.DIAS_ATIVOS[6] == 0){
+            MainFragment.DIAS_ATIVOS[6] = rotina.getSabado();
+        }*/
+/*
+        for(int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++){
+            if(rotina.getDays()[i] != MainFragment.DIAS_ATIVOS[i]){
+                if(rotina.getDays()[i] == 0 && MainFragment.DIAS_ATIVOS[i] != 0){
+                    MainFragment.DIAS_ATIVOS[i] = rotina.getDays()[i];
+                }
+            }
+
+        }*/
+
+        /*
+        for(int i = 0; i < INDEXES.length; i++){
+            if(INDEXES[i] == 1){
+                MainFragment.DIAS_ATIVOS[i] = rotina.getDays()[i];
+            }
+        }*/
     }
 
     public static void alteraTab(){

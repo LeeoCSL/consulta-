@@ -134,8 +134,7 @@ public class MainFragment extends Fragment {
         img_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetRotinaRequest rotina = new GetRotinaRequest(getContext());
-                rotina.execute();
+
             }
         });
 
@@ -382,8 +381,11 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        tipoGet = "0";
 
+        GetRotinaRequest rotina = new GetRotinaRequest(getContext());
+        rotina.execute();
+
+        tipoGet = "0";
 
         if(SALDO < 0){
             br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
