@@ -61,7 +61,7 @@ import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.model.User;
 import br.com.consultai.model.Usuario;
-import br.com.consultai.serv.LoginRequest;
+import br.com.consultai.post.LoginRequest;
 import br.com.consultai.utils.DialogFactory;
 import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
@@ -123,6 +123,11 @@ public class LoginActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mDialog = new ProgressDialog(this);
         ButterKnife.bind(this);
+
+        if (LOGIN_TOKEN == null){
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            LOGIN_TOKEN = sp.getString("loginToken", "");
+        }
 
         notification_token = FirebaseInstanceId.getInstance().getToken();
 

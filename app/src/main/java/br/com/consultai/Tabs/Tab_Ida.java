@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +17,11 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.Fragments.ContaFragment;
-import br.com.consultai.Fragments.EditarFragment;
-import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.post.RotinaPostRequest;
-import br.com.consultai.serv.PostRotinaRequest;
-import br.com.consultai.utils.DialogFactory;
 
 public class Tab_Ida extends Tab {
 
@@ -77,7 +71,7 @@ public class Tab_Ida extends Tab {
                     builder.create();
                     AlertDialog dialog = builder.create();
                     dialog.show();
-
+                }
 
                     if(diasAtivosCod[0] == 0 && diasAtivosCod[1] == 0 && diasAtivosCod[2] == 0 && diasAtivosCod[3] == 0 &&
                             diasAtivosCod[4] == 0 && diasAtivosCod[5] == 0 && diasAtivosCod[6] == 0) {
@@ -89,10 +83,11 @@ public class Tab_Ida extends Tab {
 
                                     }
                                 });
+
                         builder2.create();
                         AlertDialog dialog2 = builder2.create();
                         dialog2.show();
-
+                    }
                         if (!rb_onibus.isChecked() && ! rb_integracao.isChecked()){
                             AlertDialog.Builder builder3 = new AlertDialog.Builder(getContext());
                             builder3.setMessage("Você não cadastrou o tipo de viagem da rotina de ida.")
@@ -106,14 +101,11 @@ public class Tab_Ida extends Tab {
                             AlertDialog dialog3 = builder3.create();
                             dialog3.show();
 
-
-                        }
-
                     }
 
 
 
-                } else {
+                 else {
                     Rotina rotina = new Rotina();
 
                     rotina.setHora(hora);
