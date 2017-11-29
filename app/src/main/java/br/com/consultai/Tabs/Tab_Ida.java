@@ -123,7 +123,6 @@ public class Tab_Ida extends Tab {
             @Override
             public void onClick(View view) {
                 TimeDialog();
-                Toast.makeText(getContext(), hora , Toast.LENGTH_SHORT).show();
             }
         });
 
