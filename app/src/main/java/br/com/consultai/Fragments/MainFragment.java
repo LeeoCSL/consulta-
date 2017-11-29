@@ -2,23 +2,17 @@ package br.com.consultai.Fragments;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import br.com.consultai.R;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.EditarActivity;
-import br.com.consultai.activities.LoginActivity;
+import br.com.consultai.get.GetRotinaRequest;
 import br.com.consultai.serv.GetSaldoRequest;
 import br.com.consultai.serv.PostSaldoRequest;
 import br.com.consultai.utils.Utility;
@@ -75,6 +69,8 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+
+
         tipoGet = "0";
 
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
@@ -89,7 +85,8 @@ public class MainFragment extends Fragment {
         btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), CadastroCartaoActivity.class));
+                GetRotinaRequest request = new GetRotinaRequest();
+                request.execute();
             }
         });
 
