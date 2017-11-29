@@ -200,11 +200,11 @@ public class RegisterActivity extends AppCompatActivity {
             mPassword.setError("Sua senha deve ter no mínimo 6 caracteres.");
             return;
         }
-        if(userPassword != userPasswordC){
-            mPassword.setError("As senhas nao correspondem.");
-            mPasswordC.setError("As senhas nao correspondem.");
-            return;
-        }
+//        if(userPassword != userPasswordC){
+//            mPassword.setError("As senhas nao correspondem.");
+//            mPasswordC.setError("As senhas nao correspondem.");
+//            return;
+//        }
 
         createUser(userEmail, userPassword);
     }
