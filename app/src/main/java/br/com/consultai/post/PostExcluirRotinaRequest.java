@@ -21,6 +21,7 @@ import java.io.IOException;
 import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
+import br.com.consultai.Tabs.Tab;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.model.User;
@@ -82,6 +83,8 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> 
     @Override
     protected void onPostExecute(String s) {
         DialogUtil.hideProgressDialog(mDialog);
+        Tab.ROTINA_IDA = null;
+        Tab.ROTINA_VOLTA = null;
         MainFragment.loadImages();
     }
 
