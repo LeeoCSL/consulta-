@@ -23,7 +23,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import br.com.consultai.R;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.EditarActivity;
+import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.get.GetRotinaRequest;
+import br.com.consultai.model.User;
+import br.com.consultai.model.Usuario;
+import br.com.consultai.model.Usuario2;
+import br.com.consultai.post.PostExcluirRotinaRequest;
 import br.com.consultai.serv.GetSaldoRequest;
 import br.com.consultai.serv.PostSaldoRequest;
 import br.com.consultai.utils.Utility;
@@ -44,6 +49,7 @@ public class MainFragment extends Fragment {
 
     public static int ESTUDANTE;
 
+    ImageView img_logo;
     String tipoGet;
 
     Button selec_dom, selec_seg, selec_ter, selec_qua, selec_qui, selec_sex, selec_sab;
@@ -75,6 +81,7 @@ public class MainFragment extends Fragment {
 
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
+        img_logo = (ImageView) view.findViewById(R.id.img_logo);
 
         btnExcluir = (Button) view.findViewById(R.id.btnExcluir);
 
@@ -82,11 +89,24 @@ public class MainFragment extends Fragment {
 
         btnRecarga = (Button) view.findViewById(R.id.btnRecarga);
 
+        img_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GetRotinaRequest rotina = new GetRotinaRequest();
+                rotina.execute();
+            }
+        });
+
         btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetRotinaRequest request = new GetRotinaRequest();
-                request.execute();
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                Usuario2 user = new Usuario2();
+                user.setId_Usuario(userID);
+                user.setLogin_token(LoginActivity.LOGIN_TOKEN);
+
+                PostExcluirRotinaRequest excluir = new PostExcluirRotinaRequest(getContext());
+                excluir.execute(user);
             }
         });
 
@@ -124,7 +144,7 @@ public class MainFragment extends Fragment {
         tvSaldo = view.findViewById(R.id.txt_valor);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        tipo = sharedPref.getString("userTipo", "ESTUDANTE");
+        tipo = sharedPref.getString("userTipo", "");
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

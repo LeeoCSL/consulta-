@@ -1,4 +1,4 @@
-package br.com.consultai.serv;
+package br.com.consultai.post;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -89,6 +90,13 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             MainFragment.SALDO = saldo;
             Log.i("saldi", ""+saldo);
             MainFragment.ESTUDANTE = estudante;
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("loginToken", loginToken);
+            editor.commit();
+
+
 
             ContaFragment.apelido = apelido;
             ContaFragment.estudante = estudante;

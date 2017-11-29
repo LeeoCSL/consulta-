@@ -5,10 +5,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -40,9 +42,10 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 //        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
 
-        String userID = strings[0];
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        String url = "https://zazzytec.com.br/get_rotina?id=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
+
+        String url = "https://zazzytec.com.br/get_rotina?id_usuario=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
 
         Log.i("url", url);
 
@@ -55,6 +58,8 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
         try {
             Response response = client.newCall(request).execute();
             Log.i("resp_server", response.body().string());
+
+
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,9 +72,15 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         try {
 
-                JSONObject jsonObject = new JSONObject(s);
-
-
+//                JSONObject jsonObject = new JSONObject(s);
+//            JSONArray jArray = new JSONArray(s);
+//            JSONArray array2 = jArray.getJSONArray(1);
+//            JSONArray array1 = jArray.getJSONArray(2);
+//
+//            Log.v("array 1", String.valueOf(array1));
+//            Log.v("array 2", String.valueOf(array2));
+            Toast.makeText(context, "post exec", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, String.valueOf(array1), Toast.LENGTH_SHORT).show();
 //                String saldo = jsonObject.getString("user_saldo");
 
 
@@ -95,7 +106,9 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 
 
         } catch (Exception e) {
+            Toast.makeText(context, "post exec erro", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+
         }
     }
 
