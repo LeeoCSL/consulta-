@@ -81,11 +81,12 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> 
 
     @Override
     protected void onPostExecute(String s) {
-        mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos excluindo suas rotinas.");
+        DialogUtil.hideProgressDialog(mDialog);
+        MainFragment.loadImages();
     }
 
     @Override
     protected void onPreExecute() {
-        DialogUtil.hideProgressDialog(mDialog);
+        mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos excluindo suas rotinas.");
     }
 }

@@ -47,7 +47,6 @@ public class Tab_Ida extends Tab {
         return rootView;
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -160,6 +159,23 @@ public class Tab_Ida extends Tab {
                     toggleImg(tmp);
                 }
             });
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(ROTINA_IDA != null){
+            for(int i = 0; i < 7; i++){
+                checkedImg[i] = ROTINA_IDA.getDays()[i];
+
+                if(ROTINA_IDA.getDays()[i] == i){
+                    btnDias[i].setBackgroundResource(checkedImg[i]);
+                }else{
+                    btnDias[i].setBackgroundResource(uncheckedImg[i]);
+                }
+            }
         }
     }
 }

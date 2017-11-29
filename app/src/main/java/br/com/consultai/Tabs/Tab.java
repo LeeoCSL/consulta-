@@ -18,12 +18,17 @@ import java.util.Calendar;
 
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
+import br.com.consultai.get.GetRotinaRequest;
+import br.com.consultai.model.Rotina;
 
 /**
  * Created by renan.boni on 23/11/2017.
  */
 
 public class Tab extends Fragment {
+
+    public static Rotina ROTINA_IDA;
+    public static Rotina ROTINA_VOLTA;
 
     protected boolean[] diasAtivos = new boolean[7];
     protected int[] diasAtivosCod = new int[7];
@@ -55,6 +60,15 @@ public class Tab extends Fragment {
     protected String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(ROTINA_IDA == null || ROTINA_VOLTA == null){
+            GetRotinaRequest request = new GetRotinaRequest(getContext());
+            request.execute();
+        }
+    }
 
     protected void initializeCheckeds(){
         String mDrawableName = "checked";

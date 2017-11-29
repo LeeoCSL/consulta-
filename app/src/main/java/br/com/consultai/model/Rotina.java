@@ -65,6 +65,10 @@ public class Rotina implements Serializable{
         sabado = days[6];
     }
 
+    public int[] getDays(){
+        return new int[]{domingo, segunda, terca, quarta, quinta, sexta, sabado};
+    }
+
     public String getIdRotina() {
         return idRotina;
     }

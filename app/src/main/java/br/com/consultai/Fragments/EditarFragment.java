@@ -96,7 +96,6 @@ public class EditarFragment extends Fragment {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 2;
         }
     }

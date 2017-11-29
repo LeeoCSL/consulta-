@@ -1,6 +1,7 @@
 package br.com.consultai.get;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,8 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Tabs.Tab;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Rotina;
+import br.com.consultai.utils.DialogUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -39,6 +42,8 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
     private FirebaseAnalytics mFirebaseAnalytics;
 
     public static String sd;
+
+    private ProgressDialog mDialog;
 
     public GetRotinaRequest(Context context){
         this.context = context;
@@ -83,6 +88,11 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
                     MainFragment.DIAS_ATIVOS[i] = 0;
                 }
                 MainFragment.loadImages();
+
+                if(Tab.ROTINA_IDA != null || Tab.ROTINA_VOLTA != null){
+                    DialogUtil.hideProgressDialog(mDialog);
+                }
+
                 return;
             }
 
@@ -117,6 +127,21 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
                 MainFragment.DIAS_ATIVOS[4] = ida.getQuinta();
                 MainFragment.DIAS_ATIVOS[5] = ida.getSexta();
                 MainFragment.DIAS_ATIVOS[6] = ida.getSabado();
+
+                Tab.ROTINA_IDA = new Rotina();
+
+                Tab.ROTINA_IDA.setIdRotina(ida.getIdRotina());
+                Tab.ROTINA_IDA.setDomingo(ida.getDomingo());
+                Tab.ROTINA_IDA.setSegunda(ida.getSegunda());
+                Tab.ROTINA_IDA.setTerca(ida.getTerca());
+                Tab.ROTINA_IDA.setQuarta(ida.getQuarta());
+                Tab.ROTINA_IDA.setQuinta(ida.getQuinta());
+                Tab.ROTINA_IDA.setSexta(ida.getSexta());
+                Tab.ROTINA_IDA.setSabado(ida.getSabado());
+
+                Tab.ROTINA_IDA.setTipo(ida.getTipo());
+                Tab.ROTINA_IDA.setHora(ida.getHora());
+                Tab.ROTINA_IDA.setValor(ida.getValor());
             }
 
             if(volta != null){
@@ -141,6 +166,20 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
                 if(MainFragment.DIAS_ATIVOS[6] == 0){
                     MainFragment.DIAS_ATIVOS[6] = volta.getSabado();
                 }
+                Tab.ROTINA_VOLTA = new Rotina();
+
+                Tab.ROTINA_VOLTA.setIdRotina(volta.getIdRotina());
+                Tab.ROTINA_VOLTA.setDomingo(volta.getDomingo());
+                Tab.ROTINA_VOLTA.setSegunda(volta.getSegunda());
+                Tab.ROTINA_VOLTA.setTerca(volta.getTerca());
+                Tab.ROTINA_VOLTA.setQuarta(volta.getQuarta());
+                Tab.ROTINA_VOLTA.setQuinta(volta.getQuinta());
+                Tab.ROTINA_VOLTA.setSexta(volta.getSexta());
+                Tab.ROTINA_VOLTA.setSabado(volta.getSabado());
+
+                Tab.ROTINA_VOLTA.setTipo(volta.getTipo());
+                Tab.ROTINA_VOLTA.setHora(volta.getHora());
+                Tab.ROTINA_VOLTA.setValor(volta.getValor());
             }
 
             MainFragment.loadImages();
@@ -161,10 +200,9 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 //                bundle2.putString("id_celular", null);
 //                mFirebaseAnalytics.logEvent("atualizacao_saldo_sucesso", bundle2);
 
-
-
-
-
+            if(Tab.ROTINA_IDA != null || Tab.ROTINA_VOLTA != null){
+                DialogUtil.hideProgressDialog(mDialog);
+            }
 
         } catch (Exception e) {
             Toast.makeText(context, "post exec erro", Toast.LENGTH_SHORT).show();
@@ -175,7 +213,9 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
-
+        if(Tab.ROTINA_IDA != null || Tab.ROTINA_VOLTA != null){
+            mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos carregando suas rotinas.");
+        }
     }
 }
 
