@@ -38,33 +38,30 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
     private AlertDialog.Builder dialog;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-
     public RegisterCartaoRequest(Context context){
         this.context = context;
     }
 
-
     protected String doInBackground(String... strings) {
-
-
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
-
 
         String id = strings[0];
         String token = strings[1];
         String cartaoNumero = strings[2];
         String cartaoApelido = strings[3];
 
-
-
         Cartao cartao = new Cartao();
-        cartao.setId_usuario(id);
-        cartao.setLogin_token(token);
-        cartao.setNumero_cartao(cartaoNumero);
+        cartao.setIdUsuario(id);
+        cartao.setLoginToken(token);
+        cartao.setNumeroCartao(cartaoNumero);
         cartao.setApelido(cartaoApelido);
         cartao.setSaldo(Float.parseFloat(strings[4]));
-        cartao.setEstudante(Boolean.parseBoolean(strings[5]));
 
+        if(Boolean.parseBoolean(strings[5])){
+            cartao.setEstudante(1);
+        }else{
+            cartao.setEstudante(0);
+        }
 
         Gson gson2 = new Gson();
 
@@ -80,8 +77,6 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
                 MediaType.parse("application/json; charset=utf-8");
 
         RequestBody body2 = RequestBody.create(mediaType2, gson2.toJson(cartao));
-
-        Log.i("JSON2", gson2.toJson(cartao));
 
         builder2.post(body2);
 
@@ -135,18 +130,11 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
-
-
-
-
         }
-
     }
 
     @Override
     protected void onPreExecute() {
-
-
 
     }
 }

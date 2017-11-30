@@ -1,8 +1,10 @@
 package br.com.consultai.post;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
@@ -10,11 +12,14 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.R;
 import br.com.consultai.Tabs.Tab_Ida;
 import br.com.consultai.Tabs.Tab_Volta;
+import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.Request;
@@ -27,11 +32,9 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
     private static Activity context;
     private ProgressDialog mDialog;
-    private Rotina rotina;
 
-    public static int[] INDEXES = new int[7];
-
-    public static boolean firstTab;
+    private Rotina rotinaIda;
+    private Rotina rotinaVolta;
 
     public RotinaPostRequest(Activity context){
         this.context = context;
@@ -46,7 +49,12 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
     @Override
     protected String doInBackground(Rotina... rotinas) {
 
-        rotina = rotinas[0];
+        rotinaIda = rotinas[0];
+        rotinaVolta = rotinas[1];
+
+        List<Rotina> rotinasJSON = new ArrayList<>();
+        rotinasJSON.add(rotinaIda);
+        rotinasJSON.add(rotinaVolta);
 
         Gson gson = new Gson();
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
@@ -59,7 +67,7 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
         okhttp3.MediaType mediaType =
                 okhttp3.MediaType.parse("application/json; charset=utf-8");
 
-        okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType, gson.toJson(rotina));
+        okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType, gson.toJson(rotinasJSON));
         builder.post(body);
 
         Request request = builder.build();
@@ -75,77 +83,29 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Log.i("response_int", s);
-        int response = Integer.parseInt(s);
+        DialogUtil.hideProgressDialog(mDialog);
 
-        if(firstTab){
-            if(response == 1){
-                DialogUtil.hideProgressDialog(mDialog);
+        int value = Integer.parseInt(s);
 
-                changeImage();
-
-                MainFragment.loadImages();
-                //Tab_Ida.ROTINA_IDA.setDays(rotina.getDays());
-
-                alteraTab();
-            }
+        if(value == 1){
+            EditarActivity.ROTINA_IDA = rotinaIda;
+            EditarActivity.ROTINA_VOLTA = rotinaVolta;
+            MainFragment.DIAS_ATIVOS = rotinaIda.getDays();
+            MainFragment.loadImages();
+            context.finish();
         }else{
-            if(response == 1){
-                DialogUtil.hideProgressDialog(mDialog);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Ops!");
+            builder.setMessage("Erro na comunicação com o servidor. Tente novamente mais tarde.");
 
-                changeImage();
-
-                MainFragment.loadImages();
-                Tab_Volta.ROTINA_VOLTA.setDays(rotina.getDays());
-
-                context.finish();
-            }
-        }
-    }
-
-    public void changeImage(){
-/*        if(MainFragment.DIAS_ATIVOS[0] == 0){
-            MainFragment.DIAS_ATIVOS[0] = rotina.getDomingo();
-        }
-        if(MainFragment.DIAS_ATIVOS[1] == 0){
-            MainFragment.DIAS_ATIVOS[1] = rotina.getSegunda();
-        }
-        if(MainFragment.DIAS_ATIVOS[2] == 0){
-            MainFragment.DIAS_ATIVOS[2] = rotina.getTerca();
-        }
-        if(MainFragment.DIAS_ATIVOS[3] == 0){
-            MainFragment.DIAS_ATIVOS[3] = rotina.getQuarta();
-        }
-        if(MainFragment.DIAS_ATIVOS[4] == 0){
-            MainFragment.DIAS_ATIVOS[4] = rotina.getQuinta();
-        }
-        if(MainFragment.DIAS_ATIVOS[5] == 0){
-            MainFragment.DIAS_ATIVOS[5] = rotina.getSexta();
-        }
-        if(MainFragment.DIAS_ATIVOS[6] == 0){
-            MainFragment.DIAS_ATIVOS[6] = rotina.getSabado();
-        }*/
-/*
-        for(int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++){
-            if(rotina.getDays()[i] != MainFragment.DIAS_ATIVOS[i]){
-                if(rotina.getDays()[i] == 0 && MainFragment.DIAS_ATIVOS[i] != 0){
-                    MainFragment.DIAS_ATIVOS[i] = rotina.getDays()[i];
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
                 }
-            }
+            });
 
-        }*/
-
-        /*
-        for(int i = 0; i < INDEXES.length; i++){
-            if(INDEXES[i] == 1){
-                MainFragment.DIAS_ATIVOS[i] = rotina.getDays()[i];
-            }
-        }*/
-    }
-
-    public static void alteraTab(){
-        TabLayout tabhost = (TabLayout) context.findViewById(R.id.tabs);
-        tabhost.getTabAt(1).select();
-        firstTab = false;
+            builder.show();
+        }
     }
 }

@@ -131,6 +131,13 @@ public class LoginActivity extends AppCompatActivity {
         mDialog = new ProgressDialog(this);
         ButterKnife.bind(this);
 
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            Intent intent = new Intent(LoginActivity.this, CadastroCartaoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
         if (LOGIN_TOKEN == null){
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             LOGIN_TOKEN = sp.getString("loginToken", "");

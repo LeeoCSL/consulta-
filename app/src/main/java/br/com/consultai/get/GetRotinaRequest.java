@@ -21,6 +21,7 @@ import java.util.List;
 
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.Tabs.Tab;
+import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.utils.DialogUtil;
@@ -56,9 +57,7 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-
         String url = "https://zazzytec.com.br/get_rotina?id_usuario=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
-
 
         OkHttpClient client = new OkHttpClient();
 
@@ -84,15 +83,6 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
             List<Rotina> rotinas = new ArrayList<>();
 
             if(array.length() < 1){
-                for(int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++){
-                    MainFragment.DIAS_ATIVOS[i] = 0;
-                }
-                MainFragment.loadImages();
-
-                if(Tab.ROTINA_IDA != null || Tab.ROTINA_VOLTA != null){
-                    DialogUtil.hideProgressDialog(mDialog);
-                }
-
                 return;
             }
 
@@ -120,88 +110,27 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
             Rotina volta = rotinas.get(1);
 
             if(ida != null){
-                MainFragment.DIAS_ATIVOS[0] = ida.getDomingo();
-                MainFragment.DIAS_ATIVOS[1] = ida.getSegunda();
-                MainFragment.DIAS_ATIVOS[2] = ida.getTerca();
-                MainFragment.DIAS_ATIVOS[3] = ida.getQuarta();
-                MainFragment.DIAS_ATIVOS[4] = ida.getQuinta();
-                MainFragment.DIAS_ATIVOS[5] = ida.getSexta();
-                MainFragment.DIAS_ATIVOS[6] = ida.getSabado();
-
-                Tab.ROTINA_IDA = new Rotina();
-
-                Tab.ROTINA_IDA.setIdRotina(ida.getIdRotina());
-                Tab.ROTINA_IDA.setDomingo(ida.getDomingo());
-                Tab.ROTINA_IDA.setSegunda(ida.getSegunda());
-                Tab.ROTINA_IDA.setTerca(ida.getTerca());
-                Tab.ROTINA_IDA.setQuarta(ida.getQuarta());
-                Tab.ROTINA_IDA.setQuinta(ida.getQuinta());
-                Tab.ROTINA_IDA.setSexta(ida.getSexta());
-                Tab.ROTINA_IDA.setSabado(ida.getSabado());
-
-                Tab.ROTINA_IDA.setTipo(ida.getTipo());
-                Tab.ROTINA_IDA.setHora(ida.getHora());
-                Tab.ROTINA_IDA.setValor(ida.getValor());
+                EditarActivity.ROTINA_IDA = ida;
             }
 
             if(volta != null){
-                if(MainFragment.DIAS_ATIVOS[0] == 0){
-                    MainFragment.DIAS_ATIVOS[0] = volta.getDomingo();
-                }
-                if(MainFragment.DIAS_ATIVOS[1] == 0){
-                    MainFragment.DIAS_ATIVOS[1] = volta.getSegunda();
-                }
-                if(MainFragment.DIAS_ATIVOS[2] == 0){
-                    MainFragment.DIAS_ATIVOS[2] = volta.getTerca();
-                }
-                if(MainFragment.DIAS_ATIVOS[3] == 0){
-                    MainFragment.DIAS_ATIVOS[3] = volta.getQuarta();
-                }
-                if(MainFragment.DIAS_ATIVOS[4] == 0){
-                    MainFragment.DIAS_ATIVOS[4] = volta.getQuinta();
-                }
-                if(MainFragment.DIAS_ATIVOS[5] == 0){
-                    MainFragment.DIAS_ATIVOS[5] = volta.getSexta();
-                }
-                if(MainFragment.DIAS_ATIVOS[6] == 0){
-                    MainFragment.DIAS_ATIVOS[6] = volta.getSabado();
-                }
-                Tab.ROTINA_VOLTA = new Rotina();
-
-                Tab.ROTINA_VOLTA.setIdRotina(volta.getIdRotina());
-                Tab.ROTINA_VOLTA.setDomingo(volta.getDomingo());
-                Tab.ROTINA_VOLTA.setSegunda(volta.getSegunda());
-                Tab.ROTINA_VOLTA.setTerca(volta.getTerca());
-                Tab.ROTINA_VOLTA.setQuarta(volta.getQuarta());
-                Tab.ROTINA_VOLTA.setQuinta(volta.getQuinta());
-                Tab.ROTINA_VOLTA.setSexta(volta.getSexta());
-                Tab.ROTINA_VOLTA.setSabado(volta.getSabado());
-
-                Tab.ROTINA_VOLTA.setTipo(volta.getTipo());
-                Tab.ROTINA_VOLTA.setHora(volta.getHora());
-                Tab.ROTINA_VOLTA.setValor(volta.getValor());
+                EditarActivity.ROTINA_VOLTA = volta;
             }
 
+            MainFragment.DIAS_ATIVOS = ida.getDays();
             MainFragment.loadImages();
 
 
 
-            if(Tab.ROTINA_IDA != null || Tab.ROTINA_VOLTA != null){
-                DialogUtil.hideProgressDialog(mDialog);
-            }
 
         } catch (Exception e) {
-            Toast.makeText(context, "post exec erro", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-
         }
     }
 
     @Override
     protected void onPreExecute() {
-        if(Tab.ROTINA_IDA != null || Tab.ROTINA_VOLTA != null){
-            mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos carregando suas rotinas.");
-        }
+
     }
 }
 

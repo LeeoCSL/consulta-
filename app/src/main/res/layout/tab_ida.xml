@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/tp"
+            android:id="@+id/tp_1"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
@@ -22,7 +22,7 @@
             android:id="@+id/layout_dias"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tp"
+            android:layout_below="@+id/tp_1"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="20dp"
             android:foregroundGravity="center"
@@ -103,7 +103,7 @@
                 android:layout_below="@+id/txt_uso">
 
                 <RadioButton
-                    android:id="@+id/rb_onibus"
+                    android:id="@+id/rb_onibus_trilho_ida"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt_uso"
@@ -116,11 +116,11 @@
                     android:id="@+id/view2"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/rb_onibus"
+                    android:layout_below="@+id/rb_onibus_trilho_ida"
                     android:background="#cccccc" />
 
                 <RadioButton
-                    android:id="@+id/rb_integracao"
+                    android:id="@+id/rb_integracao_ida"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view2"
@@ -130,7 +130,7 @@
                     android:id="@+id/view3"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/rb_integracao"
+                    android:layout_below="@+id/rb_integracao_ida"
                     android:background="#cccccc" />
 
             </RadioGroup>

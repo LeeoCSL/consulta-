@@ -69,6 +69,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_salvar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -76,7 +77,6 @@
             android:layout_margin="12dp"
             android:background="@drawable/btn_default"
             android:text="Salvar"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textColor="#FFFFFF" />
     </RelativeLayout>
 </FrameLayout>

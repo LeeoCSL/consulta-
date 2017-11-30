@@ -1,5 +1,7 @@
 package br.com.consultai.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -8,69 +10,87 @@ import java.util.Date;
 
 public class Cartao {
 
-    protected String apelido;
-    protected String numero_cartao;
-    protected float saldo;
-    protected boolean estudante;
-    protected String id_usuario;
-    protected String login_token;
+    @SerializedName("id_usuario")
+    private String idUsuario;
 
-    public Cartao(){
+    @SerializedName("numero_cartao")
+    private String numeroCartao;
 
-    }
+    @SerializedName("login_token")
+    private String loginToken;
 
-    public Cartao( String apelido, String numero_cartao,  float saldo, boolean estudante, String id_usuario, String login_token ) {
+    private String apelido;
+    private double saldo;
+    private int estudante;
+
+    public Cartao(){}
+
+    public Cartao(String idUsuario, String numeroCartao, String loginToken, String apelido, double saldo, int estudante) {
+        this.idUsuario = idUsuario;
+        this.numeroCartao = numeroCartao;
+        this.loginToken = loginToken;
         this.apelido = apelido;
-        this.numero_cartao = numero_cartao;
         this.saldo = saldo;
         this.estudante = estudante;
-        this.id_usuario = id_usuario;
-        this.login_token = login_token;
-
     }
 
-    public String getApelido(){
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public void setNumeroCartao(String numeroCartao) {
+        this.numeroCartao = numeroCartao;
+    }
+
+    public String getLoginToken() {
+        return loginToken;
+    }
+
+    public void setLoginToken(String loginToken) {
+        this.loginToken = loginToken;
+    }
+
+    public String getApelido() {
         return apelido;
     }
 
-    public void setApelido(String apelido){
+    public void setApelido(String apelido) {
         this.apelido = apelido;
     }
-    public String getNumero_cartao(){
-        return numero_cartao;
-    }
 
-    public void setNumero_cartao(String numero_cartao){
-        this.numero_cartao = numero_cartao;
-    }
-    public float getSaldo(){
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(float saldo){
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
-    public Boolean getEstudante(){
+
+    public int getEstudante() {
         return estudante;
     }
 
-    public void setEstudante(Boolean estudante){
+    public void setEstudante(int estudante) {
         this.estudante = estudante;
     }
 
-    public String getId_usuario(){
-        return id_usuario;
-    }
-
-    public void setId_usuario(String id_usuario){
-        this.id_usuario = id_usuario;
-    }
-
-    public String getLogin_token(){
-        return login_token;
-    }
-
-    public void setLogin_token(String login_token){
-        this.login_token = login_token;
+    @Override
+    public String toString() {
+        return "Cartao{" +
+                "idUsuario='" + idUsuario + '\'' +
+                ", numeroCartao='" + numeroCartao + '\'' +
+                ", loginToken='" + loginToken + '\'' +
+                ", apelido='" + apelido + '\'' +
+                ", saldo=" + saldo +
+                ", estudante=" + estudante +
+                '}';
     }
 }

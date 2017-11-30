@@ -108,7 +108,7 @@ public class Tab extends Fragment {
             diasAtivosCod[day] = 0;
             btnDias[day].setBackgroundResource(uncheckedImg[day]);
         }
-        RotinaPostRequest.INDEXES[day] = 1;
+
     }
 
     protected void TimeDialog(){
