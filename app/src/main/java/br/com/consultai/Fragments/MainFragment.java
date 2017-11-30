@@ -30,6 +30,7 @@ import br.com.consultai.get.GetSaldoExtraRequest;
 import br.com.consultai.get.GetSaldoRequest;
 import br.com.consultai.model.Usuario2;
 import br.com.consultai.post.PostExcluirRotinaRequest;
+import br.com.consultai.serv.GetCartaoRequest;
 import br.com.consultai.utils.Utility;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -51,19 +52,14 @@ public class MainFragment extends Fragment {
     public static ProgressDialog dialog;
 
     public static TextView tvSaldo;
-
     public static TextView txtVlr;
-
     public static int ESTUDANTE;
 
     ImageView img_logo;
     public static String tipoGet;
 
     public static TextView txtNomeBilhete;
-
-
     String tipo;
-
     public static float saldoGet;
     public static double saldoPost;
     Button btnRecarga;
@@ -71,9 +67,7 @@ public class MainFragment extends Fragment {
 
     Button btnExcluir;
 
-    public MainFragment() {
-
-    }
+    public MainFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +75,6 @@ public class MainFragment extends Fragment {
 
         initializeCheckeds();
         initializeUncheckeds();
-
     }
 
     protected void initializeCheckeds() {
@@ -129,16 +122,11 @@ public class MainFragment extends Fragment {
 
         btnRecarga = (Button) view.findViewById(R.id.btnRecarga);
 
-        img_logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         GetRotinaRequest rotina = new GetRotinaRequest(getContext());
         rotina.execute();
 
+        GetCartaoRequest cartaoRequest = new GetCartaoRequest(getContext());
+        cartaoRequest.execute();
 
         btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override

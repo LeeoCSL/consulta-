@@ -60,12 +60,8 @@ public class CadastroCartaoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validateDataFromEditText();
-
-
             }
         });
-
-
     }
 
 
@@ -85,7 +81,6 @@ public class CadastroCartaoActivity extends AppCompatActivity {
             return;
         }
 
-
         if (TextUtils.isEmpty(numero)) {
             mNumero.setError("O campo numero está vazio.");
             return;
@@ -104,8 +99,7 @@ public class CadastroCartaoActivity extends AppCompatActivity {
     }
 
     private void createCartao(String numero, String apelido, String saldo, String estudante) {
-
-//        Toast.makeText(this, numero + ", " + apelido + ", " + saldo + ", " + estudante + ", " , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, numero + ", " + apelido + ", " + saldo + ", " + estudante + ", " , Toast.LENGTH_SHORT).show();
 
         RegisterCartaoRequest registerCartao = new RegisterCartaoRequest(this);
         //TODO incluir tipo
@@ -117,6 +111,4 @@ public class CadastroCartaoActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-
 }

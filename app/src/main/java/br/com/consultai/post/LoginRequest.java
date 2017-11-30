@@ -88,7 +88,6 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             LoginActivity.LOGIN_TOKEN = loginToken;
             MainFragment.APELIDO = apelido;
             MainFragment.SALDO = saldo;
-            Log.i("saldi", ""+saldo);
             MainFragment.ESTUDANTE = estudante;
 
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);

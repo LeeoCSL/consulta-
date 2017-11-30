@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,7 +67,7 @@ public class EditarActivity extends AppCompatActivity {
     RadioButton mOnibusTrilhoIda;
 
     @BindView(R.id.rb_integracao_ida)
-    RadioButton mIntegracao;
+    RadioButton mIntegracaoIda;
 
     private String mHoraRotina1;
     private double mValor1;
@@ -80,6 +81,12 @@ public class EditarActivity extends AppCompatActivity {
 
     private String mHoraRotina2;
     private double mValor2;
+
+    @BindView(R.id.rb_onibus_trilho_volta)
+    RadioButton mOnibusTrilhoVolta;
+
+    @BindView(R.id.rb_integracao_volta)
+    RadioButton mIntegracaoVolta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +174,7 @@ public class EditarActivity extends AppCompatActivity {
 
     private void loadRotinas(){
         int[] diasUso = ROTINA_IDA.getDays();
+        diasAtivosCod = ROTINA_IDA.getDays();
 
         for(int i = 0; i < diasUso.length; i++){
             if(diasUso[i] != 0){
@@ -176,20 +184,32 @@ public class EditarActivity extends AppCompatActivity {
             }
         }
 
-        String[] horaTokens = ROTINA_IDA.getHora().split(":");
-        mHoraRotina1 = horaTokens[0] + "h" + horaTokens[1] + "min";
+        Log.i("HORA_ID", ROTINA_IDA.getHora());
+
+        mHoraRotina1 = ROTINA_IDA.getHora().substring(0,2) + "h" +
+                ROTINA_IDA.getHora().substring(3, 5) + "min";
         mHoraSelecionada1.setText(mHoraRotina1);
 
         double valorIda = ROTINA_IDA.getValor();
 
         if(valorIda == 1.90 || valorIda == 3.80){
-
+            mOnibusTrilhoIda.setChecked(true);
+        }else{
+            mIntegracaoIda.setChecked(true);
         }
 
         //////////////////////////////////////
-        String[] horaTokensVolta = ROTINA_VOLTA.getHora().split(":");
-        mHoraRotina2 = horaTokens[0] + "h" + horaTokensVolta[1] + "min";
+        mHoraRotina2 = ROTINA_VOLTA.getHora().substring(0,2) + "h" +
+                ROTINA_VOLTA.getHora().substring(3, 5) + "min";
         mHoraSelecionada2.setText(mHoraRotina2);
+
+        double valorVolta = ROTINA_VOLTA.getValor();
+
+        if(valorVolta == 1.90 || valorVolta == 3.80){
+            mOnibusTrilhoVolta.setChecked(true);
+        }else{
+            mIntegracaoVolta.setChecked(true);
+        }
     }
 
     protected void initializeCheckeds(){
@@ -364,6 +384,4 @@ public class EditarActivity extends AppCompatActivity {
     public void back(View view){
         finish();
     }
-
-
 }

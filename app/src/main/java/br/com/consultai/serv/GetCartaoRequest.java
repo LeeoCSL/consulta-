@@ -16,6 +16,7 @@ import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
+import br.com.consultai.model.Cartao;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -36,7 +37,7 @@ public class GetCartaoRequest extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
 
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String url = "https://consultai.000webhostapp.com/get_cartao?id="+userID+"&token="+ LoginActivity.LOGIN_TOKEN;
+        String url = "https://zazzytec.com.br/get_cartao?id="+userID+"&token="+ LoginActivity.LOGIN_TOKEN;
 
         Request request = new Request.Builder()
                 .url(url)
@@ -64,13 +65,16 @@ public class GetCartaoRequest extends AsyncTask<String, Void, String> {
             if(jsonObject != null){
                 String apelido = jsonObject.getString("apelido");
                 String numero = jsonObject.getString("numero");
-                String estudante = jsonObject.getString("estudante");
+                int estudante = jsonObject.getInt("estudante");
+                double saldo = jsonObject.getDouble("saldo");
 
-                ContaFragment.mApelido.setText(apelido);
-                ContaFragment.mNumero.setText(numero);
+                Cartao cartao = new Cartao();
+                cartao.setApelido(apelido);
+                cartao.setNumeroCartao(numero);
+                cartao.setEstudante(estudante);
+                cartao.setSaldo(saldo);
 
-                ContaFragment.numero = numero;
-                ContaFragment.apelido = apelido;
+                ContaFragment.CARTAO = cartao;
             }
         } catch (Exception e) {
             e.printStackTrace();

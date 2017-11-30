@@ -90,7 +90,8 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
         if(value == 1){
             EditarActivity.ROTINA_IDA = rotinaIda;
             EditarActivity.ROTINA_VOLTA = rotinaVolta;
-
+            MainFragment.DIAS_ATIVOS = rotinaIda.getDays();
+            MainFragment.loadImages();
             context.finish();
         }else{
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -107,5 +108,4 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
             builder.show();
         }
     }
-
 }
