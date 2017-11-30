@@ -1,13 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="br.com.consultai.activities.EditarActivity">
 
-    <FrameLayout
-        android:id="@+id/fragmentEdt"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/lay_btn"
+      >
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo_final" />
+
+    <LinearLayout
+        android:id="@+id/layout_dias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@drawable/borda_layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <Button
+            android:id="@+id/selec_dom"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/unchecked0" />
+
+        <Button
+            android:id="@+id/selec_seg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/unchecked1" />
+
+        <Button
+            android:id="@+id/selec_ter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/unchecked2" />
+
+        <Button
+            android:id="@+id/selec_qua"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/unchecked3" />
+
+        <Button
+            android:id="@+id/selec_qui"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/unchecked4" />
+
+        <Button
+            android:id="@+id/selec_sex"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/unchecked5" />
+
+        <Button
+            android:id="@+id/selec_sab"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/unchecked5" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/borda_layout">
+
+                <TextView
+                    android:id="@+id/txt_ida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="IDA"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/tp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/txt_ida"
+                    android:layout_margin="10dp"
+                    app:srcCompat="@drawable/relogio"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HORA SELECIONADA"
+                    android:layout_centerVertical="true"
+                    android:layout_below="@+id/txt_ida"
+                    android:layout_margin="10dp"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/layout_uso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_uso"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Como vai ser o uso na ida?"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_uso">
+
+                        <RadioGroup
+                            android:id="@+id/rgroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_onibus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="5dp"
+                                android:text="Ônibus ou Trilho" />
+
+                            <View
+                                android:id="@+id/view3"
+                                android:layout_width="2dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="5dp"
+                                android:background="#cccccc" />
+
+
+                            <RadioButton
+                                android:id="@+id/rb_integracao"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="5dp"
+                                android:text="Integração" />
+
+
+                        </RadioGroup>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/borda_layout">
+
+                <TextView
+                    android:id="@+id/txt_volta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="VOLTA"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/tp2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/txt_volta"
+                    android:layout_margin="10dp"
+                    app:srcCompat="@drawable/relogio" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HORA SELECIONADA"
+                    android:layout_centerVertical="true"
+                    android:layout_below="@+id/txt_volta"
+                    android:layout_margin="10dp"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/layout_uso2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tp2"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_uso2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Como vai ser o uso na volta?"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_uso2">
+
+                        <RadioGroup
+                            android:id="@+id/rgroup2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rb_onibus2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="5dp"
+                                android:text="Ônibus ou Trilho" />
+
+                            <View
+                                android:id="@+id/view2"
+                                android:layout_width="2dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="5dp"
+                                android:background="#cccccc" />
+
+
+                            <RadioButton
+                                android:id="@+id/rb_integracao2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="5dp"
+                                android:text="Integração" />
+
+
+                        </RadioGroup>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lay_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="voltar"
+            android:background="@drawable/btn_cinza"
+            android:layout_marginRight="5dp"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="salvar"
+            android:background="@drawable/btn_default"
+            android:layout_marginLeft="5dp"
+
+
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -25,12 +25,7 @@ public class EditarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editar);
         txteste = (TextView) findViewById(R.id.txteste);
 
-        FragmentManager fragM = getSupportFragmentManager();
-        FragmentTransaction fragT = fragM.beginTransaction();
-        EditarFragment editar = new EditarFragment();
-        editar.setArguments(getIntent().getExtras());
-        fragT.replace(R.id.fragmentEdt, editar);
-        fragT.commit();
+
 
 
 

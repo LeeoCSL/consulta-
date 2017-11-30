@@ -1,3 +1,4 @@
+
 package br.com.consultai.Fragments;
 
 import android.app.AlertDialog;
@@ -22,16 +23,13 @@ import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
-import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.get.GetRotinaRequest;
-import br.com.consultai.model.User;
-import br.com.consultai.model.Usuario;
+import br.com.consultai.get.GetSaldoExtraRequest;
+import br.com.consultai.get.GetSaldoRequest;
 import br.com.consultai.model.Usuario2;
 import br.com.consultai.post.PostExcluirRotinaRequest;
-import br.com.consultai.serv.GetSaldoRequest;
-import br.com.consultai.serv.PostSaldoRequest;
 import br.com.consultai.utils.Utility;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -59,7 +57,7 @@ public class MainFragment extends Fragment {
     public static int ESTUDANTE;
 
     ImageView img_logo;
-    String tipoGet;
+    public static String tipoGet;
 
     public static TextView txtNomeBilhete;
 
@@ -67,7 +65,7 @@ public class MainFragment extends Fragment {
     String tipo;
 
     public static float saldoGet;
-    public static float saldoPost;
+    public static double saldoPost;
     Button btnRecarga;
     public static float recarga;
 
@@ -86,23 +84,23 @@ public class MainFragment extends Fragment {
 
     }
 
-    protected void initializeCheckeds(){
+    protected void initializeCheckeds() {
         String mDrawableName = "checked";
 
-        for(int i = 0; i < 7; i++){
-            checkedImg[i] = getResources().getIdentifier(mDrawableName + i , "drawable", getContext().getPackageName());
+        for (int i = 0; i < 7; i++) {
+            checkedImg[i] = getResources().getIdentifier(mDrawableName + i, "drawable", getContext().getPackageName());
         }
     }
 
-    protected void initializeUncheckeds(){
+    protected void initializeUncheckeds() {
         String mDrawableName = "unchecked";
 
-        for(int i = 0; i < 7; i++){
-            uncheckedImg[i] = getResources().getIdentifier(mDrawableName + i , "drawable", getContext().getPackageName());
+        for (int i = 0; i < 7; i++) {
+            uncheckedImg[i] = getResources().getIdentifier(mDrawableName + i, "drawable", getContext().getPackageName());
         }
     }
 
-    private void initializeButtons(View rootView){
+    private void initializeButtons(View rootView) {
         btnDias[0] = rootView.findViewById(R.id.selec_dom);
         btnDias[1] = rootView.findViewById(R.id.selec_seg);
         btnDias[2] = rootView.findViewById(R.id.selec_ter);
@@ -185,16 +183,18 @@ public class MainFragment extends Fragment {
                 request.execute();
 
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                            double value = Utility.stringToFloat(input.getText().toString());
-                            double saldo = SALDO + value;
+                        double value = Utility.stringToFloat(input.getText().toString());
+                        Toast.makeText(getContext(), value + input.getText().toString(), Toast.LENGTH_SHORT).show();
+//                            double value = 50;
+                        double saldo = SALDO + value;
 
-                            br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(getContext());
-                            post.execute(saldo);
-                        }
-                    });
+                        br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(getContext());
+                        post.execute(saldo);
+                    }
+                });
 
                 builder.show();
 
@@ -204,7 +204,7 @@ public class MainFragment extends Fragment {
         tvSaldo = view.findViewById(R.id.txt_valor);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        tipo = sharedPref.getString("userTipo", "");
+        tipo = sharedPref.getString("userTipo", "COMUM");
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -226,12 +226,12 @@ public class MainFragment extends Fragment {
                 Button menosIntegracaoComum = (Button) mView.findViewById(R.id.btnMenosIntegracaoComum);
                 Button menosEstudante = (Button) mView.findViewById(R.id.btnMenosEstudante);
 
-                if(tipo.equals("COMUM")){
+                if (tipo.equals("COMUM")) {
                     maisOnibusComum.setVisibility(View.VISIBLE);
                     maisIntegracaoComum.setVisibility(View.VISIBLE);
-                    menosOnibusComum .setVisibility(View.VISIBLE);
+                    menosOnibusComum.setVisibility(View.VISIBLE);
                     menosIntegracaoComum.setVisibility(View.VISIBLE);
-                } else if(tipo.equals("ESTUDANTE")){
+                } else if (tipo.equals("ESTUDANTE")) {
                     maisEstudante.setVisibility(View.VISIBLE);
                     menosEstudante.setVisibility(View.VISIBLE);
                 }
@@ -281,8 +281,8 @@ public class MainFragment extends Fragment {
                         tipoGet = "2";
                         Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
 
-                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
 
                     }
                 });
@@ -292,8 +292,8 @@ public class MainFragment extends Fragment {
                         Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
 
                         tipoGet = "3";
-                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
 
                     }
                 });
@@ -304,8 +304,8 @@ public class MainFragment extends Fragment {
                         Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
 
                         tipoGet = "4";
-                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
 
                     }
                 });
@@ -314,8 +314,8 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         tipoGet = "5";
-                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
                     }
                 });
 
@@ -323,8 +323,8 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         tipoGet = "6";
-                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
                     }
                 });
 
@@ -332,8 +332,8 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         tipoGet = "7";
-                        GetSaldoRequest getSaldoRequest = new GetSaldoRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet );
+                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
+                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
                     }
                 });
 
@@ -373,11 +373,6 @@ public class MainFragment extends Fragment {
     }
 
 
-    public static void metodoPost(){
-        PostSaldoRequest postSaldoRequest = new PostSaldoRequest(getApplicationContext());
-        postSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(saldoPost));
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -387,11 +382,11 @@ public class MainFragment extends Fragment {
 
         tipoGet = "0";
 
-        if(SALDO < 0){
+        if (SALDO < 0) {
             br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
             request.execute();
-        }else {
-            tvSaldo.setText("R$ " +SALDO);
+        } else {
+            tvSaldo.setText("R$ " + SALDO);
         }
 
         txtNomeBilhete.setText(APELIDO);
@@ -399,11 +394,11 @@ public class MainFragment extends Fragment {
         loadImages();
     }
 
-    public static void loadImages(){
-        for(int i = 0; i < DIAS_ATIVOS.length; i++){
-            if(DIAS_ATIVOS[i] == i + 1){
+    public static void loadImages() {
+        for (int i = 0; i < DIAS_ATIVOS.length; i++) {
+            if (DIAS_ATIVOS[i] == i + 1) {
                 btnDias[i].setBackgroundResource(checkedImg[i]);
-            }else{
+            } else {
                 btnDias[i].setBackgroundResource(uncheckedImg[i]);
             }
         }

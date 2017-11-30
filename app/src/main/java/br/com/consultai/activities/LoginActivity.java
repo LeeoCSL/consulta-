@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -53,6 +54,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -62,6 +64,7 @@ import br.com.consultai.R;
 import br.com.consultai.model.User;
 import br.com.consultai.model.Usuario;
 import br.com.consultai.post.LoginRequest;
+import br.com.consultai.serv.RegisterRequest;
 import br.com.consultai.utils.DialogFactory;
 import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
@@ -79,7 +82,9 @@ public class LoginActivity extends AppCompatActivity {
     public static String idFacebook;
     public static String emailFB;
     private FirebaseAnalytics mFirebaseAnalytics;
-    String device_brand = android.os.Build.MANUFACTURER;
+    String deviceBrand = android.os.Build.MANUFACTURER;
+
+    String serialNumber = Build.SERIAL;
 
 
     public static final String LOGIN = "login";
@@ -114,6 +119,8 @@ public class LoginActivity extends AppCompatActivity {
     private String notification_token;
 
     String tempoEmail, tempoSenha;
+
+    String name, gender;
 
 
     @Override
@@ -185,19 +192,18 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 Log.v("LoginActivity", response.toString());
-//                                try {
-//                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//                                    SharedPreferences.Editor editor = sharedPref.edit();
-//
-//                                    editor.commit();
-//                                    String age = object.getString("birthday");
-//                                    editor.putString("birthday", age);
-//                                    editor.commit();
-//
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-                                // Application code
+                                try {
+                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+
+                                    editor.commit();
+                                  gender = object.getString("gender");
+                                  name = object.getString("name");
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+//                                 Application code
 
                             }
                         });
@@ -316,13 +322,27 @@ public class LoginActivity extends AppCompatActivity {
                         editor.commit();
 
                         ref.setValue(user);
+                        Usuario usuario = new Usuario();
+                        usuario.setId(userID);
+                        usuario.setEmail(user.getEmail());
+                        usuario.setSenha("000000");
+                        usuario.setNome(authResult.getUser().getDisplayName());
+                        usuario.setNotificationToken(notification_token);
+                        usuario.setSexo('I');
+                        usuario.setModelo(deviceBrand);
+                        usuario.setSerialMobile(serialNumber);
+                        usuario.setIdUsuario(userID);
+                        usuario.setSistemaOperacional("ANDROID");
+
+                        RegisterRequest register = new RegisterRequest(LoginActivity.this);
+                        register.execute(usuario);
 
                         Bundle bundle = new Bundle();
                         bundle.putString("email_google", user.getEmail());
                         bundle.putString("nome", sharedPref.getString("nome", ""));
                         mFirebaseAnalytics.logEvent("login_google_ok", bundle);
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, CadastroCartaoActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
@@ -561,16 +581,37 @@ public class LoginActivity extends AppCompatActivity {
 
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
 
+//                Usuario usuario = new Usuario();
+//                usuario.setId(userID);
+//                usuario.setEmail(userEmail);
+//                usuario.setSenha(userPassword);
+//                usuario.setNome(userName);
+//                usuario.setNotificationToken(notification_token);
+//                usuario.setSexo(sexo.charAt(0));
+//                usuario.setModelo(deviceBrand);
+//                usuario.setSerialMobile(serialNumber);
+//                usuario.setIdUsuario(userID);
+//                usuario.setSistemaOperacional("ANDROID");
 
-                User user = new User();
-                user.setEmail(authResult.getUser().getEmail());
-//                user.setName(authResult.getUser().getDisplayName());
+//                RegisterRequest register = new RegisterRequest(LoginActivity.this);
+//                register.execute(usuario);
 
+                Usuario usuario = new Usuario();
+                usuario.setId(userID);
+                usuario.setEmail(authResult.getUser().getEmail());
+                usuario.setSenha("000000");
+                usuario.setNome(authResult.getUser().getDisplayName());
+                usuario.setNotificationToken(notification_token);
+//                usuario.setSexo(String.valueOf(gender).charAt(0));
+                usuario.setModelo(deviceBrand);
+                usuario.setSerialMobile(serialNumber);
+                usuario.setIdUsuario(userID);
+                usuario.setSistemaOperacional("ANDROID");
 
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
 //                editor.putString("nome", user.getName());
-                editor.putString("emailFB", user.getEmail());
+                editor.putString("emailFB", usuario.getEmail());
 
                 editor.commit();
 
@@ -592,7 +633,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 firebaUser.updateProfile(req);
 
-                ref.setValue(user);
+                ref.setValue(usuario);
 
 //                String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //                email = authResult.getUser().getEmail();
