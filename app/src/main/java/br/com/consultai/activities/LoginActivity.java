@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog mDialog;
     private String notification_token;
 
-    String tempoEmail, tempoSenha;
+    public static String tempoEmail, tempoSenha;
 
     String name, gender;
 

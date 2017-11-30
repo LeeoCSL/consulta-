@@ -26,13 +26,6 @@ public class EditarActivity extends AppCompatActivity {
         txteste = (TextView) findViewById(R.id.txteste);
 
 
-
-
-
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 }

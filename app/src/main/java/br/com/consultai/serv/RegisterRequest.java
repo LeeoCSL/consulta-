@@ -99,9 +99,10 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
             bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
             bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
             bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", null);
+            bundle2.putString("posicao_clique", RegisterActivity.coords);
             bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
             bundle2.putString("id_celular", null);
+            Log.v("cad", RegisterActivity.coords);
             mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
 //
 //            //TODO popular evento
