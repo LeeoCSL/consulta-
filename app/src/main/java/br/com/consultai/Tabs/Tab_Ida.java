@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -38,9 +37,9 @@ public class Tab_Ida extends Tab {
         initializeButtons(rootView);
 
         btnSalvar = (Button) rootView.findViewById(R.id.btnSalvar);
-        rb_onibus = (RadioButton) rootView.findViewById(R.id.rb_onibus);
-        rb_integracao = (RadioButton) rootView.findViewById(R.id.rb_integracao);
-        tp = (ImageView) rootView.findViewById(R.id.tp);
+        rb_onibus = (RadioButton) rootView.findViewById(R.id.rb_onibus_trilho_ida);
+        rb_integracao = (RadioButton) rootView.findViewById(R.id.rb_integracao_ida);
+        tp = (ImageView) rootView.findViewById(R.id.tp_1);
 
         mRadioGroup = (RadioGroup) rootView.findViewById(R.id.rgroup);
 
@@ -54,7 +53,6 @@ public class Tab_Ida extends Tab {
         initializeCheckeds();
         initializeUncheckeds();
 
-        RotinaPostRequest.firstTab = true;
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,13 +128,13 @@ public class Tab_Ida extends Tab {
                 rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
 
                 if (ContaFragment.estudante == 0) {
-                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus_trilho_ida) {
                         rotina.setValor(Tab.TARIFA_COMUM);
                     } else {
                         rotina.setValor(Tab.TARIFA_INTEGRACAO);
                     }
                 } else {
-                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus_trilho_ida) {
                         rotina.setValor(Tab.TARIFA_ESTUDANTE);
                     } else {
                         rotina.setValor(Tab.TARIFA_COMUM);

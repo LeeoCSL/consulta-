@@ -1,12 +1,10 @@
 package br.com.consultai.Tabs;
 
 import android.app.AlertDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +13,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Calendar;
 
 import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.MainActivity;
@@ -41,9 +36,9 @@ public class Tab_Volta extends Tab {
         initializeButtons(rootView);
 
         btnSalvar = (Button) rootView.findViewById(R.id.btnSalvar);
-        rb_onibus = (RadioButton) rootView.findViewById(R.id.rb_onibus);
-        rb_integracao = (RadioButton) rootView.findViewById(R.id.rb_integracao);
-        tp = (ImageView) rootView.findViewById(R.id.tp);
+        rb_onibus = (RadioButton) rootView.findViewById(R.id.rb_onibus_trilho_ida);
+        rb_integracao = (RadioButton) rootView.findViewById(R.id.rb_integracao_ida);
+        tp = (ImageView) rootView.findViewById(R.id.tp_1);
 
         mRadioGroup = (RadioGroup) rootView.findViewById(R.id.rgroup);
 
@@ -132,13 +127,13 @@ public class Tab_Volta extends Tab {
                 rotina.setLoginToken(LoginActivity.LOGIN_TOKEN);
 
                 if (ContaFragment.estudante == 0) {
-                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus_trilho_ida) {
                         rotina.setValor(Tab.TARIFA_COMUM);
                     } else {
                         rotina.setValor(Tab.TARIFA_INTEGRACAO);
                     }
                 } else {
-                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus) {
+                    if (mRadioGroup.getCheckedRadioButtonId() == R.id.rb_onibus_trilho_ida) {
                         rotina.setValor(Tab.TARIFA_ESTUDANTE);
                     } else {
                         rotina.setValor(Tab.TARIFA_COMUM);

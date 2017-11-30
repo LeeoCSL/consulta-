@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_above="@+id/lay_btn"
-      >
+        android:layout_above="@+id/lay_btn">
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -24,7 +23,7 @@
         android:id="@+id/layout_dias"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tp"
+        android:layout_below="@+id/tp_1"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:foregroundGravity="center"
@@ -104,7 +103,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/tp"
+                    android:id="@+id/tp_1"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_below="@+id/txt_ida"
@@ -112,9 +111,9 @@
                     app:srcCompat="@drawable/relogio"
                     />
                 <TextView
+                    android:id="@+id/hora_selecionada_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HORA SELECIONADA"
                     android:layout_centerVertical="true"
                     android:layout_below="@+id/txt_ida"
                     android:layout_margin="10dp"
@@ -125,7 +124,7 @@
                     android:id="@+id/layout_uso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tp"
+                    android:layout_below="@+id/tp_1"
                     android:layout_marginBottom="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -145,14 +144,14 @@
                         android:layout_below="@+id/txt_uso">
 
                         <RadioGroup
-                            android:id="@+id/rgroup"
+                            android:id="@+id/rgroup_ida"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/rb_onibus"
+                                android:id="@+id/rb_onibus_trilho_ida"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="10dp"
@@ -170,7 +169,7 @@
 
 
                             <RadioButton
-                                android:id="@+id/rb_integracao"
+                                android:id="@+id/rb_integracao_ida"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
@@ -205,7 +204,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/tp2"
+                    android:id="@+id/tp_2"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_below="@+id/txt_volta"
@@ -213,9 +212,9 @@
                     app:srcCompat="@drawable/relogio" />
 
                 <TextView
+                    android:id="@+id/hora_selecionada_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HORA SELECIONADA"
                     android:layout_centerVertical="true"
                     android:layout_below="@+id/txt_volta"
                     android:layout_margin="10dp"
@@ -226,7 +225,7 @@
                     android:id="@+id/layout_uso2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tp2"
+                    android:layout_below="@+id/tp_2"
                     android:layout_marginBottom="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -246,14 +245,14 @@
                         android:layout_below="@+id/txt_uso2">
 
                         <RadioGroup
-                            android:id="@+id/rgroup2"
+                            android:id="@+id/rgroup_volta"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/rb_onibus2"
+                                android:id="@+id/rb_onibus_trilho_volta"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="10dp"
@@ -271,7 +270,7 @@
 
 
                             <RadioButton
-                                android:id="@+id/rb_integracao2"
+                                android:id="@+id/rb_integracao_volta"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
@@ -305,23 +304,23 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="voltar"
-            android:background="@drawable/btn_cinza"
             android:layout_marginRight="5dp"
-            />
+            android:layout_weight="1"
+            android:background="@drawable/btn_cinza"
+            android:onClick="back"
+            android:text="voltar" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="salvar"
-            android:background="@drawable/btn_default"
             android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_default"
+            android:onClick="save"
 
 
-            />
+            android:text="salvar" />
 
     </LinearLayout>
 

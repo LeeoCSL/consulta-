@@ -136,6 +136,10 @@ public class MainFragment extends Fragment {
             }
         });
 
+        GetRotinaRequest rotina = new GetRotinaRequest(getContext());
+        rotina.execute();
+
+
         btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -377,8 +381,15 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        GetRotinaRequest rotina = new GetRotinaRequest(getContext());
-        rotina.execute();
+/*        GetRotinaRequest rotina = new GetRotinaRequest(getContext());
+        rotina.execute();*/
+
+        int count = 0;
+        for(int i = 0; i < DIAS_ATIVOS.length; i++){
+            count += DIAS_ATIVOS[i];
+        }
+
+
 
         tipoGet = "0";
 
