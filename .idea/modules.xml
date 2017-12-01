@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\leonardo.ribeiro\Desktop\consulta-\Consultai3.iml" filepath="C:\Users\leonardo.ribeiro\Desktop\consulta-\Consultai3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\leonardo.ribeiro\Desktop\consulta-\consulta-\app\app.iml" filepath="C:\Users\leonardo.ribeiro\Desktop\consulta-\consulta-\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/consulta-.iml" filepath="$PROJECT_DIR$/consulta-.iml" />
-      <module fileurl="file://C:\Users\leonardo.ribeiro\Desktop\consulta-\consulta-\consulta-.iml" filepath="C:\Users\leonardo.ribeiro\Desktop\consulta-\consulta-\consulta-.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../consulta-/consulta-/app/app.iml" filepath="$PROJECT_DIR$/../../consulta-/consulta-/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../consulta-/consulta-/consulta-.iml" filepath="$PROJECT_DIR$/../../consulta-/consulta-/consulta-.iml" />
     </modules>
   </component>
 </project>
