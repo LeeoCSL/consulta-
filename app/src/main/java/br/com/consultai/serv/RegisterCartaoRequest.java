@@ -37,6 +37,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
     private Context context;
     private AlertDialog.Builder dialog;
     private FirebaseAnalytics mFirebaseAnalytics;
+    String cartaoApelido;
 
     public RegisterCartaoRequest(Context context){
         this.context = context;
@@ -48,7 +49,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
         String id = strings[0];
         String token = strings[1];
         String cartaoNumero = strings[2];
-        String cartaoApelido = strings[3];
+        cartaoApelido = strings[3];
 
         Cartao cartao = new Cartao();
         cartao.setIdUsuario(id);
@@ -106,7 +107,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             LoginActivity.LOGIN_TOKEN = loginToken;
 
             MainFragment.SALDO = Double.parseDouble(saldo);
-            MainFragment.APELIDO = apelido;
+            MainFragment.txtNomeBilhete.setText(apelido);
 
             Toast.makeText(context, apelido, Toast.LENGTH_SHORT).show();
             Toast.makeText(context, saldo, Toast.LENGTH_SHORT).show();

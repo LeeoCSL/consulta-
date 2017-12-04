@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
 
 android {
     compileSdkVersion 26
@@ -41,6 +43,11 @@ dependencies {
     compile 'com.android.support:design:25.4.0'
     compile 'com.android.support:support-v4:25.4.0'
     compile 'com.android.support:support-vector-drawable:25.4.0'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true
+    }
+
     compile 'com.google.firebase:firebase-core:11.0.4'
 
     compile 'com.stepstone.stepper:material-stepper:4.3.0'

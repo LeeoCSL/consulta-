@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
@@ -115,6 +116,14 @@ public class MainFragment extends Fragment {
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
         img_logo = (ImageView) view.findViewById(R.id.img_logo);
+
+        img_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Crashlytics.getInstance().crash(); // Force a crash
+
+            }
+        });
 
         btnExcluir = (Button) view.findViewById(R.id.btnExcluir);
 
