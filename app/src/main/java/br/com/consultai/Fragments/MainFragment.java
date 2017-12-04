@@ -181,8 +181,11 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        double value = Utility.stringToFloat(input.getText().toString());
-//                        Toast.makeText(getContext(), value + input.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), input.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+
+                        double value = Utility.stringToFloat(input.getText().toString().trim());
+
+                        Toast.makeText(getContext(), String.valueOf(Utility.stringToFloat(input.getText().toString().trim())), Toast.LENGTH_SHORT).show();
 //                            double value = 50;
                         double saldo = SALDO + value;
 
@@ -275,7 +278,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         tipoGet = "2";
-                        Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
 
                         GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
                         getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
@@ -285,7 +288,7 @@ public class MainFragment extends Fragment {
                 maisIntegracaoComum.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
 
                         tipoGet = "3";
                         GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
@@ -297,7 +300,7 @@ public class MainFragment extends Fragment {
                 maisEstudante.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
 
                         tipoGet = "4";
                         GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());

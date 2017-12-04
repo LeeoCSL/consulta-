@@ -318,7 +318,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_default"
             android:onClick="save"
-
+android:textColor="#FFFFFF"
 
             android:text="salvar" />
 

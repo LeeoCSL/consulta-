@@ -12,17 +12,19 @@ import java.math.BigDecimal;
 
 public class Utility {
 
-    public static String formatValue(float value){
+    public static BigDecimal bd;
+
+    public static String formatValue(float value) {
         return "R$ " + String.format("%.2f", value);
     }
 
-    public static float stringToFloat(String text){
-        String s = text.substring(2).replace(".","");
-        s = s.replace(",","");
+    public static float stringToFloat(String text) {
+        String s = text.substring(2).replace(".", "");
+        s = s.replace(",", "");
 
         long amount = Long.parseLong(s);
 
-        BigDecimal bd = BigDecimal.valueOf(amount).movePointLeft(2);
+        bd = BigDecimal.valueOf(amount).movePointLeft(2);
 
         return bd.floatValue();
     }
