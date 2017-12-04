@@ -28,7 +28,7 @@
         android:paddingTop="15dp"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
-        android:paddingBottom="30dp">
+        android:paddingBottom="15dp">
 
         <TextView
             android:id="@+id/txt_nome_bilhete"
@@ -139,12 +139,14 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@+id/btnRecarga"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:padding="5dp">
+    >
+
+
 
             <Button
                 android:id="@+id/btnExcluir"
@@ -157,6 +159,7 @@
                 android:text="Excluir"
                 android:textColor="@color/cinza_escuro"
                 android:textStyle="bold" />
+
 
             <Button
                 android:id="@+id/btn_editar"
@@ -185,7 +188,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutMain"
         android:layout_marginRight="16dp"
-        android:backgroundTint="@color/colorPrimary"
+
         android:src="@drawable/mais"
         android:layout_alignParentRight="true"/>
 

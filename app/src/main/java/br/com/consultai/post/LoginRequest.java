@@ -90,10 +90,10 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             MainFragment.SALDO = saldo;
             MainFragment.ESTUDANTE = estudante;
 
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("loginToken", loginToken);
-            editor.commit();
+//            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+//            SharedPreferences.Editor editor = sharedPref.edit();
+//            editor.putString("loginToken", loginToken);
+//            editor.commit();
 
 
 

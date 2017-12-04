@@ -5,7 +5,9 @@ package br.com.consultai.get;
  * Created by leonardo.ribeiro on 29/11/2017.
  */
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 
 import android.app.ProgressDialog;
@@ -131,6 +133,22 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                 String saldo = jsonObject.getString("saldo");
 
+                if (Double.valueOf(saldo) < 3.8){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setMessage("Você nao tem saldo suficiente para uma viagem extra, realize uma recarga antes");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder.create();
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
+                else{
+
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
 
@@ -156,12 +174,29 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 mFirebaseAnalytics.logEvent("viagem_extra_3_80", bundle2);
 
 
+             }
             }
 //viagem extra 3.0
             else if (MainFragment.tipoGet.equals("3")) {
                 JSONObject jsonObject = new JSONObject(s);
 
                 String saldo = jsonObject.getString("saldo");
+
+                if (Double.valueOf(saldo) < 3.0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setMessage("Você nao tem saldo suficiente para uma viagem extra, realize uma recarga antes");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder.create();
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
+                else{
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
@@ -187,11 +222,28 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("viagem_extra_3_00", bundle2);
             }
+            }
 //viagem extra 1,9
             else if (MainFragment.tipoGet.equals("4")) {
                 JSONObject jsonObject = new JSONObject(s);
 
                 String saldo = jsonObject.getString("saldo");
+
+                if (Double.valueOf(saldo) < 1.9){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setMessage("Você nao tem saldo suficiente para uma viagem extra, realize uma recarga antes");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder.create();
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
+                else{
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("saldo", Double.parseDouble(saldo));
@@ -216,6 +268,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("viagem_extra_1_90", bundle2);
+            }
             }
 
             //viagem a menos 3,8

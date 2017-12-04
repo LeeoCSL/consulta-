@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -31,13 +32,13 @@ public class CadastroCartaoActivity extends AppCompatActivity {
     EditText mApelido;
 
     @BindView(R.id.edt_saldo)
-    EditText mSaldo;
+    CurrencyEditText mSaldo;
 
     @BindView(R.id.edt_numero)
     EditText mNumero;
 
     String apelido, numero;
-    int saldo;
+    double  saldo;
 
     Button btnProximo;
 
@@ -93,7 +94,7 @@ public class CadastroCartaoActivity extends AppCompatActivity {
             estudante = false;
         }
 
-        saldo = Integer.parseInt(mSaldo.getText().toString().trim());
+        saldo = Utility.stringToFloat(mSaldo.getText().toString().trim());
 
         createCartao(numero, apelido, String.valueOf(saldo), String.valueOf(estudante));
     }
