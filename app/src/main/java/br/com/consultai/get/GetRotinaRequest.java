@@ -120,21 +120,7 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
             MainFragment.DIAS_ATIVOS = ida.getDays();
             MainFragment.loadImages();
 
-//                Bundle bundle = new Bundle();
-//                bundle.putDouble("saldo", Double.parseDouble(saldo));
-//                MainFragment.tvSaldo.setText("R$ " + saldo);
-//                MainFragment.dialog.dismiss();
 
-//                Bundle bundle2 = new Bundle();
-//                bundle2.putString("acelerometro_x", null);
-//                bundle2.putString("acelerometro_y", null);
-//                bundle2.putString("acelerometro_z", null);
-//                bundle2.putString("velocidade_digitacao", null);
-//                bundle2.putString("velocidade_clique", null);
-//                bundle2.putString("posicao_clique", null);
-//                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                bundle2.putString("id_celular", null);
-//                mFirebaseAnalytics.logEvent("atualizacao_saldo_sucesso", bundle2);
 
 
         } catch (Exception e) {

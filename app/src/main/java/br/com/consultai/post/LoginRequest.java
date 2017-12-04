@@ -90,10 +90,10 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             MainFragment.SALDO = saldo;
             MainFragment.ESTUDANTE = estudante;
 
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("loginToken", loginToken);
-            editor.commit();
+//            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+//            SharedPreferences.Editor editor = sharedPref.edit();
+//            editor.putString("loginToken", loginToken);
+//            editor.commit();
 
 
 
@@ -106,7 +106,8 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             bundle2.putString("acelerometro_x", null);
             bundle2.putString("acelerometro_y", null);
             bundle2.putString("acelerometro_z", null);
-            bundle2.putString("velocidade_digitacao", null);
+            bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
+            bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
             bundle2.putString("velocidade_clique", null);
             bundle2.putString("posicao_clique", null);
             bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());

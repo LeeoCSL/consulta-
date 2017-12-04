@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -90,6 +91,8 @@ public class RegisterActivity extends AppCompatActivity {
     TelephonyManager tm;
 
     public static String tempoEmail, tempoSenha, tempoNome, tempoSexo;
+
+    public static String coords = "coordenadas";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,6 +232,7 @@ public class RegisterActivity extends AppCompatActivity {
                         usuario.setIdUsuario(userID);
                         usuario.setSistemaOperacional("ANDROID");
 
+
                         RegisterRequest register = new RegisterRequest(RegisterActivity.this);
                         register.execute(usuario);
                     }
@@ -239,5 +243,24 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_UP:
+        }
+
+        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
+
+        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
+//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
+        return false;
+
+    }
+
 }
 
