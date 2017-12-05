@@ -98,6 +98,9 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
 //
             Log.i("logintoken", LoginActivity.LOGIN_TOKEN);
+
+            String apelido = jsonObject.getString("apelido");
+            MainFragment.APELIDO = apelido;
 //
             Bundle bundle2 = new Bundle();
             bundle2.putString("acelerometro_x", null);
