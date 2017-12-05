@@ -114,7 +114,7 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
             //TODO popular evento
 
-            DialogUtil.hideProgressDialog(mDialog);
+            LoginActivity.mDialog.dismiss();
             Intent intent = new Intent(context, MainActivity.class);
             context.startActivity(intent);
 
@@ -138,6 +138,5 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
     @Override
     protected void onPreExecute() {
-        mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos autenticando seus dados.");
     }
 }

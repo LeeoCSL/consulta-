@@ -1,6 +1,5 @@
 package br.com.consultai.serv;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,22 +16,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Usuario;
-import br.com.consultai.utils.DialogFactory;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
-/**
- * Created by leonardo.ribeiro on 13/11/2017.
- */
 
 public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
@@ -48,6 +41,8 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
     protected String doInBackground(Usuario... usuarios) {
 
         Usuario usuario = usuarios[0];
+
+        Log.i("uservindo", usuario.toString());
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 

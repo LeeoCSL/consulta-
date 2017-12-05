@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String user_email, user_password;
 
-    private ProgressDialog mDialog;
+    public static ProgressDialog mDialog;
     private String notification_token;
 
     String tempoEmail, tempoSenha;
@@ -452,6 +452,12 @@ public class LoginActivity extends AppCompatActivity {
             mPassword.setError("Senha inválida.");
             return;
         }
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Aguarde");
+        mDialog.setMessage("Estamos verificando suas credenciais.");
+        mDialog.show();
+
         loginWithEmailAndPassword();
     }
 
