@@ -82,42 +82,49 @@
                 android:id="@+id/selec_dom"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/unchecked0" />
 
             <Button
                 android:id="@+id/selec_seg"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/unchecked1" />
 
             <Button
                 android:id="@+id/selec_ter"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/unchecked2" />
 
             <Button
                 android:id="@+id/selec_qua"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/unchecked3" />
 
             <Button
                 android:id="@+id/selec_qui"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/unchecked4" />
 
             <Button
                 android:id="@+id/selec_sex"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/unchecked5" />
 
             <Button
                 android:id="@+id/selec_sab"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/unchecked6" />
 
         </LinearLayout>
