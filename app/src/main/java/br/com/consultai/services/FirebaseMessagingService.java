@@ -23,7 +23,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.i("recebendoPush", remoteMessage.getData().get("message"));
         showNotification(remoteMessage.getData().get("message"));
     }
 
@@ -68,7 +67,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     .setAutoCancel(true)
                     .setContentTitle("Aviso!")
                     .setContentText(message)
-                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentIntent(pendingIntent);
 
             Log.i("ouaki", "ieh");
