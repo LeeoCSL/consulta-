@@ -235,6 +235,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         RegisterRequest register = new RegisterRequest(RegisterActivity.this);
                         register.execute(usuario);
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

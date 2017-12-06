@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
@@ -40,7 +41,8 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
     private Context context;
 
     private FirebaseAnalytics mFirebaseAnalytics;
-    public RegisterRequest(Context context){
+
+    public RegisterRequest(Context context) {
         this.context = context;
     }
 
@@ -81,15 +83,13 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
     protected void onPostExecute(String response) {
 
         DialogUtil.hideProgressDialog(mDialog);
-        if (response == null){
+        if (response == null) {
             FirebaseAuth.getInstance().signOut();
             context.startActivity(new Intent(context, LoginActivity.class));
-        }
-        else {
+        } else {
             context.startActivity(new Intent(context, CadastroCartaoActivity.class));
         }
-        try{
-
+        try {
 
 
             JSONObject jsonObject = new JSONObject(response);
@@ -101,39 +101,46 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
             String apelido = jsonObject.getString("apelido");
             MainFragment.APELIDO = apelido;
-//
+
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+
             Bundle bundle2 = new Bundle();
-            bundle2.putString("acelerometro_x", null);
-            bundle2.putString("acelerometro_y", null);
-            bundle2.putString("acelerometro_z", null);
+            bundle2.putString("giroscopio", Giroscopio.gyro);
             bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
             bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
             bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
             bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-            bundle2.putString("velocidade_clique", null);
+//            bundle2.putString("velocidade_clique", null);
             bundle2.putString("posicao_clique", RegisterActivity.coords);
             bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", null);
+//            bundle2.putString("id_celular", null);
             Log.v("cad", RegisterActivity.coords);
             mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
-//
+            giro.cancel(true);
+
+
 //            //TODO popular evento
 
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
-                    Bundle bundle2 = new Bundle();
-            bundle2.putString("acelerometro_x", null);
-            bundle2.putString("acelerometro_y", null);
-            bundle2.putString("acelerometro_z", null);
+
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("giroscopio", Giroscopio.gyro);
             bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
             bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
             bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
             bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-            bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", null);
+//            bundle2.putString("velocidade_clique", null);
+            bundle2.putString("posicao_clique", RegisterActivity.coords);
             bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", null);
+//            bundle2.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
+
+            giro.cancel(true);
         }
 
 

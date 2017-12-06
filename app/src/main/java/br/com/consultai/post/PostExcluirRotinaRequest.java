@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.MainActivity;
 import br.com.consultai.Tabs.Tab;
 import br.com.consultai.activities.EditarActivity;
@@ -40,6 +41,7 @@ import okhttp3.Response;
  */
 
 public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> {
+
 
     private Context context;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -92,8 +94,22 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> 
                 MainFragment.DIAS_ATIVOS[i] = 0;
             }
             MainFragment.loadImages();
+            EditarActivity.ROTINA_IDA = null;
             EditarActivity.ROTINA_VOLTA = null;
-            EditarActivity.ROTINA_VOLTA = null;
+
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("giroscopio", Giroscopio.gyro);
+            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("velocidade_clique", null);
+            bundle.putString("posicao_clique", null);
+            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("excluir_rotina", bundle);
+            giro.cancel(true);
+
         }
 
 

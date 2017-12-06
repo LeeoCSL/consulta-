@@ -61,6 +61,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import br.com.consultai.Giroscopio;
 import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.model.User;
@@ -441,18 +442,7 @@ public class LoginActivity extends AppCompatActivity {
                         LoginRequest login = new LoginRequest(LoginActivity.this);
                         login.execute(usuario);
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString("acelerometro_x", null);
-                        bundle.putString("acelerometro_y", null);
-                        bundle.putString("acelerometro_z", null);
-                        bundle.putString("velocidade_digi_email", tempoEmail);
-                        bundle.putString("velocidade_digi_senha", tempoSenha);
-                        bundle.putString("velocidade_clique", null);
-                        bundle.putString("posicao_clique", null);
-                        bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        bundle.putString("id_celular", null);
 
-                        mFirebaseAnalytics.logEvent("login_email_ok", bundle);
 
 
                     }
@@ -477,9 +467,7 @@ public class LoginActivity extends AppCompatActivity {
                     Utility.makeText(LoginActivity.this,
                             "Erro ao fazer login, tente novamente mais tarde.");
                 }
-                Bundle bundle = new Bundle();
-                bundle.putString("email", user_email);
-                mFirebaseAnalytics.logEvent("login_email_erro", bundle);
+
                 e.printStackTrace();
             }
         });

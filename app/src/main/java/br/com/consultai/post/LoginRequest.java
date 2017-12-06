@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.User;
@@ -102,10 +103,13 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             ContaFragment.numero = numero;
             ContaFragment.estudante = estudante;
 
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+
+
             Bundle bundle2 = new Bundle();
-            bundle2.putString("acelerometro_x", null);
-            bundle2.putString("acelerometro_y", null);
-            bundle2.putString("acelerometro_z", null);
+            bundle2.putString("giroscopio", Giroscopio.gyro);
+
             bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
             bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
             bundle2.putString("velocidade_clique", null);
@@ -122,10 +126,12 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
         } catch (Exception e) {
             e.printStackTrace();
 
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+
+
             Bundle bundle = new Bundle();
-            bundle.putString("acelerometro_x", null);
-            bundle.putString("acelerometro_y", null);
-            bundle.putString("acelerometro_z", null);
+            bundle.putString("giroscopio", Giroscopio.gyro);
             bundle.putString("velocidade_digitacao", null);
             bundle.putString("velocidade_clique", null);
             bundle.putString("posicao_clique", null);
@@ -133,6 +139,7 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             bundle.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("login_email_erro", bundle);
 
+            giro.cancel(true);
 
         }
     }
