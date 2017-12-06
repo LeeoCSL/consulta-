@@ -3,8 +3,10 @@ package br.com.consultai.post;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
@@ -13,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.MediaType;
@@ -29,9 +32,13 @@ public class PostSaldoRequest extends AsyncTask<Double, Void, String> {
 
     private Context context;
     private ProgressDialog mDialog;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     public PostSaldoRequest(Context context){
         this.context = context;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
     }
 
     @Override
@@ -79,6 +86,8 @@ public class PostSaldoRequest extends AsyncTask<Double, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
+
+
         DialogUtil.hideProgressDialog(mDialog);
 
         try {
@@ -87,6 +96,22 @@ public class PostSaldoRequest extends AsyncTask<Double, Void, String> {
 
             MainFragment.SALDO = saldo;
             MainFragment.tvSaldo.setText("R$ " +saldo);
+
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+
+
+            Bundle bundle = new Bundle();
+            bundle.putString("giroscopio", Giroscopio.gyro);
+            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("velocidade_clique", null);
+            bundle.putString("posicao_clique", null);
+            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("atualizacao_saldo", bundle);
+            giro.cancel(true);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

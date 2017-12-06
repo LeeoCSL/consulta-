@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
@@ -112,10 +113,11 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             Toast.makeText(context, apelido, Toast.LENGTH_SHORT).show();
             Toast.makeText(context, saldo, Toast.LENGTH_SHORT).show();
 
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+
             Bundle bundle2 = new Bundle();
-            bundle2.putString("acelerometro_x", null);
-            bundle2.putString("acelerometro_y", null);
-            bundle2.putString("acelerometro_z", null);
+            bundle2.putString("giroscopio", Giroscopio.gyro);
             bundle2.putString("velocidade_digitacao", null);
             bundle2.putString("velocidade_clique", null);
             bundle2.putString("posicao_clique", null);
@@ -123,6 +125,8 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             bundle2.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("cadastro_bilhete_sucesso", bundle2);
             //TODO popular evento
+            giro.cancel(true);
+
 
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", Double.parseDouble(saldo));

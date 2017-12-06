@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.OkHttpClient;
@@ -133,7 +134,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                 String saldo = jsonObject.getString("saldo");
 
-                if (Double.valueOf(saldo) < 3.8){
+                if (Double.valueOf(saldo) < 3.8) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setMessage("Você nao tem saldo suficiente para uma viagem extra, realize uma recarga antes");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -145,36 +146,37 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                     builder.create();
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }
+                } else {
 
-                else{
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("saldo", Double.parseDouble(saldo));
 
-                Bundle bundle = new Bundle();
-                bundle.putDouble("saldo", Double.parseDouble(saldo));
+                    MainFragment.saldoGet = Float.parseFloat(saldo);
 
-                MainFragment.saldoGet = Float.parseFloat(saldo);
+                    saldoPost = saldoGet - 3.8f;
 
-                saldoPost = saldoGet - 3.8f;
+                    MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.tvSaldo.setText("R$ " + saldoPost);
-
-                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
-                post.execute(saldoPost);
+                    br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                    post.execute(saldoPost);
 //                MainFragment.dialog.dismiss();
 
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("acelerometro_x", null);
-                bundle2.putString("acelerometro_y", null);
-                bundle2.putString("acelerometro_z", null);
-                bundle2.putString("velocidade_digitacao", null);
-                bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", null);
-                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", null);
-                mFirebaseAnalytics.logEvent("viagem_extra_3_80", bundle2);
+                    Giroscopio giro = new Giroscopio(mContext);
+                    giro.execute();
 
 
-             }
+                    Bundle bundle2 = new Bundle();
+                    bundle.putString("giroscopio", Giroscopio.gyro);
+                    bundle2.putString("velocidade_digitacao", null);
+                    bundle2.putString("velocidade_clique", null);
+                    bundle2.putString("posicao_clique", null);
+                    bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle2.putString("id_celular", null);
+                    mFirebaseAnalytics.logEvent("viagem_extra_3_80", bundle2);
+                    giro.cancel(true);
+
+
+                }
             }
 //viagem extra 3.0
             else if (MainFragment.tipoGet.equals("3")) {
@@ -182,7 +184,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                 String saldo = jsonObject.getString("saldo");
 
-                if (Double.valueOf(saldo) < 3.0){
+                if (Double.valueOf(saldo) < 3.0) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setMessage("Você nao tem saldo suficiente para uma viagem extra, realize uma recarga antes");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -194,34 +196,34 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                     builder.create();
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }
+                } else {
 
-                else{
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("saldo", Double.parseDouble(saldo));
 
-                Bundle bundle = new Bundle();
-                bundle.putDouble("saldo", Double.parseDouble(saldo));
+                    MainFragment.saldoGet = Float.parseFloat(saldo);
 
-                MainFragment.saldoGet = Float.parseFloat(saldo);
+                    saldoPost = saldoGet - 3.0f;
 
-                saldoPost = saldoGet - 3.0f;
+                    MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.tvSaldo.setText("R$ " + saldoPost);
-
-                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
-                post.execute(saldoPost);
+                    br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                    post.execute(saldoPost);
 //                MainFragment.dialog.dismiss();
+                    Giroscopio giro = new Giroscopio(mContext);
+                    giro.execute();
 
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("acelerometro_x", null);
-                bundle2.putString("acelerometro_y", null);
-                bundle2.putString("acelerometro_z", null);
-                bundle2.putString("velocidade_digitacao", null);
-                bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", null);
-                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", null);
-                mFirebaseAnalytics.logEvent("viagem_extra_3_00", bundle2);
-            }
+                    Bundle bundle2 = new Bundle();
+                    bundle.putString("giroscopio", Giroscopio.gyro);
+                    bundle2.putString("velocidade_digitacao", null);
+                    bundle2.putString("velocidade_clique", null);
+                    bundle2.putString("posicao_clique", null);
+                    bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle2.putString("id_celular", null);
+                    mFirebaseAnalytics.logEvent("viagem_extra_3_00", bundle2);
+                    giro.cancel(true);
+
+                }
             }
 //viagem extra 1,9
             else if (MainFragment.tipoGet.equals("4")) {
@@ -229,7 +231,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                 String saldo = jsonObject.getString("saldo");
 
-                if (Double.valueOf(saldo) < 1.9){
+                if (Double.valueOf(saldo) < 1.9) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setMessage("Você nao tem saldo suficiente para uma viagem extra, realize uma recarga antes");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -241,34 +243,34 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                     builder.create();
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }
+                } else {
 
-                else{
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("saldo", Double.parseDouble(saldo));
 
-                Bundle bundle = new Bundle();
-                bundle.putDouble("saldo", Double.parseDouble(saldo));
+                    MainFragment.saldoGet = Float.parseFloat(saldo);
 
-                MainFragment.saldoGet = Float.parseFloat(saldo);
+                    saldoPost = saldoGet - 1.9f;
 
-                saldoPost = saldoGet - 1.9f;
+                    MainFragment.tvSaldo.setText("R$ " + saldoPost);
 
-                MainFragment.tvSaldo.setText("R$ " + saldoPost);
-
-                br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
-                post.execute(saldoPost);
+                    br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
+                    post.execute(saldoPost);
 //                MainFragment.dialog.dismiss();
+                    Giroscopio giro = new Giroscopio(mContext);
+                    giro.execute();
 
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("acelerometro_x", null);
-                bundle2.putString("acelerometro_y", null);
-                bundle2.putString("acelerometro_z", null);
-                bundle2.putString("velocidade_digitacao", null);
-                bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", null);
-                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", null);
-                mFirebaseAnalytics.logEvent("viagem_extra_1_90", bundle2);
-            }
+                    Bundle bundle2 = new Bundle();
+                    bundle.putString("giroscopio", Giroscopio.gyro);
+                    bundle2.putString("velocidade_digitacao", null);
+                    bundle2.putString("velocidade_clique", null);
+                    bundle2.putString("posicao_clique", null);
+                    bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle2.putString("id_celular", null);
+                    mFirebaseAnalytics.logEvent("viagem_extra_1_90", bundle2);
+                    giro.cancel(true);
+
+                }
             }
 
             //viagem a menos 3,8
@@ -289,17 +291,19 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
                 post.execute(saldoPost);
 //                MainFragment.dialog.dismiss();
+                Giroscopio giro = new Giroscopio(mContext);
+                giro.execute();
 
                 Bundle bundle2 = new Bundle();
-                bundle2.putString("acelerometro_x", null);
-                bundle2.putString("acelerometro_y", null);
-                bundle2.putString("acelerometro_z", null);
+                bundle.putString("giroscopio", Giroscopio.gyro);
                 bundle2.putString("velocidade_digitacao", null);
                 bundle2.putString("velocidade_clique", null);
                 bundle2.putString("posicao_clique", null);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("viagem_menos_3_80", bundle2);
+                giro.cancel(true);
+
             }
 //viagem menos 3.0
             else if (MainFragment.tipoGet.equals("6")) {
@@ -319,17 +323,19 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
                 post.execute(saldoPost);
 //                MainFragment.dialog.dismiss();
+                Giroscopio giro = new Giroscopio(mContext);
+                giro.execute();
 
                 Bundle bundle2 = new Bundle();
-                bundle2.putString("acelerometro_x", null);
-                bundle2.putString("acelerometro_y", null);
-                bundle2.putString("acelerometro_z", null);
+                bundle.putString("giroscopio", Giroscopio.gyro);
                 bundle2.putString("velocidade_digitacao", null);
                 bundle2.putString("velocidade_clique", null);
                 bundle2.putString("posicao_clique", null);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("viagem_menos_3_00", bundle2);
+                giro.cancel(true);
+
             }
 //viagem menos 1,9
             else if (MainFragment.tipoGet.equals("7")) {
@@ -349,17 +355,19 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(mContext);
                 post.execute(saldoPost);
 //                MainFragment.dialog.dismiss();
+                Giroscopio giro = new Giroscopio(mContext);
+                giro.execute();
 
                 Bundle bundle2 = new Bundle();
-                bundle2.putString("acelerometro_x", null);
-                bundle2.putString("acelerometro_y", null);
-                bundle2.putString("acelerometro_z", null);
+                bundle.putString("giroscopio", Giroscopio.gyro);
                 bundle2.putString("velocidade_digitacao", null);
                 bundle2.putString("velocidade_clique", null);
                 bundle2.putString("posicao_clique", null);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("viagem_menos_1_90", bundle2);
+                giro.cancel(true);
+
             }
 
         } catch (JSONException e) {

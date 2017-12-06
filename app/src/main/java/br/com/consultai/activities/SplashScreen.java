@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import br.com.consultai.Giroscopio;
 import br.com.consultai.R;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
@@ -19,6 +20,9 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Giroscopio giro = new Giroscopio(this);
+        giro.execute();
         setContentView(R.layout.activity_splash_screen);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Branch branch = Branch.getInstance();
@@ -41,6 +45,7 @@ public class SplashScreen extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("origem", Origem);
                     bundle.putString("campanha", Campanha);
+                    bundle.putString("giroscopio", Giroscopio.gyro);
 
                     mFirebaseAnalytics.logEvent("Tracking", bundle);
 
@@ -51,6 +56,7 @@ public class SplashScreen extends AppCompatActivity {
             }
         }, this.getIntent().getData(), this);
 
+        giro.cancel(true);
 
         new Handler().postDelayed(new Runnable() {
 

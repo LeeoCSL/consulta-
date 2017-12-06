@@ -3,9 +3,12 @@ package br.com.consultai.post;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -15,6 +18,8 @@ import java.io.IOException;
 
 import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
+import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Cartao;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.Request;
@@ -23,6 +28,8 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
 
     private Context context;
     private ProgressDialog mDialog;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     public PostAtualizaCartao(Context context){
         this.context = context;
@@ -30,6 +37,9 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
 
     @Override
     protected String doInBackground(Cartao... cartaos) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
         Cartao cartao = cartaos[0];
 
         Gson gson = new Gson();
@@ -80,6 +90,24 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
 
             DialogUtil.hideProgressDialog(mDialog);
             Toast.makeText(context, "Seu cartão foi atualizado.", Toast.LENGTH_LONG).show();
+
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("giroscopio", Giroscopio.gyro);
+            bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
+            bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
+            bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
+            bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
+            bundle2.putString("velocidade_clique", null);
+            bundle2.putString("posicao_clique", null);
+            bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("editar_bilhete", bundle2);
+
+            giro.cancel(true);
+
         } catch (JSONException e) {
             DialogUtil.hideProgressDialog(mDialog);
             e.printStackTrace();
