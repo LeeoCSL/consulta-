@@ -6,9 +6,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -36,8 +39,13 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
     private Rotina rotinaIda;
     private Rotina rotinaVolta;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
     public RotinaPostRequest(Activity context){
         this.context = context;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
     }
 
 
@@ -92,6 +100,21 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
             EditarActivity.ROTINA_VOLTA = rotinaVolta;
             MainFragment.DIAS_ATIVOS = rotinaIda.getDays();
             MainFragment.loadImages();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("acelerometro_x", null);
+            bundle.putString("acelerometro_y", null);
+            bundle.putString("acelerometro_z", null);
+            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("velocidade_clique", null);
+            bundle.putString("posicao_clique", null);
+            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
+            mFirebaseAnalytics.logEvent("cadastro_rotina", bundle);
+
+
+
+
             context.finish();
         }else{
             AlertDialog.Builder builder = new AlertDialog.Builder(context);

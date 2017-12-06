@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
-import com.crashlytics.android.Crashlytics;
+//import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
@@ -43,6 +43,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class MainFragment extends Fragment {
+
 
     public static double SALDO = -1;
     public static String APELIDO;
@@ -73,7 +74,8 @@ public class MainFragment extends Fragment {
 
     Button btnExcluir;
 
-    public MainFragment() {}
+    public MainFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -187,11 +189,11 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        Toast.makeText(getContext(), input.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), input.getText().toString().trim(), Toast.LENGTH_SHORT).show();
 
                         double value = Utility.stringToFloat(input.getText().toString().trim());
 
-                        Toast.makeText(getContext(), String.valueOf(Utility.stringToFloat(input.getText().toString().trim())), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), String.valueOf(Utility.stringToFloat(input.getText().toString().trim())), Toast.LENGTH_SHORT).show();
 //                            double value = 50;
                         double saldo = SALDO + value;
 
@@ -386,10 +388,9 @@ public class MainFragment extends Fragment {
         rotina.execute();*/
 
         int count = 0;
-        for(int i = 0; i < DIAS_ATIVOS.length; i++){
+        for (int i = 0; i < DIAS_ATIVOS.length; i++) {
             count += DIAS_ATIVOS[i];
         }
-
 
 
         tipoGet = "0";

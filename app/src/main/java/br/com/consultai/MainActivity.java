@@ -1,8 +1,10 @@
 package br.com.consultai;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -26,8 +28,17 @@ import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.BottomNavigationViewHelper;
+//import com.crashlytics.android.Crashlytics;
+//import io.fabric.sdk.android.Fabric;
+//import com.crashlytics.android.CrashlyticsInitProvider;
 
 public class MainActivity extends AppCompatActivity {
+
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -39,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+//        Fabric.with(this, new Crashlytics());
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -99,10 +111,11 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_exit:
 
+                    Giroscopio giro = new Giroscopio(MainActivity.this);
+                    giro.execute();
+
                     Bundle bundle = new Bundle();
-                    bundle.putString("acelerometro_x", null);
-                    bundle.putString("acelerometro_y", null);
-                    bundle.putString("acelerometro_z", null);
+                    bundle.putString("giroscopio", Giroscopio.gyro);
                     bundle.putString("velocidade_digitacao", null);
                     bundle.putString("velocidade_clique", null);
                     bundle.putString("posicao_clique", null);
@@ -110,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     bundle.putString("id_celular", null);
                     mFirebaseAnalytics.logEvent("logout", bundle);
 
+                    giro.cancel(true);
 
                     logout();
                     return true;

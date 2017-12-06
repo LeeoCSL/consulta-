@@ -14,11 +14,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.R;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.post.RotinaPostRequest;
@@ -26,6 +28,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EditarActivity extends AppCompatActivity {
+
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     public static Rotina ROTINA_IDA;
     public static Rotina ROTINA_VOLTA;
@@ -85,6 +90,11 @@ public class EditarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editar);
 
         ButterKnife.bind(this);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+
+
 
         initializeCheckeds();
         initializeUncheckeds();
@@ -269,9 +279,40 @@ public class EditarActivity extends AppCompatActivity {
                 if(tipoRotina == 0){
                     mHoraRotina1 = hr+ ":" +mn+ ":00";
                     mHoraSelecionada1.setText(hr+"h" +mn+ "min");
+
+
+                    Giroscopio giro = new Giroscopio(EditarActivity.this);
+                    giro.execute();
+
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("giroscopio", Giroscopio.gyro);
+                    bundle.putString("velocidade_digitacao", null);
+                    bundle.putString("velocidade_clique", null);
+                    bundle.putString("posicao_clique", null);
+                    bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle.putString("id_celular", null);
+                    mFirebaseAnalytics.logEvent("selecao_hora_ida", bundle);
+                    giro.cancel(true);
+
+
                 }else{
                     mHoraRotina2 = hr+ ":" +mn+ ":00";
                     mHoraSelecionada2.setText(hr+"h" +mn+ "min");
+
+                    Giroscopio giro = new Giroscopio(EditarActivity.this);
+                    giro.execute();
+
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("giroscopio", Giroscopio.gyro);
+                    bundle.putString("velocidade_digitacao", null);
+                    bundle.putString("velocidade_clique", null);
+                    bundle.putString("posicao_clique", null);
+                    bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle.putString("id_celular", null);
+                    mFirebaseAnalytics.logEvent("selecao_hora_volta", bundle);
+                    giro.cancel(true);
                 }
             }
         }, hh,mm,true);
