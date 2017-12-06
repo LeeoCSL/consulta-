@@ -58,7 +58,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             Notification notification = new Notification.Builder(this)
                     .setContentTitle("Aviso!")
                     .setContentText(message)
-                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setChannelId(CHANNEL_ID)
                     .build();
 

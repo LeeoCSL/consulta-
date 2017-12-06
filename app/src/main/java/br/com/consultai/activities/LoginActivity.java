@@ -400,6 +400,7 @@ public class LoginActivity extends AppCompatActivity {
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Aguarde");
         mDialog.setMessage("Estamos verificando suas credenciais.");
+        mDialog.setCancelable(false);
         mDialog.show();
 
         loginWithEmailAndPassword();

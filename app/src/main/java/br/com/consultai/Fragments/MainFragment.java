@@ -178,6 +178,7 @@ public class MainFragment extends Fragment {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Digite o valor da recarga");
+                builder.setCancelable(false);
 
                 final CurrencyEditText input = new CurrencyEditText(getContext(), null);
                 builder.setView(input);
@@ -197,8 +198,16 @@ public class MainFragment extends Fragment {
 //                            double value = 50;
                         double saldo = SALDO + value;
 
+
                         br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(getContext());
                         post.execute(saldo);
+                    }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
                     }
                 });
 
@@ -392,14 +401,13 @@ public class MainFragment extends Fragment {
             count += DIAS_ATIVOS[i];
         }
 
-
         tipoGet = "0";
 
         if (SALDO < 0) {
             br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
             request.execute();
         } else {
-            tvSaldo.setText("R$ " + SALDO);
+            tvSaldo.setText("R$ " + String.format( "%.2f", SALDO ).replace('.',','));
         }
 
         txtNomeBilhete.setText(APELIDO);

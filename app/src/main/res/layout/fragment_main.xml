@@ -138,15 +138,13 @@
             />
 
         <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_below="@+id/btnRecarga"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:gravity="center"
-    >
-
-
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btnExcluir"
@@ -174,6 +172,16 @@
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_below="@+id/ll"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/mais"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
     </RelativeLayout>
 
         <TextView
@@ -181,15 +189,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutMain"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/mais"
-        android:layout_alignParentRight="true"/>
-
     </RelativeLayout>
 </FrameLayout>
