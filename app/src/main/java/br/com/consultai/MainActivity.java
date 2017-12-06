@@ -33,10 +33,7 @@ import br.com.consultai.utils.BottomNavigationViewHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
+
 
     private FirebaseAnalytics mFirebaseAnalytics;
 

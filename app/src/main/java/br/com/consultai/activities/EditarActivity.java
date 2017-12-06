@@ -104,7 +104,6 @@ public class EditarActivity extends AppCompatActivity {
 
 
 
-
         initializeCheckeds();
         initializeUncheckeds();
         initializeButtons();
