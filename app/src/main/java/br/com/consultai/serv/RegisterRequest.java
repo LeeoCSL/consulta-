@@ -3,11 +3,15 @@ package br.com.consultai.serv;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
@@ -44,15 +48,12 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     public RegisterRequest(Context context) {
         this.context = context;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
-
-    private ProgressDialog mDialog;
 
     protected String doInBackground(Usuario... usuarios) {
 
         Usuario usuario = usuarios[0];
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
         Gson gson = new Gson();
 
@@ -81,28 +82,39 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-
-        DialogUtil.hideProgressDialog(mDialog);
         if (response == null) {
-            FirebaseAuth.getInstance().signOut();
-            context.startActivity(new Intent(context, LoginActivity.class));
-        } else {
-            context.startActivity(new Intent(context, CadastroCartaoActivity.class));
+            FirebaseAuth.getInstance().getCurrentUser()
+                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Ops!");
+                        builder.setMessage("Falha no comunicação com o servidor. Tente mais tarde.");
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                LoginActivity.mDialog.dismiss();
+                            }
+                        });
+
+                        builder.show();
+                    }
+                }
+            });
+            return;
         }
+
         try {
-
-
             JSONObject jsonObject = new JSONObject(response);
-//
+
             LoginActivity.LOGIN_TOKEN = jsonObject.getString("login_token");
 
-//
-            Log.i("logintoken", LoginActivity.LOGIN_TOKEN);
+            LoginActivity.mDialog.dismiss();
+            context.startActivity(new Intent(context, CadastroCartaoActivity.class));
 
-            String apelido = jsonObject.getString("apelido");
-            MainFragment.APELIDO = apelido;
-
-            Giroscopio giro = new Giroscopio(context);
+/*            Giroscopio giro = new Giroscopio(context);
             giro.execute();
 
             Bundle bundle2 = new Bundle();
@@ -117,14 +129,32 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 //            bundle2.putString("id_celular", null);
             Log.v("cad", RegisterActivity.coords);
             mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
-            giro.cancel(true);
+            giro.cancel(true);*/
+//
 
+        } catch (final JSONException e) {
+            FirebaseAuth.getInstance().getCurrentUser()
+                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
 
-//            //TODO popular evento
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Ops!");
+                        builder.setMessage("Falha no comunicação com o servidor. Tente mais tarde." +e.getMessage());
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                RegisterActivity.mDialog.dismiss();
+                            }
+                        });
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-
+                        builder.show();
+                    }
+                }
+            });
+            return;
+/*
             Giroscopio giro = new Giroscopio(context);
             giro.execute();
 
@@ -140,65 +170,12 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 //            bundle2.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
 
-            giro.cancel(true);
+            giro.cancel(true);*/
         }
-
-
-
-      /*  try {
-            JSONObject jsonObject = new JSONObject(s);
-
-            String loginToken = jsonObject.getString("login_token");
-            String saldo = jsonObject.getString("user_saldo");
-
-            LoginActivity.LOGIN_TOKEN = loginToken;
-
-            Bundle bundle2 = new Bundle();
-            bundle2.putString("acelerometro_x", null);
-            bundle2.putString("acelerometro_y", null);
-            bundle2.putString("acelerometro_z", null);
-            bundle2.putString("velocidade_digi_email", tempoEmail);
-            bundle2.putString("velocidade_digi_senha", tempoSenha);
-            bundle2.putString("velocidade_digi_nome", tempoNome);
-            bundle2.putString("velocidade_digi_sexo", tempoSexo);
-            bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", null);
-            bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", null);
-            mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
-
-            //TODO popular evento
-
-            Bundle bundle = new Bundle();
-            bundle.putDouble("saldo", Double.parseDouble(saldo));
-            Intent intent = new Intent(context, CadastroCartaoActivity.class);
-            intent.putExtras(bundle);
-            context.startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("acelerometro_x", null);
-            bundle.putString("acelerometro_y", null);
-            bundle.putString("acelerometro_z", null);
-            bundle.putString("velocidade_digitacao", null);
-            bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", null);
-            bundle.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", null);
-            mFirebaseAnalytics.logEvent("cadastro_erro", bundle);
-            //TODO popular evento
-
-            FirebaseAuth.getInstance().signOut();
-
-            Toast.makeText(context,"Falha na conexão com o servidor. Tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
-
-        }*/
     }
 
     @Override
     protected void onPreExecute() {
-        mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos processando seus dados.");
+
     }
 }
-

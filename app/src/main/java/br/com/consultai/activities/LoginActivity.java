@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String idFacebook;
     public static String emailFB;
     private FirebaseAnalytics mFirebaseAnalytics;
+
     String deviceBrand = android.os.Build.MANUFACTURER;
 
     String serialNumber = Build.SERIAL;
@@ -97,9 +98,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.input_password)
     EditText mPassword;
-
-//    @BindView(R.id.iv_background)
-//    ImageView mBackgroundImage;
 
     private FirebaseAuth mAuth;
 
@@ -118,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String user_email, user_password;
 
-    private ProgressDialog mDialog;
+    public static ProgressDialog mDialog;
     private String notification_token;
 
     public static String tempoEmail, tempoSenha;
@@ -134,13 +132,6 @@ public class LoginActivity extends AppCompatActivity {
         mDialog = new ProgressDialog(this);
         ButterKnife.bind(this);
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Intent intent = new Intent(LoginActivity.this, CadastroCartaoActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
-
         if (LOGIN_TOKEN == null) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             LOGIN_TOKEN = sp.getString("loginToken", "");
@@ -155,12 +146,6 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleLogin = (SignInButton) findViewById(R.id.login_google);
 
 
-        if (mAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -312,11 +297,6 @@ public class LoginActivity extends AppCompatActivity {
                         bundle.putString("email_google", user.getEmail());
                         bundle.putString("nome", sharedPref.getString("nome", ""));
                         mFirebaseAnalytics.logEvent("login_google_ok", bundle);
-
-                        Intent intent = new Intent(LoginActivity.this, CadastroCartaoActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
                     }
                 });
 
@@ -416,11 +396,16 @@ public class LoginActivity extends AppCompatActivity {
             mPassword.setError("Senha inválida.");
             return;
         }
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Aguarde");
+        mDialog.setMessage("Estamos verificando suas credenciais.");
+        mDialog.show();
+
         loginWithEmailAndPassword();
     }
 
     private void loginWithEmailAndPassword() {
-
         mAuth.signInWithEmailAndPassword(user_email, user_password)
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override

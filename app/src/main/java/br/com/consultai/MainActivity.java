@@ -19,6 +19,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.iid.FirebaseInstanceId;
 //import com.roughike.bottombar.OnMenuTabClickListener;
 
 
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.i("tokenasxs", token);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 

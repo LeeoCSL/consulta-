@@ -65,9 +65,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private String [] resSexo = new String[]{"Masculino", "Feminino"};
 
-
-    private ProgressDialog mDialog;
-
     private FirebaseAnalytics mFirebaseAnalytics;
 
     SharedPreferences sharedPref;
@@ -94,6 +91,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static String coords = "coordenadas";
 
+    public static ProgressDialog mDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mDialog = new ProgressDialog(this);
         mEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -209,6 +207,12 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Aguarde");
+        mDialog.setMessage("Estamos verificando suas credenciais.");
+        mDialog.setCancelable(false);
+        mDialog.show();
+
         createUser(userEmail, userPassword);
     }
 
@@ -241,6 +245,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(RegisterActivity.this,  "Algum erro ocorreu. Tente novamente.", Toast.LENGTH_LONG).show();
+                mDialog.dismiss();
             }
         });
     }
