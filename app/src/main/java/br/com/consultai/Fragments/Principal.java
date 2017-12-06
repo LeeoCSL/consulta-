@@ -67,8 +67,8 @@ return view;
             @Override
             public void onClick(View view) {
 //                saldo = saldo+recarga;
-                saldo = 100.0f;
-                txt_valor.setText(saldo.toString());
+//                saldo = 100.0f;
+//                txt_valor.setText(saldo.toString());
 
                 dialog.dismiss();
 

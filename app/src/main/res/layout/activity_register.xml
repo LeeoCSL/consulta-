@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,9 +12,9 @@
         android:id="@+id/img_logo"
         android:layout_width="60dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/logo_final" android:layout_centerHorizontal="true"/>
+        android:background="@drawable/logo_final"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,11 +22,8 @@
         android:layout_above="@+id/btn_continuar"
         android:layout_below="@+id/img_logo"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="25dp">
-
+        android:padding="8dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,9 +31,9 @@
             android:layout_gravity="center_horizontal"
             android:text="Preencha os campos abaixo \npara realizar seu cadastro!"
             android:textAlignment="center"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:layout_marginBottom="20dp"/>
-
 
         <ScrollView
             android:layout_width="match_parent"
@@ -55,6 +52,7 @@
                         android:id="@+id/edt_nome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorPrimaryDark"
                         android:hint="Seu nome"
                         android:inputType="text"
                         android:textColor="#000000" />
@@ -64,6 +62,8 @@
                     android:id="@+id/sp_sexo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:layout_margin="10dp" />
 
 
@@ -76,6 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Email"
+                        android:backgroundTint="@color/colorPrimaryDark"
                         android:inputType="textEmailAddress" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -88,6 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Senha"
+                        android:backgroundTint="@color/colorPrimaryDark"
                         android:inputType="textPassword" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -101,9 +103,9 @@
                         android:id="@+id/edt_confirmar_senha"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorPrimaryDark"
                         android:hint="Confirme a senha"
                         android:inputType="textPassword" />
-
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -119,7 +121,6 @@
         android:layout_margin="10dp"
         android:background="@drawable/btn_default"
         android:onClick="handlerUserRegister"
-        android:text="CONTINUAR"
+        android:text="Continuar"
         android:textColor="#FFFFFF" />
-
 </RelativeLayout>

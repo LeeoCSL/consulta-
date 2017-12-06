@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
@@ -31,12 +32,10 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     private Context context;
 
-    private FirebaseAnalytics mFirebaseAnalytics;
     public RegisterRequest(Context context){
         this.context = context;
     }
 
-    private ProgressDialog mDialog;
 
     protected String doInBackground(Usuario... usuarios) {
 
@@ -44,7 +43,6 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
         Log.i("uservindo", usuario.toString());
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
         Gson gson = new Gson();
 
@@ -74,18 +72,18 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
     @Override
     protected void onPostExecute(String response) {
 
-        DialogUtil.hideProgressDialog(mDialog);
-        context.startActivity(new Intent(context, CadastroCartaoActivity.class));
+        Log.i("respjiodj", response);
 
         try{
             JSONObject jsonObject = new JSONObject(response);
-//
+
             LoginActivity.LOGIN_TOKEN = jsonObject.getString("login_token");
 
-//
-            Log.i("logintoken", LoginActivity.LOGIN_TOKEN);
-//
-            Bundle bundle2 = new Bundle();
+            Log.i("responstring", response);
+
+            RegisterActivity.mDialog.dismiss();
+
+/*            Bundle bundle2 = new Bundle();
             bundle2.putString("acelerometro_x", null);
             bundle2.putString("acelerometro_y", null);
             bundle2.putString("acelerometro_z", null);
@@ -94,15 +92,18 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
             bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
             bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
             bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", null);
+            bundle2.putString("posicao_clique", RegisterActivity.coords);
             bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
             bundle2.putString("id_celular", null);
-            mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
-//
-//            //TODO popular evento
-//
+
+            mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);*/
+
+            context.startActivity(new Intent(context, CadastroCartaoActivity.class));
+
         }catch (JSONException e) {
-            e.printStackTrace();
+            RegisterActivity.mDialog.dismiss();
+            Log.i("edasro", e.getMessage());
+/*            Log.i("ero", e.getMessage());
                     Bundle bundle2 = new Bundle();
             bundle2.putString("acelerometro_x", null);
             bundle2.putString("acelerometro_y", null);
@@ -115,7 +116,7 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
             bundle2.putString("posicao_clique", null);
             bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
             bundle2.putString("id_celular", null);
-            mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
+            mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);*/
         }
 
 
@@ -173,7 +174,6 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     @Override
     protected void onPreExecute() {
-        mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos processando seus dados.");
     }
 }
 

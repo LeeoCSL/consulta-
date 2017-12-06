@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import br.com.consultai.Fragments.ContaFragment;
+import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
@@ -67,6 +68,8 @@ public class GetCartaoRequest extends AsyncTask<String, Void, String> {
                 String numero = jsonObject.getString("numero");
                 int estudante = jsonObject.getInt("estudante");
                 double saldo = jsonObject.getDouble("saldo");
+
+                MainFragment.tipo = estudante;
 
                 Cartao cartao = new Cartao();
                 cartao.setApelido(apelido);

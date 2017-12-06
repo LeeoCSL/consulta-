@@ -1,5 +1,6 @@
 package br.com.consultai.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -12,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -31,19 +33,23 @@ public class CadastroCartaoActivity extends AppCompatActivity {
     EditText mApelido;
 
     @BindView(R.id.edt_saldo)
-    EditText mSaldo;
+    CurrencyEditText mSaldo;
 
     @BindView(R.id.edt_numero)
     EditText mNumero;
 
     String apelido, numero;
-    int saldo;
+    double  saldo;
 
+    @BindView(R.id.btnProximo)
     Button btnProximo;
 
     Boolean estudante;
 
+    @BindView(R.id.checkEstudante)
     CheckBox checkEstudante;
+
+    public static ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +58,6 @@ public class CadastroCartaoActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        checkEstudante = (CheckBox) findViewById(R.id.checkEstudante);
-
-        btnProximo = (Button) findViewById(R.id.btnProximo);
 
         btnProximo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +72,6 @@ public class CadastroCartaoActivity extends AppCompatActivity {
         apelido = mApelido.getText().toString().trim();
         String saldoStr = mSaldo.getText().toString().trim();
         numero = mNumero.getText().toString().trim();
-
 
         if (TextUtils.isEmpty(apelido)) {
             mApelido.setError("O campo apelido está vazio.");
@@ -89,26 +91,25 @@ public class CadastroCartaoActivity extends AppCompatActivity {
         if (checkEstudante.isChecked()) {
             estudante = true;
         }
+
         if (!checkEstudante.isChecked()) {
             estudante = false;
         }
 
-        saldo = Integer.parseInt(mSaldo.getText().toString().trim());
+        saldo = Utility.stringToFloat(mSaldo.getText().toString().trim());
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Aguarde");
+        mDialog.setMessage("Estamos verificando suas credenciais.");
+        mDialog.show();
 
         createCartao(numero, apelido, String.valueOf(saldo), String.valueOf(estudante));
     }
 
     private void createCartao(String numero, String apelido, String saldo, String estudante) {
-        //Toast.makeText(this, numero + ", " + apelido + ", " + saldo + ", " + estudante + ", " , Toast.LENGTH_SHORT).show();
-
         RegisterCartaoRequest registerCartao = new RegisterCartaoRequest(this);
+
         //TODO incluir tipo
         registerCartao.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), LoginActivity.LOGIN_TOKEN, numero, apelido, saldo, estudante);
-
-
-        Intent intent = new Intent(CadastroCartaoActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 }

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
@@ -64,7 +65,7 @@ public class MainFragment extends Fragment {
     public static String tipoGet;
 
     public static TextView txtNomeBilhete;
-    String tipo;
+    public static int tipo;
     public static float saldoGet;
     public static double saldoPost;
     Button btnRecarga;
@@ -121,8 +122,6 @@ public class MainFragment extends Fragment {
 
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
 
-        img_logo = (ImageView) view.findViewById(R.id.img_logo);
-
         btnExcluir = (Button) view.findViewById(R.id.btnExcluir);
 
         txtVlr = (TextView) view.findViewById(R.id.txtVlr);
@@ -134,6 +133,9 @@ public class MainFragment extends Fragment {
 
         GetCartaoRequest cartaoRequest = new GetCartaoRequest(getContext());
         cartaoRequest.execute();
+
+        br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
+        request.execute();
 
         btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,8 +187,11 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        double value = Utility.stringToFloat(input.getText().toString());
-                        Toast.makeText(getContext(), value + input.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), input.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+
+                        double value = Utility.stringToFloat(input.getText().toString().trim());
+
+                        Toast.makeText(getContext(), String.valueOf(Utility.stringToFloat(input.getText().toString().trim())), Toast.LENGTH_SHORT).show();
 //                            double value = 50;
                         double saldo = SALDO + value;
 
@@ -202,8 +207,9 @@ public class MainFragment extends Fragment {
 
         tvSaldo = view.findViewById(R.id.txt_valor);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        tipo = sharedPref.getString("userTipo", "COMUM");
+//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+//        tipo = sharedPref.getString("userTipo", "COMUM");
+
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -225,12 +231,12 @@ public class MainFragment extends Fragment {
                 Button menosIntegracaoComum = (Button) mView.findViewById(R.id.btnMenosIntegracaoComum);
                 Button menosEstudante = (Button) mView.findViewById(R.id.btnMenosEstudante);
 
-                if (tipo.equals("COMUM")) {
+                if (tipo == 0) {
                     maisOnibusComum.setVisibility(View.VISIBLE);
                     maisIntegracaoComum.setVisibility(View.VISIBLE);
                     menosOnibusComum.setVisibility(View.VISIBLE);
                     menosIntegracaoComum.setVisibility(View.VISIBLE);
-                } else if (tipo.equals("ESTUDANTE")) {
+                } else if (tipo == 1) {
                     maisEstudante.setVisibility(View.VISIBLE);
                     menosEstudante.setVisibility(View.VISIBLE);
                 }
@@ -278,7 +284,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         tipoGet = "2";
-                        Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
 
                         GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
                         getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
@@ -288,7 +294,7 @@ public class MainFragment extends Fragment {
                 maisIntegracaoComum.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
 
                         tipoGet = "3";
                         GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
@@ -300,7 +306,7 @@ public class MainFragment extends Fragment {
                 maisEstudante.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
 
                         tipoGet = "4";
                         GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());

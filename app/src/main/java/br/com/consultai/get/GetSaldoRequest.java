@@ -44,8 +44,6 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
 
         String url = "https://zazzytec.com.br/user_saldo?id=" + userID + "&login_token=" + LoginActivity.LOGIN_TOKEN;
 
-        Log.i("urlman", url);
-
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)

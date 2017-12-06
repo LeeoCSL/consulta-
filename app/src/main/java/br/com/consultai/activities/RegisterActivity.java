@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -64,9 +65,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private String [] resSexo = new String[]{"Masculino", "Feminino"};
 
-
-    private ProgressDialog mDialog;
-
     private FirebaseAnalytics mFirebaseAnalytics;
 
     SharedPreferences sharedPref;
@@ -91,6 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static String tempoEmail, tempoSenha, tempoNome, tempoSexo;
 
+    public static String coords = "coordenadas";
+
+    public static ProgressDialog mDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mDialog = new ProgressDialog(this);
         mEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -206,6 +207,12 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Aguarde");
+        mDialog.setMessage("Estamos verificando suas credenciais.");
+        mDialog.setCancelable(false);
+        mDialog.show();
+
         createUser(userEmail, userPassword);
     }
 
@@ -229,6 +236,7 @@ public class RegisterActivity extends AppCompatActivity {
                         usuario.setIdUsuario(userID);
                         usuario.setSistemaOperacional("ANDROID");
 
+
                         RegisterRequest register = new RegisterRequest(RegisterActivity.this);
                         register.execute(usuario);
                     }
@@ -236,8 +244,28 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(RegisterActivity.this,  "Algum erro ocorreu. Tente novamente.", Toast.LENGTH_LONG).show();
+                mDialog.dismiss();
             }
         });
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_UP:
+        }
+
+        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
+
+        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
+//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
+        return false;
+
+    }
+
 }
 

@@ -34,9 +34,11 @@ import okhttp3.Response;
  */
 
 public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
+
     private Context context;
     private AlertDialog.Builder dialog;
     private FirebaseAnalytics mFirebaseAnalytics;
+    String cartaoApelido;
 
     public RegisterCartaoRequest(Context context){
         this.context = context;
@@ -48,7 +50,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
         String id = strings[0];
         String token = strings[1];
         String cartaoNumero = strings[2];
-        String cartaoApelido = strings[3];
+        cartaoApelido = strings[3];
 
         Cartao cartao = new Cartao();
         cartao.setIdUsuario(id);
@@ -84,8 +86,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
         try {
             Response response = client2.newCall(request2).execute();
-            Log.i("resp_server", response.body().string());
-            return response.body().toString();
+            return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,22 +95,18 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-
         try {
             JSONObject jsonObject = new JSONObject(s);
 
+
             String loginToken = jsonObject.getString("login_token");
-            String saldo = jsonObject.getString("saldo");
+            double saldo = jsonObject.getDouble("saldo");
             String apelido = jsonObject.getString("apelido");
 
             LoginActivity.LOGIN_TOKEN = loginToken;
 
-            MainFragment.SALDO = Double.parseDouble(saldo);
-            MainFragment.APELIDO = apelido;
-
-            Toast.makeText(context, apelido, Toast.LENGTH_SHORT).show();
-            Toast.makeText(context, saldo, Toast.LENGTH_SHORT).show();
+            MainFragment.SALDO = saldo;
+            //MainFragment.txtNomeBilhete.setText(apelido);
 
             Bundle bundle2 = new Bundle();
             bundle2.putString("acelerometro_x", null);
@@ -124,12 +121,17 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             //TODO popular evento
 
             Bundle bundle = new Bundle();
-            bundle.putDouble("saldo", Double.parseDouble(saldo));
+            bundle.putDouble("saldo", saldo);
             Intent intent = new Intent(context, MainActivity.class);
             intent.putExtras(bundle);
+
+            CadastroCartaoActivity.mDialog.dismiss();
+
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
+
+            Log.i("errox", e.toString());
         }
     }
 
