@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -44,6 +45,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainFragment extends Fragment {
 
+    public static String coords = "coordenadas";
 
     public static double SALDO = -1;
     public static String APELIDO;
@@ -179,6 +181,7 @@ public class MainFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Digite o valor da recarga");
 
+
                 final CurrencyEditText input = new CurrencyEditText(getContext(), null);
                 builder.setView(input);
 
@@ -200,6 +203,11 @@ public class MainFragment extends Fragment {
                         br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(getContext());
                         post.execute(saldo);
                     }
+                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
                 });
 
                 builder.show();
@@ -220,7 +228,13 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-                View mView = getLayoutInflater().inflate(R.layout.viagem_mais, null);
+                mBuilder.setPositiveButton("Pronto", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        View mView = getLayoutInflater().inflate(R.layout.viagem_mais, null);
                 ImageView comoFunciona = (ImageView) mView.findViewById(R.id.btnComoFunciona);
                 ImageView comoFuncionaMenos = (ImageView) mView.findViewById(R.id.btnComoFuncionaMenos);
 
@@ -415,5 +429,22 @@ public class MainFragment extends Fragment {
                 btnDias[i].setBackgroundResource(uncheckedImg[i]);
             }
         }
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_UP:
+        }
+
+        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
+
+        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
+//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
+        return false;
+
     }
 }

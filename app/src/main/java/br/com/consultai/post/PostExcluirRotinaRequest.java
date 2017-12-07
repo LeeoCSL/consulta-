@@ -104,7 +104,7 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> 
             bundle.putString("giroscopio", Giroscopio.gyro);
             bundle.putString("velocidade_digitacao", null);
             bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", null);
+            bundle.putString("posicao_clique", MainFragment.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
             bundle.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("excluir_rotina", bundle);

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.R;
 import br.com.consultai.Tabs.Tab_Ida;
 import br.com.consultai.Tabs.Tab_Volta;
@@ -101,19 +102,16 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
             MainFragment.DIAS_ATIVOS = rotinaIda.getDays();
             MainFragment.loadImages();
 
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
             Bundle bundle = new Bundle();
-            bundle.putString("acelerometro_x", null);
-            bundle.putString("acelerometro_y", null);
-            bundle.putString("acelerometro_z", null);
-            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("giroscopio", Giroscopio.gyro);
             bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", null);
+            bundle.putString("posicao_clique", EditarActivity.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
             bundle.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("cadastro_rotina", bundle);
-
-
-
+            giro.cancel(true);
 
             context.finish();
         }else{

@@ -114,7 +114,7 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
             LoginActivity.mDialog.dismiss();
             context.startActivity(new Intent(context, CadastroCartaoActivity.class));
 
-/*            Giroscopio giro = new Giroscopio(context);
+            Giroscopio giro = new Giroscopio(context);
             giro.execute();
 
             Bundle bundle2 = new Bundle();
@@ -129,8 +129,8 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 //            bundle2.putString("id_celular", null);
             Log.v("cad", RegisterActivity.coords);
             mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
-            giro.cancel(true);*/
-//
+            giro.cancel(true);
+
 
         } catch (final JSONException e) {
             FirebaseAuth.getInstance().getCurrentUser()
@@ -153,8 +153,8 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
                     }
                 }
             });
-            return;
-/*
+
+
             Giroscopio giro = new Giroscopio(context);
             giro.execute();
 
@@ -170,7 +170,8 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 //            bundle2.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
 
-            giro.cancel(true);*/
+            giro.cancel(true);
+            return;
         }
     }
 

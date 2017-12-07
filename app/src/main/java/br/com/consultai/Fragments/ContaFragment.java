@@ -2,7 +2,9 @@ package br.com.consultai.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +26,7 @@ import br.com.consultai.serv.GetCartaoRequest;
 public class ContaFragment extends Fragment {
 
     public ContaFragment(){}
-
+    public static String coords = "coordenadas";
     public static EditText mApelido;
     public static EditText mNumero;
 
@@ -107,4 +109,23 @@ public class ContaFragment extends Fragment {
         PostAtualizaCartao postAtualizaCartao = new PostAtualizaCartao(getContext());
         postAtualizaCartao.execute(cartao);
     }
+
+
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_UP:
+        }
+
+        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
+
+        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
+//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
+        return false;
+
+    }
+
 }

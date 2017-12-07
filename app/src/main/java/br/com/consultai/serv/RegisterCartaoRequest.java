@@ -137,8 +137,8 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             LoginActivity.LOGIN_TOKEN = loginToken;
 
             MainFragment.SALDO = saldo;
-            //MainFragment.txtNomeBilhete.setText(apelido);
-/*
+
+
             Giroscopio giro = new Giroscopio(context);
             giro.execute();
 
@@ -153,7 +153,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             //TODO popular evento
             giro.cancel(true);
 
-*/
+
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", saldo);
             Intent intent = new Intent(context, MainActivity.class);

@@ -95,17 +95,17 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 MainFragment.tvSaldo.setText("R$ " + saldo);
                 MainFragment.dialog.dismiss();
 
+                Giroscopio giro = new Giroscopio(mContext);
+                giro.execute();
+
                 Bundle bundle2 = new Bundle();
-                bundle2.putString("acelerometro_x", null);
-                bundle2.putString("acelerometro_y", null);
-                bundle2.putString("acelerometro_z", null);
-                bundle2.putString("velocidade_digitacao", null);
-                bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", null);
+                bundle.putString("giroscopio", Giroscopio.gyro);
+//                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", MainFragment.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("atualizacao_saldo_sucesso", bundle2);
-
+                giro.cancel(true);
 
             } else if (MainFragment.tipoGet.equals("1")) {
                 JSONObject jsonObject = new JSONObject(s);
@@ -167,9 +167,8 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                     Bundle bundle2 = new Bundle();
                     bundle.putString("giroscopio", Giroscopio.gyro);
-                    bundle2.putString("velocidade_digitacao", null);
                     bundle2.putString("velocidade_clique", null);
-                    bundle2.putString("posicao_clique", null);
+                    bundle2.putString("posicao_clique", MainFragment.coords);
                     bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     bundle2.putString("id_celular", null);
                     mFirebaseAnalytics.logEvent("viagem_extra_3_80", bundle2);
@@ -215,9 +214,8 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                     Bundle bundle2 = new Bundle();
                     bundle.putString("giroscopio", Giroscopio.gyro);
-                    bundle2.putString("velocidade_digitacao", null);
                     bundle2.putString("velocidade_clique", null);
-                    bundle2.putString("posicao_clique", null);
+                    bundle2.putString("posicao_clique", MainFragment.coords);
                     bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     bundle2.putString("id_celular", null);
                     mFirebaseAnalytics.logEvent("viagem_extra_3_00", bundle2);
@@ -262,9 +260,8 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                     Bundle bundle2 = new Bundle();
                     bundle.putString("giroscopio", Giroscopio.gyro);
-                    bundle2.putString("velocidade_digitacao", null);
                     bundle2.putString("velocidade_clique", null);
-                    bundle2.putString("posicao_clique", null);
+                    bundle2.putString("posicao_clique", MainFragment.coords);
                     bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     bundle2.putString("id_celular", null);
                     mFirebaseAnalytics.logEvent("viagem_extra_1_90", bundle2);
@@ -296,9 +293,8 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                 Bundle bundle2 = new Bundle();
                 bundle.putString("giroscopio", Giroscopio.gyro);
-                bundle2.putString("velocidade_digitacao", null);
                 bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", null);
+                bundle2.putString("posicao_clique", MainFragment.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("viagem_menos_3_80", bundle2);
@@ -328,9 +324,8 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                 Bundle bundle2 = new Bundle();
                 bundle.putString("giroscopio", Giroscopio.gyro);
-                bundle2.putString("velocidade_digitacao", null);
                 bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", null);
+                bundle2.putString("posicao_clique", MainFragment.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("viagem_menos_3_00", bundle2);
@@ -360,9 +355,8 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 
                 Bundle bundle2 = new Bundle();
                 bundle.putString("giroscopio", Giroscopio.gyro);
-                bundle2.putString("velocidade_digitacao", null);
                 bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", null);
+                bundle2.putString("posicao_clique", MainFragment.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 bundle2.putString("id_celular", null);
                 mFirebaseAnalytics.logEvent("viagem_menos_1_90", bundle2);

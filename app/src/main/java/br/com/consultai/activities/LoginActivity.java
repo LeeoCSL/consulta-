@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -98,6 +99,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.input_password)
     EditText mPassword;
+
+    public static String coords = "coordenadas";
 
     private FirebaseAuth mAuth;
 
@@ -443,6 +446,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (e.getClass() == FirebaseAuthInvalidUserException.class) {
                     Utility.makeText(LoginActivity.this,
                             "Usuário não encontrado.");
+
                     return;
                 }
                 if (e.getClass() == FirebaseAuthInvalidCredentialsException.class) {
@@ -452,7 +456,7 @@ public class LoginActivity extends AppCompatActivity {
                     Utility.makeText(LoginActivity.this,
                             "Erro ao fazer login, tente novamente mais tarde.");
                 }
-
+                mDialog.dismiss();
                 e.printStackTrace();
             }
         });
@@ -567,6 +571,23 @@ public class LoginActivity extends AppCompatActivity {
             //mGoogleLogin.performClick();
             signIn();
         }
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_UP:
+        }
+
+        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
+
+        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
+//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
+        return false;
+
     }
 
 }
