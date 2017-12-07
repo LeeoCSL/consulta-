@@ -23,10 +23,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -56,18 +52,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
-
-import br.com.consultai.Giroscopio;
-import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.model.User;
 import br.com.consultai.model.Usuario;
 import br.com.consultai.post.LoginRequest;
-import br.com.consultai.serv.RegisterRequest;
+import br.com.consultai.post.PostExcluirRotinaRequest;
 import br.com.consultai.utils.DialogFactory;
 import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
@@ -290,7 +279,7 @@ public class LoginActivity extends AppCompatActivity {
                         usuario.setIdUsuario(userID);
                         usuario.setSistemaOperacional("ANDROID");
 
-                        RegisterRequest register = new RegisterRequest(LoginActivity.this);
+                        PostExcluirRotinaRequest.RegisterRequest register = new PostExcluirRotinaRequest.RegisterRequest(LoginActivity.this);
                         register.execute(usuario);
 
                         Bundle bundle = new Bundle();

@@ -3,12 +3,9 @@ package br.com.consultai.post;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,9 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.consultai.Fragments.MainFragment;
-import br.com.consultai.R;
-import br.com.consultai.Tabs.Tab_Ida;
-import br.com.consultai.Tabs.Tab_Volta;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.utils.DialogUtil;

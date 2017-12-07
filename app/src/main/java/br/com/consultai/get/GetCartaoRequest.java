@@ -1,9 +1,7 @@
-package br.com.consultai.serv;
+package br.com.consultai.get;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,8 +12,6 @@ import java.io.IOException;
 
 import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
-import br.com.consultai.MainActivity;
-import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Cartao;
 import okhttp3.OkHttpClient;
@@ -23,7 +19,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by renan.boni on 22/11/2017.
+ * Created by renan.boni on 07/12/2017.
  */
 
 public class GetCartaoRequest extends AsyncTask<String, Void, String> {

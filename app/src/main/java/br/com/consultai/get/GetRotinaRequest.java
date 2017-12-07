@@ -4,13 +4,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,23 +16,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
-import br.com.consultai.Tabs.Tab;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
+import br.com.consultai.model.Cartao;
 import br.com.consultai.model.Rotina;
-import br.com.consultai.utils.DialogUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static br.com.consultai.Fragments.MainFragment.recarga;
-import static br.com.consultai.Fragments.MainFragment.saldoGet;
-import static br.com.consultai.Fragments.MainFragment.saldoPost;
-
-/**
- * Created by leonardo.ribeiro on 28/11/2017.
- */
 
 public class GetRotinaRequest extends AsyncTask<String, Void, String> {
     private Context context;

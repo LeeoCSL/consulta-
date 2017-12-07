@@ -31,7 +31,6 @@ public class EditarActivity extends AppCompatActivity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
-
     public static Rotina ROTINA_IDA;
     public static Rotina ROTINA_VOLTA;
 

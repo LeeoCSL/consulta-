@@ -86,8 +86,6 @@ public class PostSaldoRequest extends AsyncTask<Double, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-
-
         DialogUtil.hideProgressDialog(mDialog);
 
         try {

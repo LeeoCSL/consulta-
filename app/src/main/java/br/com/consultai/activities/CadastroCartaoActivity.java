@@ -1,9 +1,6 @@
 package br.com.consultai.activities;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,18 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import br.com.consultai.MainActivity;
 import br.com.consultai.R;
-import br.com.consultai.serv.RegisterCartaoRequest;
-import br.com.consultai.serv.RegisterRequest;
+import br.com.consultai.post.LoginRequest;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,7 +98,7 @@ public class CadastroCartaoActivity extends AppCompatActivity {
     }
 
     private void createCartao(String numero, String apelido, String saldo, String estudante) {
-        RegisterCartaoRequest registerCartao = new RegisterCartaoRequest(this);
+        LoginRequest.RegisterCartaoRequest registerCartao = new LoginRequest.RegisterCartaoRequest(this);
 
         //TODO incluir tipo
         registerCartao.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), LoginActivity.LOGIN_TOKEN, numero, apelido, saldo, estudante);
