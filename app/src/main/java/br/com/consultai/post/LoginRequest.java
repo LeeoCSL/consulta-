@@ -115,7 +115,7 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             bundle2.putString("velocidade_clique", null);
             bundle2.putString("posicao_clique", LoginActivity.coords);
             bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", null);
+            bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
             //TODO popular evento
 
@@ -132,11 +132,12 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
             Bundle bundle = new Bundle();
             bundle.putString("giroscopio", Giroscopio.gyro);
-            bundle.putString("velocidade_digitacao", null);
+            bundle.putString("velocidade_digi_email", LoginActivity.tempoEmail);
+            bundle.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
             bundle.putString("velocidade_clique", null);
             bundle.putString("posicao_clique", LoginActivity.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", null);
+            bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFirebaseAnalytics.logEvent("login_email_erro", bundle);
 
             giro.cancel(true);

@@ -109,7 +109,7 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
             bundle.putString("velocidade_clique", null);
             bundle.putString("posicao_clique", EditarActivity.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", null);
+            bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFirebaseAnalytics.logEvent("cadastro_rotina", bundle);
             giro.cancel(true);
 

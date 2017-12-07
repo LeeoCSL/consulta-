@@ -103,7 +103,7 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
 //            bundle2.putString("velocidade_clique", null);
             bundle2.putString("posicao_clique", ContaFragment.coords);
             bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-//            bundle2.putString("id_celular", null);
+            bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFirebaseAnalytics.logEvent("editar_bilhete", bundle2);
 
             giro.cancel(true);

@@ -103,7 +103,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
 //                bundle2.putString("velocidade_clique", null);
                 bundle2.putString("posicao_clique", MainFragment.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", null);
+                bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 mFirebaseAnalytics.logEvent("atualizacao_saldo_sucesso", bundle2);
                 giro.cancel(true);
 
@@ -170,7 +170,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                     bundle2.putString("velocidade_clique", null);
                     bundle2.putString("posicao_clique", MainFragment.coords);
                     bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    bundle2.putString("id_celular", null);
+                    bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     mFirebaseAnalytics.logEvent("viagem_extra_3_80", bundle2);
                     giro.cancel(true);
 
@@ -217,7 +217,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                     bundle2.putString("velocidade_clique", null);
                     bundle2.putString("posicao_clique", MainFragment.coords);
                     bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    bundle2.putString("id_celular", null);
+                    bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     mFirebaseAnalytics.logEvent("viagem_extra_3_00", bundle2);
                     giro.cancel(true);
 
@@ -263,7 +263,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                     bundle2.putString("velocidade_clique", null);
                     bundle2.putString("posicao_clique", MainFragment.coords);
                     bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    bundle2.putString("id_celular", null);
+                    bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     mFirebaseAnalytics.logEvent("viagem_extra_1_90", bundle2);
                     giro.cancel(true);
 
@@ -296,7 +296,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 bundle2.putString("velocidade_clique", null);
                 bundle2.putString("posicao_clique", MainFragment.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", null);
+                bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 mFirebaseAnalytics.logEvent("viagem_menos_3_80", bundle2);
                 giro.cancel(true);
 
@@ -327,7 +327,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 bundle2.putString("velocidade_clique", null);
                 bundle2.putString("posicao_clique", MainFragment.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", null);
+                bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 mFirebaseAnalytics.logEvent("viagem_menos_3_00", bundle2);
                 giro.cancel(true);
 
@@ -358,7 +358,7 @@ public class GetSaldoExtraRequest extends AsyncTask<String, Void, String> {
                 bundle2.putString("velocidade_clique", null);
                 bundle2.putString("posicao_clique", MainFragment.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", null);
+                bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 mFirebaseAnalytics.logEvent("viagem_menos_1_90", bundle2);
                 giro.cancel(true);
 

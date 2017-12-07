@@ -167,7 +167,7 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 //            bundle2.putString("velocidade_clique", null);
             bundle2.putString("posicao_clique", RegisterActivity.coords);
             bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-//            bundle2.putString("id_celular", null);
+            bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
 
             giro.cancel(true);
