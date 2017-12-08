@@ -28,6 +28,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import br.com.consultai.R;
 import br.com.consultai.model.Usuario;
 import br.com.consultai.post.PostExcluirRotinaRequest;
+import br.com.consultai.post.RegisterRequest;
 import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
@@ -229,7 +230,7 @@ public class RegisterActivity extends AppCompatActivity {
                         usuario.setSistemaOperacional("ANDROID");
 
 
-                        PostExcluirRotinaRequest.RegisterRequest register = new PostExcluirRotinaRequest.RegisterRequest(RegisterActivity.this);
+RegisterRequest register = new RegisterRequest(RegisterActivity.this);
                         register.execute(usuario);
 
                     }

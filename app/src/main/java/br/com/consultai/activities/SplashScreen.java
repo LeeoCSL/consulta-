@@ -21,10 +21,10 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-/*        Giroscopio giro = new Giroscopio(this);
-        giro.execute();*/
+        Giroscopio giro = new Giroscopio(this);
+        giro.execute();
         setContentView(R.layout.activity_splash_screen);
-     /*   mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Branch branch = Branch.getInstance();
         branch.initSession(new Branch.BranchUniversalReferralInitListener() {
             @Override
@@ -54,9 +54,9 @@ public class SplashScreen extends AppCompatActivity {
                     Log.i("MyApp", error.getMessage());
                 }
             }
-        }, this.getIntent().getData(), this);*/
+        }, this.getIntent().getData(), this);
 
-   /*     giro.cancel(true);*/
+        giro.cancel(true);
 
         new Handler().postDelayed(new Runnable() {
 
