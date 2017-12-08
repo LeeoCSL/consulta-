@@ -23,6 +23,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -51,6 +54,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONObject;
 
 import br.com.consultai.R;
 import br.com.consultai.model.User;
@@ -375,51 +380,51 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
-//    public void loginWithFacebook(View view) {
-//        mCallbackManager = CallbackManager.Factory.create();
-//        mLoginFacebook.setReadPermissions("email", "public_profile");
-//        mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-//            @Override
-//            public void onSuccess(LoginResult loginResult) {
-//
-//                Profile profile = Profile.getCurrentProfile();
-//
-//                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putString("nome",sharedPref.getString("nome", ""));
-//                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
-//                mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
-//
-//                handleFacebookAcessToken(loginResult.getAccessToken());
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//                Bundle bundle = new Bundle();
-//                bundle.putString("nome",sharedPref.getString("nome", ""));
-//                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
-//                mFirebaseAnalytics.logEvent("login_facebook_cancelado", bundle);
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putString("nome",sharedPref.getString("nome", ""));
-//                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
-//                mFirebaseAnalytics.logEvent("login_facebook_erro", bundle);
-//
-//                Toast.makeText(LoginActivity.this, "Erro: " +error.toString(), Toast.LENGTH_LONG).show();
-//                error.printStackTrace();
-//            }
-//        });
-//    }
+    public void loginWithFacebook(View view) {
+        mCallbackManager = CallbackManager.Factory.create();
+        mLoginFacebook.setReadPermissions("email", "public_profile");
+        mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+                Profile profile = Profile.getCurrentProfile();
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
+
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                Bundle bundle = new Bundle();
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                mFirebaseAnalytics.logEvent("login_facebook_cancelado", bundle);
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                mFirebaseAnalytics.logEvent("login_facebook_erro", bundle);
+
+                Toast.makeText(LoginActivity.this, "Erro: " +error.toString(), Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+            }
+        });
+    }
 
     private void handleFacebookAccessToken(AccessToken token) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -428,8 +433,26 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
 //                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, CadastroCartaoActivity.class);
-                            startActivity(intent);
+
+
+                            String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                            Profile profile = Profile.getCurrentProfile();
+
+                            Usuario usuario = new Usuario();
+                            usuario.setId(userID);
+                            usuario.setEmail(user.getEmail());
+                            usuario.setSenha("000000");
+                            usuario.setNome(profile.getName());
+                            usuario.setNotificationToken(notification_token);
+                            usuario.setSexo('I');
+                            usuario.setModelo(deviceBrand);
+                            usuario.setSerialMobile(serialNumber);
+                            usuario.setIdUsuario(userID);
+                            usuario.setSistemaOperacional("ANDROID");
+
+                            PostLoginFBGoogle loginFB = new PostLoginFBGoogle(LoginActivity.this);
+                            loginFB.execute(usuario);
 
                         } else {
                             // If sign in fails, display a message to the user.
