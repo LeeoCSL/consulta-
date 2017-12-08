@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
 
     String serialNumber = Build.SERIAL;
 
-
     public static final String LOGIN = "login";
 
     @BindView(R.id.input_email)
@@ -180,10 +179,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
 
         mLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -291,98 +286,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void forgetPassword(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Email");
-
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-
-        builder.setView(input);
-
-        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                String email = input.getText().toString().trim();
-
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("email_reset", email);
-                editor.commit();
-
-                if (!TextUtils.isEmpty(email)) {
-                    DialogFactory.loadingDialog(LoginActivity.this);
-                    resetPassword(email);
-                    dialog.dismiss();
-                } else {
-
-                }
-            }
-        });
-
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
-
-    public void resetPassword(String email) {
-        mAuth.sendPasswordResetEmail(email)
-                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        Bundle bundle = new Bundle();
-                        bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
-
-                        mFirebaseAnalytics.logEvent("reset_senha_ok", bundle);
-                        DialogFactory.hideLoadingDialog();
-                        Toast.makeText(LoginActivity.this, "Acabamos de te enviar as instruções de como recuperar sua conta.", Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                DialogFactory.hideLoadingDialog();
-                if (e.getClass() == FirebaseAuthInvalidUserException.class) {
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    Bundle bundle = new Bundle();
-                    bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
-
-                    mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
-                    Toast.makeText(LoginActivity.this,
-                            "Usuário não encontrado", Toast.LENGTH_LONG).show();
-
-                    return;
-                }
-                if (e.getClass() == FirebaseException.class) {
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    Bundle bundle = new Bundle();
-                    bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
-
-                    mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
-                    Toast.makeText(LoginActivity.this,
-                            "Email inválido", Toast.LENGTH_LONG).show();
-                }
-                e.printStackTrace();
-            }
-        });
-    }
-
     private void validateDateFromEditText() {
         user_email = mLogin.getText().toString().trim();
         user_password = mPassword.getText().toString().trim();
 
         if (!Utility.isEmailValid(user_email)) {
             mLogin.setError("Email inválido.");
+            mDialog.dismiss();
             return;
         }
         if (TextUtils.isEmpty(user_password)) {
             mPassword.setError("Senha inválida.");
+            mDialog.dismiss();
             return;
         }
 
@@ -428,22 +343,24 @@ public class LoginActivity extends AppCompatActivity {
                 if (e.getClass() == FirebaseAuthUserCollisionException.class) {
                     Utility.makeText(LoginActivity.this,
                             "Email já está sendo usado em uma conta do facebook.");
+                    mDialog.dismiss();
                     return;
                 }
                 if (e.getClass() == FirebaseAuthInvalidUserException.class) {
                     Utility.makeText(LoginActivity.this,
                             "Usuário não encontrado.");
+                    mDialog.dismiss();
                     return;
                 }
                 if (e.getClass() == FirebaseAuthInvalidCredentialsException.class) {
                     mPassword.setError("Senha inválida");
+                    mDialog.dismiss();
                     return;
                 } else {
                     Utility.makeText(LoginActivity.this,
                             "Erro ao fazer login, tente novamente mais tarde.");
                 }
 
-                e.printStackTrace();
             }
         });
     }

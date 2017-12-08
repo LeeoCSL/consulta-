@@ -31,8 +31,6 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
     private AlertDialog.Builder dialog;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public static String sd;
-
     private ProgressDialog mDialog;
 
     public GetRotinaRequest(Context context){
@@ -71,7 +69,13 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 
             List<Rotina> rotinas = new ArrayList<>();
 
-            if(array.length() < 1){
+            if(array.length() < 1 || s.equals("[]")){
+                for(int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++){
+                    MainFragment.DIAS_ATIVOS[i] = 0;
+                    MainFragment.loadImages();
+                }
+                EditarActivity.ROTINA_IDA = null;
+                EditarActivity.ROTINA_VOLTA = null;
                 return;
             }
 
@@ -108,11 +112,6 @@ public class GetRotinaRequest extends AsyncTask<String, Void, String> {
 
             MainFragment.DIAS_ATIVOS = ida.getDays();
             MainFragment.loadImages();
-
-
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -27,7 +27,6 @@ import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Usuario;
-import br.com.consultai.model.Usuario2;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -40,7 +39,7 @@ import okhttp3.Response;
  * Created by leonardo.ribeiro on 28/11/2017.
  */
 
-public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> {
+public class PostExcluirRotinaRequest extends AsyncTask<Usuario, Void, String> {
 
 
     private Context context;
@@ -52,11 +51,11 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario2, Void, String> 
         this.context = context;
     }
 
-    protected String doInBackground(Usuario2... users) {
+    protected String doInBackground(Usuario... users) {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
-        Usuario2 usuario = users[0];
+        Usuario usuario = users[0];
 
         Gson gson = new Gson();
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
