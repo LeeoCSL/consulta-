@@ -88,8 +88,8 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario, Void, String> {
 
         int value = Integer.parseInt(s);
 
-        if(value == 1){
-            for(int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++){
+        if (value == 1) {
+            for (int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++) {
                 MainFragment.DIAS_ATIVOS[i] = 0;
             }
             MainFragment.loadImages();
@@ -103,9 +103,9 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario, Void, String> {
             bundle.putString("giroscopio", Giroscopio.gyro);
             bundle.putString("velocidade_digitacao", null);
             bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", null);
+//            bundle.putString("posicao_clique", MainFragment.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", null);
+            bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFirebaseAnalytics.logEvent("excluir_rotina", bundle);
             giro.cancel(true);
 
@@ -118,148 +118,6 @@ public class PostExcluirRotinaRequest extends AsyncTask<Usuario, Void, String> {
     protected void onPreExecute() {
         mDialog = DialogUtil.showProgressDialog(context, "Aguarde", "Estamos excluindo suas rotinas.");
     }
-
-    /**
-     * Created by leonardo.ribeiro on 13/11/2017.
-     */
-
-    public static class RegisterRequest extends AsyncTask<Usuario, Void, String> {
-
-        private Context context;
-
-        private FirebaseAnalytics mFirebaseAnalytics;
-
-        public RegisterRequest(Context context) {
-            this.context = context;
-            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
-        }
-
-        protected String doInBackground(Usuario... usuarios) {
-
-            Usuario usuario = usuarios[0];
-
-            Gson gson = new Gson();
-
-            OkHttpClient client = new OkHttpClient();
-
-            String url = "https://zazzytec.com.br/register";
-
-            Request.Builder builder = new Request.Builder();
-            builder.url(url);
-
-            MediaType mediaType2 =
-                    MediaType.parse("application/json; charset=utf-8");
-
-            RequestBody body = RequestBody.create(mediaType2, gson.toJson(usuario));
-            builder.post(body);
-            Request request = builder.build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            if (response == null) {
-                FirebaseAuth.getInstance().getCurrentUser()
-                        .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle("Ops!");
-                            builder.setMessage("Falha no comunicação com o servidor. Tente mais tarde.");
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    LoginActivity.mDialog.dismiss();
-                                }
-                            });
-
-                            builder.show();
-                        }
-                    }
-                });
-                return;
-            }
-
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-
-                LoginActivity.LOGIN_TOKEN = jsonObject.getString("login_token");
-
-                LoginActivity.mDialog.dismiss();
-                context.startActivity(new Intent(context, CadastroCartaoActivity.class));
-
-    /*            Giroscopio giro = new Giroscopio(context);
-                giro.execute();
-
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("giroscopio", Giroscopio.gyro);
-                bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
-                bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
-                bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
-                bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-    //            bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", RegisterActivity.coords);
-                bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-    //            bundle2.putString("id_celular", null);
-                Log.v("cad", RegisterActivity.coords);
-                mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
-                giro.cancel(true);*/
-    //
-
-            } catch (final JSONException e) {
-                FirebaseAuth.getInstance().getCurrentUser()
-                        .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle("Ops!");
-                            builder.setMessage("Falha no comunicação com o servidor. Tente mais tarde." +e.getMessage());
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    RegisterActivity.mDialog.dismiss();
-                                }
-                            });
-
-                            builder.show();
-                        }
-                    }
-                });
-                return;
-    /*
-                Giroscopio giro = new Giroscopio(context);
-                giro.execute();
-
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("giroscopio", Giroscopio.gyro);
-                bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
-                bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
-                bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
-                bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-    //            bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", RegisterActivity.coords);
-                bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-    //            bundle2.putString("id_celular", null);
-                mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
-
-                giro.cancel(true);*/
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-    }
 }
+
+
