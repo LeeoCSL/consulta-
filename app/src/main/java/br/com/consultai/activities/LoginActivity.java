@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,7 +23,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -83,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
 
     String serialNumber = Build.SERIAL;
 
-
     public static final String LOGIN = "login";
 
     @BindView(R.id.input_email)
@@ -91,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.input_password)
     EditText mPassword;
-
-    public static String coords = "coordenadas";
 
     private FirebaseAuth mAuth;
 
@@ -187,7 +182,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         mLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -273,6 +267,7 @@ public class LoginActivity extends AppCompatActivity {
                         Usuario usuario = new Usuario();
                         usuario.setId(userID);
                         usuario.setEmail(user.getEmail());
+                        usuario.setSenha("000000");
                         usuario.setNome(authResult.getUser().getDisplayName());
                         usuario.setNotificationToken(notification_token);
                         usuario.setSexo('I');
@@ -281,8 +276,8 @@ public class LoginActivity extends AppCompatActivity {
                         usuario.setIdUsuario(userID);
                         usuario.setSistemaOperacional("ANDROID");
 
-                        PostLoginFBGoogle loginFBGoogle = new PostLoginFBGoogle(LoginActivity.this);
-                        loginFBGoogle.execute(usuario);
+                        PostLoginFBGoogle loginGoogle = new PostLoginFBGoogle(LoginActivity.this);
+                        loginGoogle.execute(usuario);
 
                         Bundle bundle = new Bundle();
                         bundle.putString("email_google", user.getEmail());
@@ -293,98 +288,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void forgetPassword(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Email");
-
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-
-        builder.setView(input);
-
-        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                String email = input.getText().toString().trim();
-
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("email_reset", email);
-                editor.commit();
-
-                if (!TextUtils.isEmpty(email)) {
-                    DialogFactory.loadingDialog(LoginActivity.this);
-                    resetPassword(email);
-                    dialog.dismiss();
-                } else {
-
-                }
-            }
-        });
-
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
-
-    public void resetPassword(String email) {
-        mAuth.sendPasswordResetEmail(email)
-                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        Bundle bundle = new Bundle();
-                        bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
-
-                        mFirebaseAnalytics.logEvent("reset_senha_ok", bundle);
-                        DialogFactory.hideLoadingDialog();
-                        Toast.makeText(LoginActivity.this, "Acabamos de te enviar as instruções de como recuperar sua conta.", Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                DialogFactory.hideLoadingDialog();
-                if (e.getClass() == FirebaseAuthInvalidUserException.class) {
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    Bundle bundle = new Bundle();
-                    bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
-
-                    mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
-                    Toast.makeText(LoginActivity.this,
-                            "Usuário não encontrado", Toast.LENGTH_LONG).show();
-
-                    return;
-                }
-                if (e.getClass() == FirebaseException.class) {
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    Bundle bundle = new Bundle();
-                    bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
-
-                    mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
-                    Toast.makeText(LoginActivity.this,
-                            "Email inválido", Toast.LENGTH_LONG).show();
-                }
-                e.printStackTrace();
-            }
-        });
-    }
-
     private void validateDateFromEditText() {
         user_email = mLogin.getText().toString().trim();
         user_password = mPassword.getText().toString().trim();
 
         if (!Utility.isEmailValid(user_email)) {
             mLogin.setError("Email inválido.");
+            mDialog.dismiss();
             return;
         }
         if (TextUtils.isEmpty(user_password)) {
             mPassword.setError("Senha inválida.");
+            mDialog.dismiss();
             return;
         }
 
@@ -420,6 +335,8 @@ public class LoginActivity extends AppCompatActivity {
                         login.execute(usuario);
 
 
+
+
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
             @Override
@@ -428,23 +345,24 @@ public class LoginActivity extends AppCompatActivity {
                 if (e.getClass() == FirebaseAuthUserCollisionException.class) {
                     Utility.makeText(LoginActivity.this,
                             "Email já está sendo usado em uma conta do facebook.");
+                    mDialog.dismiss();
                     return;
                 }
                 if (e.getClass() == FirebaseAuthInvalidUserException.class) {
                     Utility.makeText(LoginActivity.this,
                             "Usuário não encontrado.");
-
+                    mDialog.dismiss();
                     return;
                 }
                 if (e.getClass() == FirebaseAuthInvalidCredentialsException.class) {
                     mPassword.setError("Senha inválida");
+                    mDialog.dismiss();
                     return;
                 } else {
                     Utility.makeText(LoginActivity.this,
                             "Erro ao fazer login, tente novamente mais tarde.");
                 }
-                mDialog.dismiss();
-                e.printStackTrace();
+
             }
         });
     }
@@ -473,7 +391,7 @@ public class LoginActivity extends AppCompatActivity {
 //                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
 //                mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
 //
-//                handleFacebookAccessToken(loginResult.getAccessToken());
+//                handleFacebookAcessToken(loginResult.getAccessToken());
 //            }
 //
 //            @Override
@@ -500,58 +418,7 @@ public class LoginActivity extends AppCompatActivity {
 //        });
 //    }
 
-//    private void handleFacebookAccessToken(AccessToken token) {
-//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-//        mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-////                            Log.d(TAG, "signInWithCredential:success");
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//                            Intent intent = new Intent(LoginActivity.this, CadastroCartaoActivity.class);
-//                            startActivity(intent);
-//
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Toast.makeText(LoginActivity.this, "erro", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        // [START_EXCLUDE]
-//
-//                        // [END_EXCLUDE]
-//                    }
-//                });
-//    }
-
-    // Initialize Facebook Login button
-    public void loginWithFacebook(View view) {
-        mCallbackManager = CallbackManager.Factory.create();
-        mLoginFacebook.setReadPermissions("email", "public_profile");
-        mLoginFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-//            Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-//            Log.d(TAG, "facebook:onCancel");
-                // ...
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-//            Log.d(TAG, "facebook:onError", error);
-                // ...
-            }
-        });
-    }
-
     private void handleFacebookAccessToken(AccessToken token) {
-
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -559,16 +426,19 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+//                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this, CadastroCartaoActivity.class));
+                            Intent intent = new Intent(LoginActivity.this, CadastroCartaoActivity.class);
+                            startActivity(intent);
+
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
 
                         }
 
-                        // ...
+                        // [START_EXCLUDE]
+
+                        // [END_EXCLUDE]
                     }
                 });
     }
@@ -597,7 +467,7 @@ public class LoginActivity extends AppCompatActivity {
     public void handlerFakeFacebookLogin(View v) {
         if (v.getId() == R.id.login_fb_fake) {
             mLoginFacebook.performClick();
-            loginWithFacebook(v);
+//            loginWithFacebook(v);
         }
     }
 
@@ -606,24 +476,6 @@ public class LoginActivity extends AppCompatActivity {
             //mGoogleLogin.performClick();
             signIn();
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        switch (event.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                case MotionEvent.ACTION_MOVE:
-//                case MotionEvent.ACTION_UP:
-        }
-
-        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
-
-        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
-//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
-        return false;
-
     }
 
 }

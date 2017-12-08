@@ -92,8 +92,6 @@ public class EditarActivity extends AppCompatActivity {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-
-
         initializeCheckeds();
         initializeUncheckeds();
         initializeButtons();
@@ -182,8 +180,6 @@ public class EditarActivity extends AppCompatActivity {
                 btnDias[i].setBackgroundResource(uncheckedImg[i]);
             }
         }
-
-        Log.i("HORA_ID", ROTINA_IDA.getHora());
 
         mHoraRotina1 = ROTINA_IDA.getHora().substring(0,2) + "h" +
                 ROTINA_IDA.getHora().substring(3, 5) + "min";

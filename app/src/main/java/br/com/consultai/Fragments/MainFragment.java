@@ -15,16 +15,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
-//import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.w3c.dom.Text;
 
 import br.com.consultai.R;
 import br.com.consultai.activities.EditarActivity;
@@ -32,7 +27,7 @@ import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.get.GetCartaoRequest;
 import br.com.consultai.get.GetRotinaRequest;
 import br.com.consultai.get.GetSaldoRequest;
-import br.com.consultai.model.Usuario2;
+import br.com.consultai.model.Usuario;
 import br.com.consultai.post.PostExcluirRotinaRequest;
 import br.com.consultai.post.PostSaldoRequest;
 import br.com.consultai.utils.Utility;
@@ -44,8 +39,7 @@ public class MainFragment extends Fragment {
 
     public static double SALDO = -1;
     public static String APELIDO;
-    public static String coords = "coordenadas";
-    private boolean[] diasAtivos = new boolean[7];
+
     public static int[] DIAS_ATIVOS = new int[7];
 
     private static int[] checkedImg = new int[7];
@@ -53,27 +47,20 @@ public class MainFragment extends Fragment {
 
     private static Button[] btnDias = new Button[7];
 
-    public static ProgressDialog dialog;
-
     public static TextView tvSaldo;
     public static TextView txtVlr;
     public static int ESTUDANTE;
 
-    ImageView img_logo;
-    public static String tipoGet;
-
     public static TextView txtNomeBilhete;
     public static int tipo;
-    public static float saldoGet;
-    public static double saldoPost;
     Button btnRecarga;
-    public static float recarga;
 
     Button btnExcluir;
 
-    private int index = 0;
     private double valor = 0;
+
     private boolean btnNormalSelecionado = false;
+    private boolean btnIntegracaoSelecionado = false;
     private boolean btnEstudanteSelecionado = false;
 
     public MainFragment() {
@@ -120,14 +107,9 @@ public class MainFragment extends Fragment {
 
         initializeButtons(view);
 
-        tipoGet = "0";
-
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
-
         btnExcluir = (Button) view.findViewById(R.id.btnExcluir);
-
         txtVlr = (TextView) view.findViewById(R.id.txtVlr);
-
         btnRecarga = (Button) view.findViewById(R.id.btnRecarga);
 
         GetRotinaRequest rotina = new GetRotinaRequest(getContext());
@@ -140,14 +122,13 @@ public class MainFragment extends Fragment {
         request.execute();
 
         btnExcluir.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                final Usuario2 user = new Usuario2();
-                user.setId_Usuario(userID);
-                user.setLogin_token(LoginActivity.LOGIN_TOKEN);
+                final Usuario user = new Usuario();
+                user.setIdUsuario(userID);
+                user.setLoginToken(LoginActivity.LOGIN_TOKEN);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Atenção");
@@ -175,8 +156,6 @@ public class MainFragment extends Fragment {
         btnRecarga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tipoGet = "1";
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Digite o valor da recarga");
                 builder.setCancelable(false);
@@ -184,7 +163,7 @@ public class MainFragment extends Fragment {
                 final CurrencyEditText input = new CurrencyEditText(getContext(), null);
                 builder.setView(input);
 
-                br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
+                GetSaldoRequest request = new GetSaldoRequest(getContext());
                 request.execute();
 
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -193,7 +172,7 @@ public class MainFragment extends Fragment {
                         double value = Utility.stringToFloat(input.getText().toString().trim());
                         double saldo = SALDO + value;
 
-                        br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(getContext());
+                        PostSaldoRequest post = new PostSaldoRequest(getContext());
                         post.execute(saldo);
                     }
                 });
@@ -289,6 +268,7 @@ public class MainFragment extends Fragment {
 
                     valor = 3.8;
                     btnNormalSelecionado = true;
+                    btnIntegracaoSelecionado = false;
                 }
             });
 
@@ -303,6 +283,7 @@ public class MainFragment extends Fragment {
 
                     valor = 3.0;
                     btnNormalSelecionado = false;
+                    btnIntegracaoSelecionado = true;
                 }
             });
         }else{
@@ -347,16 +328,7 @@ public class MainFragment extends Fragment {
 
                 if(ESTUDANTE == 1){
                     if(!btnEstudanteSelecionado){
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
-                        builder1.setTitle("Ops!");
-                        builder1.setMessage("Por favor, selecione um valor.");
-                        builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-                        builder1.show();
+                        createAlert();
                         return;
                     }else{
                         if(adicionar){
@@ -372,6 +344,10 @@ public class MainFragment extends Fragment {
                         }
                     }
                 }else {
+                    if(!btnNormalSelecionado && !btnIntegracaoSelecionado){
+                        createAlert();
+                        return;
+                    }
                     if(adicionar){
                         double novoSalvo = SALDO - valor;
 
@@ -384,6 +360,9 @@ public class MainFragment extends Fragment {
                         saldoRequest.execute(novoSalvo);
                     }
                 }
+                btnIntegracaoSelecionado = false;
+                btnNormalSelecionado = false;
+                btnEstudanteSelecionado = false;
             }
         });
 
@@ -398,6 +377,18 @@ public class MainFragment extends Fragment {
         builder.show();
     }
 
+    private void createAlert(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+        builder1.setTitle("Ops!");
+        builder1.setMessage("Por favor, selecione um valor.");
+        builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder1.show();
+    }
 
     @Override
     public void onResume() {
@@ -408,10 +399,8 @@ public class MainFragment extends Fragment {
             count += DIAS_ATIVOS[i];
         }
 
-        tipoGet = "0";
-
         if (SALDO < 0) {
-            br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
+            GetSaldoRequest request = new GetSaldoRequest(getContext());
             request.execute();
         } else {
             tvSaldo.setText("R$ " + String.format( "%.2f", SALDO ).replace('.',','));
@@ -433,20 +422,5 @@ public class MainFragment extends Fragment {
         }
     }
 
-    public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        switch (event.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                case MotionEvent.ACTION_MOVE:
-//                case MotionEvent.ACTION_UP:
-        }
 
-        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
-
-        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
-//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
-        return false;
-
-    }
 }

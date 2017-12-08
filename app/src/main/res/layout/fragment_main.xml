@@ -160,7 +160,7 @@
                 android:layout_below="@+id/layoutHrs"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/btn_editar"
-                android:background="@drawable/btn_cinza"
+                android:background="@drawable/selector_card_background_rounded"
                 android:text="Excluir"
                 android:textColor="@color/cinza_escuro"
                 android:textStyle="bold" />

@@ -13,7 +13,6 @@ import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
-import br.com.consultai.post.LoginRequest;
 import br.com.consultai.post.RegisterCartaoRequest;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;

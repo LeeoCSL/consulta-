@@ -14,8 +14,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
+
+
 import org.json.JSONObject;
+
 import java.io.IOException;
+
 import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
 import br.com.consultai.Giroscopio;
@@ -98,6 +102,7 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 //            editor.commit();
 
 
+
             ContaFragment.apelido = apelido;
             ContaFragment.estudante = estudante;
             ContaFragment.numero = numero;
@@ -109,12 +114,13 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
             Bundle bundle2 = new Bundle();
             bundle2.putString("giroscopio", Giroscopio.gyro);
+
             bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
             bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
             bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", LoginActivity.coords);
+            bundle2.putString("posicao_clique", null);
             bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
             //TODO popular evento
 
@@ -131,12 +137,11 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
             Bundle bundle = new Bundle();
             bundle.putString("giroscopio", Giroscopio.gyro);
-            bundle.putString("velocidade_digi_email", LoginActivity.tempoEmail);
-            bundle.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
+            bundle.putString("velocidade_digitacao", null);
             bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", LoginActivity.coords);
+            bundle.putString("posicao_clique", null);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("login_email_erro", bundle);
 
             giro.cancel(true);
@@ -147,5 +152,4 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
     @Override
     protected void onPreExecute() {
     }
-
 }

@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import br.com.consultai.R;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.get.GetCartaoRequest;
-import br.com.consultai.get.GetRotinaRequest;
 import br.com.consultai.model.Cartao;
 import br.com.consultai.post.PostAtualizaCartao;
 

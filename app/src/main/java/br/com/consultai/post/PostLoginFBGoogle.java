@@ -93,7 +93,7 @@ Log.v("login", r );
             String loginToken = jsonObject.getString("login_token");
 
             String flag = jsonObject.getString("flag");
-
+            LoginActivity.LOGIN_TOKEN = jsonObject.getString("login_token");
 //            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 //            SharedPreferences.Editor editor = sharedPref.edit();
 //            editor.putString("loginToken", loginToken);
@@ -114,6 +114,7 @@ Log.v("login", r );
 //            //TODO popular evento
             LoginActivity.mDialog.dismiss();
             if (flag.equals("0")){
+
                 Intent intent = new Intent(context, CadastroCartaoActivity.class);
                 context.startActivity(intent);
             }
@@ -127,7 +128,7 @@ Log.v("login", r );
 
 
 
-                LoginActivity.LOGIN_TOKEN = loginToken;
+
                 MainFragment.APELIDO = apelido;
                 MainFragment.SALDO = saldo;
                 MainFragment.ESTUDANTE = estudante;

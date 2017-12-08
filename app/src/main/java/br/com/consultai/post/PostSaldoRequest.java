@@ -102,7 +102,7 @@ public class PostSaldoRequest extends AsyncTask<Double, Void, String> {
             Bundle bundle = new Bundle();
             bundle.putString("giroscopio", Giroscopio.gyro);
             bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", MainFragment.coords);
+//            bundle.putString("posicao_clique", MainFragment.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
             bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFirebaseAnalytics.logEvent("atualizacao_saldo", bundle);

@@ -133,6 +133,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
     /*
                 Giroscopio giro = new Giroscopio(context);
                 giro.execute();
+
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("giroscopio", Giroscopio.gyro);
                 bundle2.putString("velocidade_digitacao", null);
@@ -143,6 +144,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
                 mFirebaseAnalytics.logEvent("cadastro_bilhete_sucesso", bundle2);
                 //TODO popular evento
                 giro.cancel(true);
+
     */
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", saldo);
