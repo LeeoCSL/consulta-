@@ -1,4 +1,4 @@
-package br.com.consultai.serv;
+package br.com.consultai.post;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,14 +18,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Fragments.ContaFragment;
 import br.com.consultai.Fragments.MainFragment;
-import br.com.consultai.Giroscopio;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
+import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
-import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Cartao;
-import br.com.consultai.model.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,7 +32,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by leonardo.ribeiro on 13/11/2017.
+ * Created by renan.boni on 08/12/2017.
  */
 
 public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
@@ -102,25 +99,13 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
 
         try {
-
             if(s == null){
                 FirebaseAuth.getInstance().getCurrentUser()
                         .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle("Ops!");
-                            builder.setMessage("Falha no comunicação com o servidor. Infelizmente não conseguimos terminar seu cadastro. Tente novamente mais tarde.");
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    LoginActivity.mDialog.dismiss();
-                                }
-                            });
-
-                            builder.show();
+                            createAlert();
                         }
                     }
                 });
@@ -129,7 +114,6 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
             JSONObject jsonObject = new JSONObject(s);
 
-
             String loginToken = jsonObject.getString("login_token");
             double saldo = jsonObject.getDouble("saldo");
             String apelido = jsonObject.getString("apelido");
@@ -137,23 +121,29 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             LoginActivity.LOGIN_TOKEN = loginToken;
 
             MainFragment.SALDO = saldo;
+            MainFragment.APELIDO = apelido;
 
+            EditarActivity.ROTINA_IDA = null;
+            EditarActivity.ROTINA_VOLTA = null;
 
-            Giroscopio giro = new Giroscopio(context);
-            giro.execute();
-
-            Bundle bundle2 = new Bundle();
-            bundle2.putString("giroscopio", Giroscopio.gyro);
-            bundle2.putString("velocidade_digitacao", null);
-            bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", null);
-            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", null);
-            mFirebaseAnalytics.logEvent("cadastro_bilhete_sucesso", bundle2);
-            //TODO popular evento
-            giro.cancel(true);
-
-
+            for(int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++){
+                MainFragment.DIAS_ATIVOS[i] = 0;
+            }
+            //MainFragment.txtNomeBilhete.setText(apelido);
+    /*
+                Giroscopio giro = new Giroscopio(context);
+                giro.execute();
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("giroscopio", Giroscopio.gyro);
+                bundle2.putString("velocidade_digitacao", null);
+                bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("cadastro_bilhete_sucesso", bundle2);
+                //TODO popular evento
+                giro.cancel(true);
+    */
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", saldo);
             Intent intent = new Intent(context, MainActivity.class);
@@ -170,18 +160,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setTitle("Ops!");
-                        builder.setMessage("Falha no comunicação com o servidor. Infelizmente não conseguimos terminar seu cadastro. Tente novamente mais tarde.");
-                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                LoginActivity.mDialog.dismiss();
-                            }
-                        });
-
-                        builder.show();
+                        createAlert();
                     }
                 }
             });
@@ -192,5 +171,19 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
 
+    }
+
+    private void createAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Ops!");
+        builder.setMessage("Falha no comunicação com o servidor. Infelizmente não conseguimos terminar seu cadastro. Tente novamente mais tarde.");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                LoginActivity.mDialog.dismiss();
+            }
+        });
+
+        builder.show();
     }
 }

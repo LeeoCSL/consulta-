@@ -69,7 +69,7 @@ public class GetSaldoRequest extends AsyncTask<String, Void, String> {
             double saldo = jsonObject.getDouble("saldo");
 
             MainFragment.SALDO = saldo;
-            MainFragment.tvSaldo.setText("R$ " +saldo);
+            MainFragment.tvSaldo.setText("R$ " + String.format( "%.2f", saldo ).replace('.',','));
         } catch (JSONException e) {
             e.printStackTrace();
         }

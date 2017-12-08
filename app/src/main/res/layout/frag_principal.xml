@@ -19,7 +19,7 @@
     <RelativeLayout
         android:id="@+id/layoutMain"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/img_logo"
         android:layout_margin="15dp"
         android:background="@drawable/borda_layout"
@@ -58,7 +58,7 @@
             android:onClick="testeSaldo"
             android:text="R$"
             android:textColor="#000000"
-            android:textSize="25sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
 
@@ -250,6 +250,7 @@
             />
 
         <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btnRecarga"
@@ -278,24 +279,20 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/layoutHrs"
                 android:layout_marginLeft="5dp"
-
                 android:background="@drawable/btn_default"
                 android:onClick="editar"
                 android:text="Editar"
                 android:textColor="#FFFFFF" />
-
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_below="@+id/ll"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/mais"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
     </RelativeLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/layoutMain"
-        android:layout_marginRight="16dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/mais" />
-
-
 </FrameLayout>

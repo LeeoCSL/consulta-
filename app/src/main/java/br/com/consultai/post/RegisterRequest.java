@@ -1,14 +1,11 @@
-package br.com.consultai.serv;
+package br.com.consultai.post;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,15 +18,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import br.com.consultai.Fragments.MainFragment;
-import br.com.consultai.Giroscopio;
-import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Usuario;
-import br.com.consultai.utils.DialogFactory;
-import br.com.consultai.utils.DialogUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -37,9 +29,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by leonardo.ribeiro on 13/11/2017.
+ * Created by leonardo.ribeiro on 08/12/2017.
  */
-
 public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     private Context context;
@@ -114,23 +105,23 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
             LoginActivity.mDialog.dismiss();
             context.startActivity(new Intent(context, CadastroCartaoActivity.class));
 
-            Giroscopio giro = new Giroscopio(context);
-            giro.execute();
+    /*            Giroscopio giro = new Giroscopio(context);
+                giro.execute();
 
-            Bundle bundle2 = new Bundle();
-            bundle2.putString("giroscopio", Giroscopio.gyro);
-            bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
-            bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
-            bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
-            bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-//            bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", RegisterActivity.coords);
-            bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-//            bundle2.putString("id_celular", null);
-            Log.v("cad", RegisterActivity.coords);
-            mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
-            giro.cancel(true);
-
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("giroscopio", Giroscopio.gyro);
+                bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
+                bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
+                bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
+                bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
+    //            bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", RegisterActivity.coords);
+                bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+    //            bundle2.putString("id_celular", null);
+                Log.v("cad", RegisterActivity.coords);
+                mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
+                giro.cancel(true);*/
+            //
 
         } catch (final JSONException e) {
             FirebaseAuth.getInstance().getCurrentUser()
@@ -153,25 +144,24 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
                     }
                 }
             });
-
-
-            Giroscopio giro = new Giroscopio(context);
-            giro.execute();
-
-            Bundle bundle2 = new Bundle();
-            bundle2.putString("giroscopio", Giroscopio.gyro);
-            bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
-            bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
-            bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
-            bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-//            bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", RegisterActivity.coords);
-            bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
-
-            giro.cancel(true);
             return;
+    /*
+                Giroscopio giro = new Giroscopio(context);
+                giro.execute();
+
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("giroscopio", Giroscopio.gyro);
+                bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
+                bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
+                bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
+                bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
+    //            bundle2.putString("velocidade_clique", null);
+                bundle2.putString("posicao_clique", RegisterActivity.coords);
+                bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+    //            bundle2.putString("id_celular", null);
+                mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
+
+                giro.cancel(true);*/
         }
     }
 
@@ -180,3 +170,4 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     }
 }
+

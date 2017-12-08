@@ -3,12 +3,9 @@ package br.com.consultai.post;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,10 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.consultai.Fragments.MainFragment;
-import br.com.consultai.Giroscopio;
-import br.com.consultai.R;
-import br.com.consultai.Tabs.Tab_Ida;
-import br.com.consultai.Tabs.Tab_Volta;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.utils.DialogUtil;
@@ -102,16 +95,19 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
             MainFragment.DIAS_ATIVOS = rotinaIda.getDays();
             MainFragment.loadImages();
 
-            Giroscopio giro = new Giroscopio(context);
-            giro.execute();
             Bundle bundle = new Bundle();
-            bundle.putString("giroscopio", Giroscopio.gyro);
+            bundle.putString("acelerometro_x", null);
+            bundle.putString("acelerometro_y", null);
+            bundle.putString("acelerometro_z", null);
+            bundle.putString("velocidade_digitacao", null);
             bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", EditarActivity.coords);
+            bundle.putString("posicao_clique", null);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", null);
             mFirebaseAnalytics.logEvent("cadastro_rotina", bundle);
-            giro.cancel(true);
+
+
+
 
             context.finish();
         }else{

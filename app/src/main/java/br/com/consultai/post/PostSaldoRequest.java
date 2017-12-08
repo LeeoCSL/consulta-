@@ -86,8 +86,6 @@ public class PostSaldoRequest extends AsyncTask<Double, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-
-
         DialogUtil.hideProgressDialog(mDialog);
 
         try {
@@ -95,7 +93,7 @@ public class PostSaldoRequest extends AsyncTask<Double, Void, String> {
             double saldo = jsonObject.getDouble("saldo");
 
             MainFragment.SALDO = saldo;
-            MainFragment.tvSaldo.setText("R$ " +saldo);
+            MainFragment.tvSaldo.setText("R$ " + String.format( "%.2f", saldo ).replace('.',','));
 
             Giroscopio giro = new Giroscopio(context);
             giro.execute();

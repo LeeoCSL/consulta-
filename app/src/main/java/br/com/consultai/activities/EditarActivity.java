@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,15 +24,12 @@ import br.com.consultai.Giroscopio;
 import br.com.consultai.R;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.post.RotinaPostRequest;
-import br.com.consultai.utils.UtilTempoDigitacao;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EditarActivity extends AppCompatActivity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
-
-    public static String coords = "coordenadas";
 
     public static Rotina ROTINA_IDA;
     public static Rotina ROTINA_VOLTA;
@@ -101,8 +97,6 @@ public class EditarActivity extends AppCompatActivity {
         initializeCheckeds();
         initializeUncheckeds();
         initializeButtons();
-
-
 
         for(int i = 0; i < btnDias.length; i++){
             final int tmp = i;
@@ -291,10 +285,11 @@ public class EditarActivity extends AppCompatActivity {
 
                     Bundle bundle = new Bundle();
                     bundle.putString("giroscopio", Giroscopio.gyro);
+                    bundle.putString("velocidade_digitacao", null);
                     bundle.putString("velocidade_clique", null);
-                    bundle.putString("posicao_clique", EditarActivity.coords);
+                    bundle.putString("posicao_clique", null);
                     bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle.putString("id_celular", null);
                     mFirebaseAnalytics.logEvent("selecao_hora_ida", bundle);
                     giro.cancel(true);
 
@@ -309,10 +304,11 @@ public class EditarActivity extends AppCompatActivity {
 
                     Bundle bundle = new Bundle();
                     bundle.putString("giroscopio", Giroscopio.gyro);
+                    bundle.putString("velocidade_digitacao", null);
                     bundle.putString("velocidade_clique", null);
-                    bundle.putString("posicao_clique", EditarActivity.coords);
+                    bundle.putString("posicao_clique", null);
                     bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle.putString("id_celular", null);
                     mFirebaseAnalytics.logEvent("selecao_hora_volta", bundle);
                     giro.cancel(true);
                 }
@@ -417,22 +413,5 @@ public class EditarActivity extends AppCompatActivity {
 
     public void back(View view){
         finish();
-    }
-
-    public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        switch (event.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                case MotionEvent.ACTION_MOVE:
-//                case MotionEvent.ACTION_UP:
-        }
-
-        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
-
-        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
-//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
-        return false;
-
     }
 }

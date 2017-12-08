@@ -83,6 +83,7 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
             cartao.setNumeroCartao(numero);
 
             MainFragment.APELIDO = apelido;
+            MainFragment.ESTUDANTE = estudante;
             MainFragment.txtNomeBilhete.setText(apelido);
 
             ContaFragment.CARTAO = cartao;

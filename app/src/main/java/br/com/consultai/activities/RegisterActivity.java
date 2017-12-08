@@ -2,12 +2,10 @@ package br.com.consultai.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -25,17 +23,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import br.com.consultai.MainActivity;
 import br.com.consultai.R;
-import br.com.consultai.model.Mobile;
 import br.com.consultai.model.Usuario;
-import br.com.consultai.serv.RegisterRequest;
+import br.com.consultai.post.PostExcluirRotinaRequest;
+import br.com.consultai.post.RegisterRequest;
 import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
@@ -237,7 +230,7 @@ public class RegisterActivity extends AppCompatActivity {
                         usuario.setSistemaOperacional("ANDROID");
 
 
-                        RegisterRequest register = new RegisterRequest(RegisterActivity.this);
+RegisterRequest register = new RegisterRequest(RegisterActivity.this);
                         register.execute(usuario);
 
                     }

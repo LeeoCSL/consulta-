@@ -2,42 +2,39 @@
 package br.com.consultai.Fragments;
 
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
 //import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.w3c.dom.Text;
+
 import br.com.consultai.R;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
+import br.com.consultai.get.GetCartaoRequest;
 import br.com.consultai.get.GetRotinaRequest;
-import br.com.consultai.get.GetSaldoExtraRequest;
 import br.com.consultai.get.GetSaldoRequest;
 import br.com.consultai.model.Usuario2;
 import br.com.consultai.post.PostExcluirRotinaRequest;
-import br.com.consultai.serv.GetCartaoRequest;
+import br.com.consultai.post.PostSaldoRequest;
 import br.com.consultai.utils.Utility;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -45,11 +42,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainFragment extends Fragment {
 
-    public static String coords = "coordenadas";
-
     public static double SALDO = -1;
     public static String APELIDO;
-
+    public static String coords = "coordenadas";
     private boolean[] diasAtivos = new boolean[7];
     public static int[] DIAS_ATIVOS = new int[7];
 
@@ -76,6 +71,11 @@ public class MainFragment extends Fragment {
 
     Button btnExcluir;
 
+    private int index = 0;
+    private double valor = 0;
+    private boolean btnNormalSelecionado = false;
+    private boolean btnEstudanteSelecionado = false;
+
     public MainFragment() {
     }
 
@@ -85,8 +85,6 @@ public class MainFragment extends Fragment {
 
         initializeCheckeds();
         initializeUncheckeds();
-
-
     }
 
     protected void initializeCheckeds() {
@@ -116,7 +114,7 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -138,10 +136,11 @@ public class MainFragment extends Fragment {
         GetCartaoRequest cartaoRequest = new GetCartaoRequest(getContext());
         cartaoRequest.execute();
 
-        br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
+        GetSaldoRequest request = new GetSaldoRequest(getContext());
         request.execute();
 
         btnExcluir.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -180,7 +179,7 @@ public class MainFragment extends Fragment {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Digite o valor da recarga");
-
+                builder.setCancelable(false);
 
                 final CurrencyEditText input = new CurrencyEditText(getContext(), null);
                 builder.setView(input);
@@ -191,185 +190,62 @@ public class MainFragment extends Fragment {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
-//                        Toast.makeText(getContext(), input.getText().toString().trim(), Toast.LENGTH_SHORT).show();
-
                         double value = Utility.stringToFloat(input.getText().toString().trim());
-
-//                        Toast.makeText(getContext(), String.valueOf(Utility.stringToFloat(input.getText().toString().trim())), Toast.LENGTH_SHORT).show();
-//                            double value = 50;
                         double saldo = SALDO + value;
 
                         br.com.consultai.post.PostSaldoRequest post = new br.com.consultai.post.PostSaldoRequest(getContext());
                         post.execute(saldo);
                     }
-                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        dialogInterface.dismiss();
                     }
                 });
 
                 builder.show();
-
             }
         });
 
         tvSaldo = view.findViewById(R.id.txt_valor);
 
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-//        tipo = sharedPref.getString("userTipo", "COMUM");
-
-
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-                mBuilder.setPositiveButton("Pronto", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                LayoutInflater inflater = getLayoutInflater();
+                View dialoglayout = inflater.inflate(R.layout.viagem_extra, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-                            }
-                        });
-                        View mView = getLayoutInflater().inflate(R.layout.viagem_mais, null);
-                ImageView comoFunciona = (ImageView) mView.findViewById(R.id.btnComoFunciona);
-                ImageView comoFuncionaMenos = (ImageView) mView.findViewById(R.id.btnComoFuncionaMenos);
+                TextView txtAddViagem = dialoglayout.findViewById(R.id.txt_add_viagem);
+                TextView txtExcluirViagem = dialoglayout.findViewById(R.id.txt_excluir_viagem);
 
-                Button maisOnibusComum = (Button) mView.findViewById(R.id.btnMaisOnibusComum);
-                Button maisEstudante = (Button) mView.findViewById(R.id.btnMaisEstudante);
-                Button maisIntegracaoComum = (Button) mView.findViewById(R.id.btnMaisIntegracaoComum);
-
-
-                Button menosOnibusComum = (Button) mView.findViewById(R.id.btnMenosOnibusComum);
-                Button menosIntegracaoComum = (Button) mView.findViewById(R.id.btnMenosIntegracaoComum);
-                Button menosEstudante = (Button) mView.findViewById(R.id.btnMenosEstudante);
-
-                if (tipo == 0) {
-                    maisOnibusComum.setVisibility(View.VISIBLE);
-                    maisIntegracaoComum.setVisibility(View.VISIBLE);
-                    menosOnibusComum.setVisibility(View.VISIBLE);
-                    menosIntegracaoComum.setVisibility(View.VISIBLE);
-                } else if (tipo == 1) {
-                    maisEstudante.setVisibility(View.VISIBLE);
-                    menosEstudante.setVisibility(View.VISIBLE);
-                }
-
-                comoFunciona.setOnClickListener(new View.OnClickListener() {
+                txtAddViagem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("Adicione uma viagem extra sempre que fizer um trajeto diferente do que está definido em sua rotina.");
-
-                        builder.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        builder.create();
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-
+                        createCustomDialog(true);
                     }
                 });
 
-                comoFuncionaMenos.setOnClickListener(new View.OnClickListener() {
+                txtExcluirViagem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("Exclua uma viagem sempre que fizer um trajeto diferente do que está definido em sua rotina.");
-
-                        builder.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        builder.create();
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                        createCustomDialog(false);
                     }
                 });
 
-                maisOnibusComum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tipoGet = "2";
-//                        Toast.makeText(getContext(), "Viagem extra onibus Comum", Toast.LENGTH_SHORT).show();
-
-                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
-
-                    }
-                });
-                maisIntegracaoComum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-//                        Toast.makeText(getContext(), "Viagem extra integraçao Comum", Toast.LENGTH_SHORT).show();
-
-                        tipoGet = "3";
-                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
-
-                    }
-                });
-
-                maisEstudante.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-//                        Toast.makeText(getContext(), "Viagem extra onibus Estudante", Toast.LENGTH_SHORT).show();
-
-                        tipoGet = "4";
-                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
-
-                    }
-                });
-
-                menosOnibusComum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tipoGet = "5";
-                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
-                    }
-                });
-
-                menosIntegracaoComum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tipoGet = "6";
-                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
-                    }
-                });
-
-                menosEstudante.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tipoGet = "7";
-                        GetSaldoExtraRequest getSaldoRequest = new GetSaldoExtraRequest(getContext());
-                        getSaldoRequest.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), tipoGet);
-                    }
-                });
-
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
-                dialog.show();
+                builder.setView(dialoglayout);
+                builder.show();
             }
         });
-
 
         Button btnAtualizar = view.findViewById(R.id.btnAtualizar);
         btnAtualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
+                GetSaldoRequest request = new GetSaldoRequest(getContext());
                 request.execute();
             }
         });
@@ -379,18 +255,147 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), EditarActivity.class));
-//                FragmentManager fragmentManager = getChildFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                EditarFragment editarFragment = new EditarFragment();
-//                fragmentTransaction.replace(R.id.fragment, editarFragment).commit();
-
-//                Fragment editarFragment = new EditarFragment();
-//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//                transaction.add(R.id.fragment, editarFragment).commit();
-
             }
         });
         return view;
+    }
+
+    private void createCustomDialog(final boolean adicionar){
+        LayoutInflater inflater = getLayoutInflater();
+
+        View dialoglayout = null;
+
+        if(ESTUDANTE == 0){
+            dialoglayout = inflater.inflate(R.layout.adicionar_viagem_normal, null);
+
+            final Button btnNormal = dialoglayout.findViewById(R.id.btn_normal);
+            final Button btnIntegracao = dialoglayout.findViewById(R.id.btn_integracao);
+            final TextView txtViagem = dialoglayout.findViewById(R.id.txt_viagem);
+
+            if(adicionar){
+                txtViagem.setText("Adicionar viagem");
+            }else{
+                txtViagem.setText("Excluir viagem");
+            }
+
+            btnNormal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    btnNormal.setBackgroundColor(Color.parseColor("#00bcd4"));
+                    btnNormal.setTextColor(Color.WHITE);
+
+                    btnIntegracao.setBackgroundResource(R.drawable.selector_card_background);
+                    btnIntegracao.setTextColor(Color.BLACK);
+
+                    valor = 3.8;
+                    btnNormalSelecionado = true;
+                }
+            });
+
+            btnIntegracao.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    btnNormal.setBackgroundResource(R.drawable.selector_card_background);
+                    btnNormal.setTextColor(Color.BLACK);
+
+                    btnIntegracao.setBackgroundColor(Color.parseColor("#00bcd4"));
+                    btnIntegracao.setTextColor(Color.WHITE);
+
+                    valor = 3.0;
+                    btnNormalSelecionado = false;
+                }
+            });
+        }else{
+            dialoglayout = inflater.inflate(R.layout.adicionar_viagem_estudante, null);
+
+            TextView txtViagem = dialoglayout.findViewById(R.id.txt_viagem);
+
+            final Button btnEstudante = dialoglayout.findViewById(R.id.btn_estudante);
+
+            if(adicionar){
+                txtViagem.setText("Adicionar viagem");
+            }else{
+                txtViagem.setText("Excluir viagem");
+            }
+
+            btnEstudante.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(btnEstudanteSelecionado){
+                        btnEstudante.setBackgroundResource(R.drawable.selector_card_background);
+                        btnEstudante.setTextColor(Color.BLACK);
+
+                        valor = 1.9;
+                    }else{
+                        btnEstudante.setBackgroundColor(Color.parseColor("#00bcd4"));
+                        btnEstudante.setTextColor(Color.WHITE);
+
+                        valor = 1.9;
+                    }
+                    btnEstudanteSelecionado = !btnEstudanteSelecionado;
+                }
+            });
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setPositiveButton("Pronto", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                GetSaldoRequest request = new GetSaldoRequest(getContext());
+                request.execute();
+
+                if(ESTUDANTE == 1){
+                    if(!btnEstudanteSelecionado){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                        builder1.setTitle("Ops!");
+                        builder1.setMessage("Por favor, selecione um valor.");
+                        builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        builder1.show();
+                        return;
+                    }else{
+                        if(adicionar){
+                            double novoSalvo = SALDO - valor;
+
+                            PostSaldoRequest saldoRequest = new PostSaldoRequest(getContext());
+                            saldoRequest.execute(novoSalvo);
+                        }else{
+                            double novoSalvo = SALDO + valor;
+
+                            PostSaldoRequest saldoRequest = new PostSaldoRequest(getContext());
+                            saldoRequest.execute(novoSalvo);
+                        }
+                    }
+                }else {
+                    if(adicionar){
+                        double novoSalvo = SALDO - valor;
+
+                        PostSaldoRequest saldoRequest = new PostSaldoRequest(getContext());
+                        saldoRequest.execute(novoSalvo);
+                    }else{
+                        double novoSalvo = SALDO + valor;
+
+                        PostSaldoRequest saldoRequest = new PostSaldoRequest(getContext());
+                        saldoRequest.execute(novoSalvo);
+                    }
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.setView(dialoglayout);
+        builder.show();
     }
 
 
@@ -398,14 +403,10 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-/*        GetRotinaRequest rotina = new GetRotinaRequest(getContext());
-        rotina.execute();*/
-
         int count = 0;
         for (int i = 0; i < DIAS_ATIVOS.length; i++) {
             count += DIAS_ATIVOS[i];
         }
-
 
         tipoGet = "0";
 
@@ -413,8 +414,9 @@ public class MainFragment extends Fragment {
             br.com.consultai.get.GetSaldoRequest request = new br.com.consultai.get.GetSaldoRequest(getContext());
             request.execute();
         } else {
-            tvSaldo.setText("R$ " + SALDO);
+            tvSaldo.setText("R$ " + String.format( "%.2f", SALDO ).replace('.',','));
         }
+
 
         txtNomeBilhete.setText(APELIDO);
 
