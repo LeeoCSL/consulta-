@@ -20,8 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
-
+            android:layout_marginTop="8dp"
             android:text="@string/bem_vindo"
             android:textColor="@color/white"
             android:textSize="26sp"
@@ -31,7 +30,7 @@
             android:id="@+id/input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/input_background"
             android:hint="Email"
             android:inputType="textEmailAddress"
@@ -56,7 +55,6 @@
             android:text="Entrar"
             android:textColor="@color/white"
             tools:ignore="HardcodedText" />
-
     </LinearLayout>
 
     <LinearLayout

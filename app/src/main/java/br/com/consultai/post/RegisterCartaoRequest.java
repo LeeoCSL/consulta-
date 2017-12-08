@@ -149,9 +149,11 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", saldo);
             Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtras(bundle);
 
             CadastroCartaoActivity.mDialog.dismiss();
+
             context.startActivity(intent);
 
         } catch (Exception e) {
