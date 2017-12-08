@@ -389,6 +389,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Profile profile = Profile.getCurrentProfile();
 
+
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                 Bundle bundle = new Bundle();
@@ -439,21 +440,34 @@ public class LoginActivity extends AppCompatActivity {
 
                             Profile profile = Profile.getCurrentProfile();
 
-                            Usuario usuario = new Usuario();
-                            usuario.setId(userID);
-                            usuario.setEmail(user.getEmail());
-                            usuario.setSenha("000000");
-                            usuario.setNome(profile.getName());
-                            usuario.setNotificationToken(notification_token);
-                            usuario.setSexo('I');
-                            usuario.setModelo(deviceBrand);
-                            usuario.setSerialMobile(serialNumber);
-                            usuario.setIdUsuario(userID);
-                            usuario.setSistemaOperacional("ANDROID");
+                            if(user.getEmail()==null){
+                               AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                builder.setMessage("Seu email facebook nao esta definido como público, não é possivel realizar o cadastro.");
+                                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                builder.show();
+                            }
+                            else if (user.getEmail() !=null) {
+                                Usuario usuario = new Usuario();
+                                usuario.setId(userID);
+                                usuario.setEmail(user.getEmail());
+                                usuario.setSenha("000000");
+                                usuario.setNome(profile.getName());
+                                usuario.setNotificationToken(notification_token);
+                                usuario.setSexo('I');
+                                usuario.setModelo(deviceBrand);
+                                usuario.setSerialMobile(serialNumber);
+                                usuario.setIdUsuario(userID);
+                                usuario.setSistemaOperacional("ANDROID");
 
-                            PostLoginFBGoogle loginFB = new PostLoginFBGoogle(LoginActivity.this);
-                            loginFB.execute(usuario);
 
+                                PostLoginFBGoogle loginFB = new PostLoginFBGoogle(LoginActivity.this);
+                                loginFB.execute(usuario);
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
 

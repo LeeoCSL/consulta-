@@ -82,7 +82,7 @@
                 android:id="@+id/login_fb_fake"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/botao_desativado"
+                android:background="@drawable/btn_facebook"
                 android:onClick="handlerFakeFacebookLogin"
                 android:text="Entrar com Facebook"
                 android:textColor="@color/white" />
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/botao_desativado"
+                android:background="@drawable/btn_google"
                 android:text="Entrar com Google+"
                 android:textColor="@color/white"
                 android:onClick="handlerFakeGoogleLogin"/>
