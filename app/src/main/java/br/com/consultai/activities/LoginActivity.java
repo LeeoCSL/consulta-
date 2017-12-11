@@ -435,27 +435,46 @@ public class LoginActivity extends AppCompatActivity {
 //                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 
-
+                            String email = task.getResult().getUser().getEmail();
+                            Toast.makeText(LoginActivity.this, email, Toast.LENGTH_SHORT).show();
                             String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                             Profile profile = Profile.getCurrentProfile();
 
-                            if(user.getEmail()==null){
-                               AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("Seu email facebook nao esta definido como público, não é possivel realizar o cadastro.");
-                                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                builder.show();
-                            }
-                            else if (user.getEmail() !=null) {
+                            if(email==null){
+
                                 Usuario usuario = new Usuario();
                                 usuario.setId(userID);
-                                usuario.setEmail(user.getEmail());
-                                usuario.setSenha("000000");
+                                usuario.setEmail(profile.getId());
+//                                usuario.setSenha("000000");
+                                usuario.setNome(profile.getName());
+                                usuario.setNotificationToken(notification_token);
+                                usuario.setSexo('I');
+                                usuario.setModelo(deviceBrand);
+                                usuario.setSerialMobile(serialNumber);
+                                usuario.setIdUsuario(userID);
+                                usuario.setSistemaOperacional("ANDROID");
+
+
+                                PostLoginFBGoogle loginFB = new PostLoginFBGoogle(LoginActivity.this);
+                                loginFB.execute(usuario);
+
+
+//                               AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//                                builder.setMessage("Seu email facebook nao esta definido como público, não é possivel realizar o cadastro.");
+//                                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        dialogInterface.dismiss();
+//                                    }
+//                                });
+//                                builder.show();
+                            }
+                            else if (email !=null) {
+                                Usuario usuario = new Usuario();
+                                usuario.setId(userID);
+                                usuario.setEmail(email);
+//                                usuario.setSenha("000000");
                                 usuario.setNome(profile.getName());
                                 usuario.setNotificationToken(notification_token);
                                 usuario.setSexo('I');

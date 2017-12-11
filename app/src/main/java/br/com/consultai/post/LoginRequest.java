@@ -28,6 +28,7 @@ import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Cartao;
 import br.com.consultai.model.Usuario;
+import br.com.consultai.utils.DialogUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -86,15 +87,33 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             JSONObject jsonObject = new JSONObject(s);
 
             String loginToken = jsonObject.getString("login_token");
-            double saldo = jsonObject.getDouble("user_saldo");
-            String apelido = jsonObject.getString("apelido");
-            int estudante = jsonObject.getInt("estudante");
-            String numero = jsonObject.getString("numero_cartao");
+            int numero = jsonObject.getInt("numero_cartao");
 
-            LoginActivity.LOGIN_TOKEN = loginToken;
-            MainFragment.APELIDO = apelido;
-            MainFragment.SALDO = saldo;
-            MainFragment.ESTUDANTE = estudante;
+            if (numero == -1) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Por favor, cadastre as informações do seu cartão para continuar");
+                builder.setCancelable(false);
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        Intent intent = new Intent(context, CadastroCartaoActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+                builder.show();
+
+            }
+            else if (numero != -1) {
+                double saldo = jsonObject.getDouble("user_saldo");
+                String apelido = jsonObject.getString("apelido");
+                int estudante = jsonObject.getInt("estudante");
+
+
+                LoginActivity.LOGIN_TOKEN = loginToken;
+                MainFragment.APELIDO = apelido;
+                MainFragment.SALDO = saldo;
+                MainFragment.ESTUDANTE = estudante;
 
 //            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 //            SharedPreferences.Editor editor = sharedPref.edit();
@@ -103,30 +122,36 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
 
 
-            ContaFragment.apelido = apelido;
-            ContaFragment.estudante = estudante;
-            ContaFragment.numero = numero;
-            ContaFragment.estudante = estudante;
+                ContaFragment.apelido = apelido;
+                ContaFragment.estudante = estudante;
+                ContaFragment.numero = String.valueOf(numero);
+                ContaFragment.estudante = estudante;
 
-            Giroscopio giro = new Giroscopio(context);
-            giro.execute();
+                Giroscopio giro = new Giroscopio(context);
+                giro.execute();
 
 
-            Bundle bundle2 = new Bundle();
-            bundle2.putString("giroscopio", Giroscopio.gyro);
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("giroscopio", Giroscopio.gyro);
 
-            bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
-            bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
-            bundle2.putString("velocidade_clique", null);
-            bundle2.putString("posicao_clique", null);
-            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", null);
-            mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
-            //TODO popular evento
+                bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
+                bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
+//                bundle2.putString("velocidade_clique", null);
+//                bundle2.putString("posicao_clique", null);
+                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
+                //TODO popular evento
 
-            LoginActivity.mDialog.dismiss();
-            Intent intent = new Intent(context, MainActivity.class);
-            context.startActivity(intent);
+                LoginActivity.mDialog.dismiss();
+
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,15 +162,16 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
             Bundle bundle = new Bundle();
             bundle.putString("giroscopio", Giroscopio.gyro);
-            bundle.putString("velocidade_digitacao", null);
-            bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", null);
+//            bundle.putString("velocidade_digitacao", null);
+//            bundle.putString("velocidade_clique", null);
+//            bundle.putString("posicao_clique", null);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", null);
+            bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFirebaseAnalytics.logEvent("login_email_erro", bundle);
 
             giro.cancel(true);
 
+            LoginActivity.mDialog.dismiss();
         }
     }
 

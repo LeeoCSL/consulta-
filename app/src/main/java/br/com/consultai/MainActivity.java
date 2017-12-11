@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -33,7 +34,6 @@ import br.com.consultai.utils.BottomNavigationViewHelper;
 //import com.crashlytics.android.CrashlyticsInitProvider;
 
 public class MainActivity extends AppCompatActivity {
-
 
 
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -78,9 +78,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void logout(){
+    public void logout() {
 
         FirebaseAuth.getInstance().signOut();
+//        LoginManager.getInstance().logOut();
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -120,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
                     mFirebaseAnalytics.logEvent("logout", bundle);
 
                     giro.cancel(true);
-
+                    LoginManager.getInstance().logOut();
                     logout();
                     return true;
             }
-                return false;
-            }
+            return false;
+        }
 
-        };
-    }
+    };
+}
 

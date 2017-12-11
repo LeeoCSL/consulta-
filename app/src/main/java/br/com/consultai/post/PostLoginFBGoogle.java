@@ -118,28 +118,44 @@ Log.v("login", r );
                 Intent intent = new Intent(context, CadastroCartaoActivity.class);
                 context.startActivity(intent);
             }
+
             else if(flag.equals("1")) {
+                int numero = jsonObject.getInt("numero_cartao");
+
+                Log.v("numero", String.valueOf(numero));
+
+                if (numero == -1) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Por favor, cadastre as informações do seu cartão para continuar");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            Intent intent = new Intent(context, CadastroCartaoActivity.class);
+                            context.startActivity(intent);
+                        }
+                    });
+                    builder.show();
 
 
-                double saldo = jsonObject.getDouble("user_saldo");
-                String apelido = jsonObject.getString("apelido");
-                int estudante = jsonObject.getInt("estudante");
-                String numero = jsonObject.getString("numero_cartao");
+                }
+                else if (numero != -1){
+                    double saldo = jsonObject.getDouble("user_saldo");
+                    String apelido = jsonObject.getString("apelido");
+                    int estudante = jsonObject.getInt("estudante");
 
 
 
+                    MainFragment.APELIDO = apelido;
+                    MainFragment.SALDO = saldo;
+                    MainFragment.ESTUDANTE = estudante;
 
-                MainFragment.APELIDO = apelido;
-                MainFragment.SALDO = saldo;
-                MainFragment.ESTUDANTE = estudante;
-
-                ContaFragment.apelido = apelido;
-                ContaFragment.estudante = estudante;
-                ContaFragment.numero = numero;
-                ContaFragment.estudante = estudante;
-
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
+                    ContaFragment.apelido = apelido;
+                    ContaFragment.estudante = estudante;
+                    ContaFragment.numero = String.valueOf(numero);
+                    ContaFragment.estudante = estudante;
+                }
             }
 
             else if (flag.equals("-1")){
