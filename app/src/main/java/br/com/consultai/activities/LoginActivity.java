@@ -26,6 +26,7 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -489,7 +490,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         } else {
                             // If sign in fails, display a message to the user.
-
+                            Toast.makeText(LoginActivity.this, "erro" , Toast.LENGTH_SHORT).show();
+                            LoginManager.getInstance().logOut();
                         }
 
                         // [START_EXCLUDE]

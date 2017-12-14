@@ -87,9 +87,10 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
             JSONObject jsonObject = new JSONObject(s);
 
             String loginToken = jsonObject.getString("login_token");
-            int numero = jsonObject.getInt("numero_cartao");
+            String numero = jsonObject.getString("numero_cartao");
+            LoginActivity.LOGIN_TOKEN = loginToken;
 
-            if (numero == -1) {
+            if (numero.equals("-1")) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("Por favor, cadastre as informações do seu cartão para continuar");
                 builder.setCancelable(false);
@@ -104,13 +105,13 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
                 builder.show();
 
             }
-            else if (numero != -1) {
+            else if (!numero.equals("-1")) {
                 double saldo = jsonObject.getDouble("user_saldo");
                 String apelido = jsonObject.getString("apelido");
                 int estudante = jsonObject.getInt("estudante");
 
 
-                LoginActivity.LOGIN_TOKEN = loginToken;
+
                 MainFragment.APELIDO = apelido;
                 MainFragment.SALDO = saldo;
                 MainFragment.ESTUDANTE = estudante;

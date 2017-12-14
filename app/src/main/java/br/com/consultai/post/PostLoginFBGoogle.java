@@ -155,6 +155,8 @@ Log.v("login", r );
                     ContaFragment.estudante = estudante;
                     ContaFragment.numero = String.valueOf(numero);
                     ContaFragment.estudante = estudante;
+                    Intent intent = new Intent(context, MainActivity.class);
+                    context.startActivity(intent);
                 }
             }
 
