@@ -99,18 +99,18 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
 
         try {
-            if(s == null){
-                FirebaseAuth.getInstance().getCurrentUser()
-                        .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            createAlert();
-                        }
-                    }
-                });
-                return;
-            }
+//            if(s == null){
+//                FirebaseAuth.getInstance().getCurrentUser()
+//                        .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if(task.isSuccessful()){
+//                            createAlert();
+//                        }
+//                    }
+//                });
+//                return;
+//            }
 
             JSONObject jsonObject = new JSONObject(s);
 
@@ -159,15 +159,15 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             CadastroCartaoActivity.mDialog.dismiss();
 
-            FirebaseAuth.getInstance().getCurrentUser()
-                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        createAlert();
-                    }
-                }
-            });
+//            FirebaseAuth.getInstance().getCurrentUser()
+//                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Void> task) {
+//                    if(task.isSuccessful()){
+//                        createAlert();
+//                    }
+//                }
+//            });
             return;
         }
     }
