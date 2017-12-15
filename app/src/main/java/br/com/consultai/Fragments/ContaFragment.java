@@ -1,4 +1,4 @@
-package br.com.consultai.Fragments;
+package br.com.consultai.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

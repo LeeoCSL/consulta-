@@ -10,8 +10,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import br.com.consultai.Fragments.ContaFragment;
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.ContaFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Cartao;
 import okhttp3.OkHttpClient;

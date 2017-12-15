@@ -6,25 +6,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-import br.com.consultai.Fragments.ContaFragment;
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Cartao;
+import br.com.consultai.utils.Constants;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,14 +31,14 @@ import okhttp3.Response;
  * Created by renan.boni on 08/12/2017.
  */
 
-public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
+public class PostRegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
     private Context context;
     private AlertDialog.Builder dialog;
     private FirebaseAnalytics mFirebaseAnalytics;
     String cartaoApelido;
 
-    public RegisterCartaoRequest(Context context){
+    public PostRegisterCartaoRequest(Context context){
         this.context = context;
     }
 
@@ -71,7 +67,7 @@ public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
         OkHttpClient client2 = new OkHttpClient();
 
-        String url2 = "https://zazzytec.com.br/novo_cartao";
+        String url2 = Constants.URL + "novo_cartao";
 
         Request.Builder builder2 = new Request.Builder();
 

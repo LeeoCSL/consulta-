@@ -1,30 +1,23 @@
 package br.com.consultai.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -40,7 +33,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -51,20 +43,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.json.JSONObject;
-
 import br.com.consultai.R;
-import br.com.consultai.model.User;
 import br.com.consultai.model.Usuario;
-import br.com.consultai.post.LoginRequest;
-import br.com.consultai.post.PostExcluirRotinaRequest;
+import br.com.consultai.post.PostLoginRequest;
 import br.com.consultai.post.PostLoginFBGoogle;
-import br.com.consultai.post.RegisterRequest;
 import br.com.consultai.utils.DialogFactory;
 import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
@@ -75,12 +59,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public static String LOGIN_TOKEN;
 
-    public static String emailParam;
-    public static String emailGoogle;
-    public static String linkFB;
-    public static String nomeFB;
-    public static String idFacebook;
-    public static String emailFB;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     String deviceBrand = android.os.Build.MANUFACTURER;
@@ -102,13 +80,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private SignInButton mGoogleLogin;
 
-    private ImageView mLoginGoogle;
-
     private GoogleApiClient mGoogleApiClient;
 
     private static final int RC_SIGN_IN = 1;
-
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private String user_email, user_password;
 
@@ -117,15 +91,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public static String tempoEmail, tempoSenha;
 
-    String name, gender;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mDialog = new ProgressDialog(this);
+
         ButterKnife.bind(this);
 
         if (LOGIN_TOKEN == null) {
@@ -247,17 +218,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
 
-                        UserProfileChangeRequest profUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(authResult.getUser().getDisplayName())
-                                .setPhotoUri(Uri.parse("https://api.adorable.io/avatars/285/"
-                                        + authResult.getUser().getDisplayName() + ".png"))
-                                .build();
-
-                        authResult.getUser().updateProfile(profUpdate);
-
-                        User user = new User();
+                        Usuario user = new Usuario();
                         user.setEmail(authResult.getUser().getEmail());
 //                        user.setName(authResult.getUser().getDisplayName());
 
@@ -269,7 +231,6 @@ public class LoginActivity extends AppCompatActivity {
 //                        editor.putString("nome", user.getName());
                         editor.commit();
 
-                        ref.setValue(user);
                         Usuario usuario = new Usuario();
                         usuario.setId(userID);
                         usuario.setEmail(user.getEmail());
@@ -337,11 +298,8 @@ public class LoginActivity extends AppCompatActivity {
                         usuario.setSenha(user_password);
                         usuario.setNotificationToken(notification_token);
 
-                        LoginRequest login = new LoginRequest(LoginActivity.this);
+                        PostLoginRequest login = new PostLoginRequest(LoginActivity.this);
                         login.execute(usuario);
-
-
-
 
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
@@ -367,6 +325,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Utility.makeText(LoginActivity.this,
                             "Erro ao fazer login, tente novamente mais tarde.");
+                    mDialog.dismiss();
                 }
 
             }

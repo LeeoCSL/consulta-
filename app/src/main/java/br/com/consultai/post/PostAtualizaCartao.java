@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -16,11 +15,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import br.com.consultai.Fragments.ContaFragment;
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.ContaFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.Giroscopio;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Cartao;
+import br.com.consultai.utils.Constants;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.Request;
 
@@ -29,8 +29,7 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
     private Context context;
     private ProgressDialog mDialog;
     private FirebaseAnalytics mFirebaseAnalytics;
-
-
+    
     public PostAtualizaCartao(Context context){
         this.context = context;
     }
@@ -45,7 +44,7 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
         Gson gson = new Gson();
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
 
-        String url = "https://zazzytec.com.br/novo_cartao";
+        String url = Constants.URL + "novo_cartao";
 
         Request.Builder builder = new Request.Builder();
         builder.url(url);

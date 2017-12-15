@@ -13,7 +13,7 @@ import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.consultai.R;
-import br.com.consultai.post.RegisterCartaoRequest;
+import br.com.consultai.post.PostRegisterCartaoRequest;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,7 +98,7 @@ public class CadastroCartaoActivity extends AppCompatActivity {
     }
 
     private void createCartao(String numero, String apelido, String saldo, String estudante) {
-        RegisterCartaoRequest registerCartao = new RegisterCartaoRequest(this);
+        PostRegisterCartaoRequest registerCartao = new PostRegisterCartaoRequest(this);
 
         //TODO incluir tipo
         registerCartao.execute(FirebaseAuth.getInstance().getCurrentUser().getUid(), LoginActivity.LOGIN_TOKEN, numero, apelido, saldo, estudante);

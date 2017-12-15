@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,11 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.consultai.Fragments.ContaFragment;
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
-import br.com.consultai.model.Cartao;
 import br.com.consultai.model.Rotina;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

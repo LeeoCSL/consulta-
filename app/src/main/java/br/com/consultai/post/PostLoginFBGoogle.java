@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,20 +20,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import br.com.consultai.Fragments.ContaFragment;
-import br.com.consultai.Fragments.MainFragment;
-import br.com.consultai.Giroscopio;
+import br.com.consultai.fragments.ContaFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
-import br.com.consultai.model.Cartao;
 import br.com.consultai.model.Usuario;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
+import br.com.consultai.utils.Constants;
 import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by leonardo.ribeiro on 08/12/2017.
@@ -61,7 +54,7 @@ public class PostLoginFBGoogle extends AsyncTask<Usuario, Void, String> {
         Gson gson = new Gson();
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
 
-        String url = "https://zazzytec.com.br/outro";
+        String url = Constants.URL + "outro";
 
         Request.Builder builder = new Request.Builder();
         builder.url(url);
@@ -77,7 +70,6 @@ public class PostLoginFBGoogle extends AsyncTask<Usuario, Void, String> {
         try {
             okhttp3.Response response = client.newCall(request).execute();
             String r = response.body().string();
-Log.v("login", r );
             return r;
         } catch (IOException e) {
             e.printStackTrace();

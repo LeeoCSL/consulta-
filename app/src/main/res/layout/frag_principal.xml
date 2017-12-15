@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context="br.com.consultai.Fragments.Principal">
+    tools:context="br.com.consultai.fragments.Principal">
 
     <ImageView
         android:id="@+id/img_logo"

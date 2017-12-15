@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,7 +13,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.Giroscopio;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.DialogUtil;

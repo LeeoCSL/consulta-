@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.consultai.Fragments.ComoUsarFragment">
+    tools:context="br.com.consultai.fragments.ComoUsarFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

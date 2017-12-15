@@ -1,38 +1,22 @@
 package br.com.consultai.post;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.Giroscopio;
-import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.EditarActivity;
-import br.com.consultai.activities.LoginActivity;
-import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Usuario;
 import br.com.consultai.utils.DialogUtil;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 /**

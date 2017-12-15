@@ -1,37 +1,21 @@
 package br.com.consultai;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.multidex.MultiDex;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.iid.FirebaseInstanceId;
-//import com.roughike.bottombar.OnMenuTabClickListener;
-
-
-import br.com.consultai.Fragments.ComoUsarFragment;
-import br.com.consultai.Fragments.ContaFragment;
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.ComoUsarFragment;
+import br.com.consultai.fragments.ContaFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.BottomNavigationViewHelper;
-//import com.crashlytics.android.Crashlytics;
-//import io.fabric.sdk.android.Fabric;
-//import com.crashlytics.android.CrashlyticsInitProvider;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Log.i("tokenasxs", token);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -123,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     giro.cancel(true);
                     LoginManager.getInstance().logOut();
                     logout();
+
                     return true;
             }
             return false;

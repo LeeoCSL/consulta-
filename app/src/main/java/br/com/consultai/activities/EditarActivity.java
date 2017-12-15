@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,11 +18,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.Giroscopio;
 import br.com.consultai.R;
 import br.com.consultai.model.Rotina;
-import br.com.consultai.post.RotinaPostRequest;
+import br.com.consultai.post.PostRotinaPostRequest;
+import br.com.consultai.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -42,8 +42,7 @@ public class EditarActivity extends AppCompatActivity {
     protected int[] checkedImg = new int[7];
     protected int[] uncheckedImg = new int[7];
 
-    protected int hh, mm, ss = 0;
-    protected String hora;
+    protected int hh, mm;
 
     @BindView(R.id.tp_1)
     ImageView mClock1;
@@ -126,16 +125,16 @@ public class EditarActivity extends AppCompatActivity {
                 switch (i){
                     case R.id.rb_onibus_trilho_ida:
                         if(MainFragment.ESTUDANTE == 1){
-                            mValor1 = 1.90;
+                            mValor1 = Constants.ESTUDANTE_COMUM;
                         }else{
-                            mValor1 = 3.80;
+                            mValor1 = Constants.COMUM;
                         }
                         break;
                     case R.id.rb_integracao_ida:
                         if(MainFragment.ESTUDANTE == 1){
-                            mValor1 = 3.80;
+                            mValor1 = Constants.ESTUDANTE_INTEGRACAO;
                         }else{
-                            mValor1 = 6.80;
+                            mValor1 = Constants.COMUM_INTEGRACAO;
                         }
                         break;
                 }
@@ -148,16 +147,16 @@ public class EditarActivity extends AppCompatActivity {
                 switch (i){
                     case R.id.rb_onibus_trilho_volta:
                         if(MainFragment.ESTUDANTE == 1){
-                            mValor2 = 1.90;
+                            mValor2 = Constants.ESTUDANTE_COMUM;
                         }else{
-                            mValor2 = 3.80;
+                            mValor2 = Constants.COMUM;
                         }
                         break;
                     case R.id.rb_integracao_volta:
                         if(MainFragment.ESTUDANTE == 1){
-                            mValor2 = 3.80;
+                            mValor2 = Constants.ESTUDANTE_INTEGRACAO;
                         }else{
-                            mValor2 = 6.80;
+                            mValor2 = Constants.COMUM_INTEGRACAO;
                         }
                         break;
                 }
@@ -367,7 +366,7 @@ public class EditarActivity extends AppCompatActivity {
             rotinaVolta.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaVolta.setTipo(1);
 
-            RotinaPostRequest request = new RotinaPostRequest(this);
+            PostRotinaPostRequest request = new PostRotinaPostRequest(this);
             request.execute(rotinaIda, rotinaVolta);
         }else{
             Rotina rotinaIda = new Rotina();
@@ -387,7 +386,7 @@ public class EditarActivity extends AppCompatActivity {
             rotinaVolta.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaVolta.setTipo(1);
 
-            RotinaPostRequest request = new RotinaPostRequest(this);
+            PostRotinaPostRequest request = new PostRotinaPostRequest(this);
             request.execute(rotinaIda, rotinaVolta);
         }
     }

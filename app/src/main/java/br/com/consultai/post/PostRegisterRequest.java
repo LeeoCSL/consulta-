@@ -31,13 +31,13 @@ import okhttp3.Response;
 /**
  * Created by leonardo.ribeiro on 08/12/2017.
  */
-public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
+public class PostRegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     private Context context;
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public RegisterRequest(Context context) {
+    public PostRegisterRequest(Context context) {
         this.context = context;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.utils.DialogUtil;
@@ -25,7 +25,7 @@ import okhttp3.Request;
  * Created by renan.boni on 27/11/2017.
  */
 
-public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
+public class PostRotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
     private static Activity context;
     private ProgressDialog mDialog;
@@ -36,7 +36,7 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
     private FirebaseAnalytics mFirebaseAnalytics;
 
 
-    public RotinaPostRequest(Activity context){
+    public PostRotinaPostRequest(Activity context){
         this.context = context;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 

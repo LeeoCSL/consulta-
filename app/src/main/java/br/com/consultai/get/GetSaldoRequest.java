@@ -3,7 +3,6 @@ package br.com.consultai.get;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -12,7 +11,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import br.com.consultai.Fragments.MainFragment;
+import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.OkHttpClient;
