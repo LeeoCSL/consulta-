@@ -18,6 +18,7 @@ import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.get.GetCartaoRequest;
 import br.com.consultai.model.Cartao;
 import br.com.consultai.post.PostAtualizaCartao;
+import br.com.consultai.utils.UtilTempoDigitacao;
 
 /**
  * Created by leonardo.ribeiro on 14/11/2017.
@@ -26,7 +27,7 @@ import br.com.consultai.post.PostAtualizaCartao;
 public class ContaFragment extends Fragment {
 
     public ContaFragment(){}
-    public static String coords = "coordenadas";
+    public static String coords;
     public static EditText mApelido;
     public static EditText mNumero;
 
@@ -37,6 +38,8 @@ public class ContaFragment extends Fragment {
     public static int estudante;
 
     public static Cartao CARTAO;
+
+    public static String tempoClique;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +57,23 @@ public class ContaFragment extends Fragment {
                 handlerSave();
             }
         });
+        btnSalvar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                }
+
+                tempoClique = String.valueOf(UtilTempoDigitacao.dtfs);
+                return false;
+            }
+        });
+
+
 
         if(CARTAO != null){
             loadCartao();

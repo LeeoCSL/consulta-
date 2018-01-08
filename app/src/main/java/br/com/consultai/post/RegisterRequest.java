@@ -5,8 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
+import com.google.android.gms.internal.acc;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -18,10 +22,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Acc;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Usuario;
+import br.com.consultai.utils.Constants;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,13 +38,13 @@ import okhttp3.Response;
 /**
  * Created by leonardo.ribeiro on 08/12/2017.
  */
-public class PostRegisterRequest extends AsyncTask<Usuario, Void, String> {
+public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     private Context context;
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public PostRegisterRequest(Context context) {
+    public RegisterRequest(Context context) {
         this.context = context;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
@@ -50,7 +57,7 @@ public class PostRegisterRequest extends AsyncTask<Usuario, Void, String> {
 
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://zazzytec.com.br/register";
+        String url = Constants.URL + "register";
 
         Request.Builder builder = new Request.Builder();
         builder.url(url);
@@ -78,7 +85,7 @@ public class PostRegisterRequest extends AsyncTask<Usuario, Void, String> {
                     .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Ops!");
@@ -105,22 +112,25 @@ public class PostRegisterRequest extends AsyncTask<Usuario, Void, String> {
             LoginActivity.mDialog.dismiss();
             context.startActivity(new Intent(context, CadastroCartaoActivity.class));
 
-    /*            Giroscopio giro = new Giroscopio(context);
-                giro.execute();
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+            Acc acc = new Acc(context);
+            acc.execute();
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("giroscopio", Giroscopio.gyro);
+            bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
+            bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
+            bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
+            bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
+            bundle2.putString("velocidade_clique", RegisterActivity.tempoClique);
+            bundle2.putString("posicao_clique", RegisterActivity.coords);
+            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", Build.SERIAL);
 
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("giroscopio", Giroscopio.gyro);
-                bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
-                bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
-                bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
-                bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-    //            bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", RegisterActivity.coords);
-                bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-    //            bundle2.putString("id_celular", null);
-                Log.v("cad", RegisterActivity.coords);
-                mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
-                giro.cancel(true);*/
+            mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
+            giro.cancel(true);
+            acc.cancel(true);
+//            Toast.makeText(context, RegisterActivity.tempoClique, Toast.LENGTH_SHORT).show();
             //
 
         } catch (final JSONException e) {
@@ -128,11 +138,11 @@ public class PostRegisterRequest extends AsyncTask<Usuario, Void, String> {
                     .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Ops!");
-                        builder.setMessage("Falha no comunicação com o servidor. Tente mais tarde." +e.getMessage());
+                        builder.setMessage("Falha no comunicação com o servidor. Tente mais tarde." + e.getMessage());
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -144,24 +154,27 @@ public class PostRegisterRequest extends AsyncTask<Usuario, Void, String> {
                     }
                 }
             });
+
+
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+            Acc acc = new Acc(context);
+            acc.execute();
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("giroscopio", Giroscopio.gyro);
+            bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
+            bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
+            bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
+            bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
+            bundle2.putString("velocidade_clique", RegisterActivity.tempoClique);
+            bundle2.putString("posicao_clique", RegisterActivity.coords);
+            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", Build.SERIAL);
+            mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
+
+            giro.cancel(true);
+            acc.cancel(true);
             return;
-    /*
-                Giroscopio giro = new Giroscopio(context);
-                giro.execute();
-
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("giroscopio", Giroscopio.gyro);
-                bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
-                bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
-                bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
-                bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-    //            bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", RegisterActivity.coords);
-                bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-    //            bundle2.putString("id_celular", null);
-                mFirebaseAnalytics.logEvent("cadastro_erro", bundle2);
-
-                giro.cancel(true);*/
         }
     }
 
@@ -170,4 +183,3 @@ public class PostRegisterRequest extends AsyncTask<Usuario, Void, String> {
 
     }
 }
-

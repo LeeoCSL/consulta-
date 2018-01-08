@@ -3,7 +3,9 @@ package br.com.consultai.post;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -15,12 +17,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Acc;
 import br.com.consultai.fragments.ContaFragment;
 import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.Giroscopio;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Cartao;
-import br.com.consultai.utils.Constants;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.Request;
 
@@ -29,7 +31,8 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
     private Context context;
     private ProgressDialog mDialog;
     private FirebaseAnalytics mFirebaseAnalytics;
-    
+
+
     public PostAtualizaCartao(Context context){
         this.context = context;
     }
@@ -44,7 +47,7 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
         Gson gson = new Gson();
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
 
-        String url = Constants.URL + "novo_cartao";
+        String url = "https://zazzytec.com.br/novo_cartao";
 
         Request.Builder builder = new Request.Builder();
         builder.url(url);
@@ -93,20 +96,23 @@ public class PostAtualizaCartao extends AsyncTask<Cartao, Void, String>{
 
             Giroscopio giro = new Giroscopio(context);
             giro.execute();
+            Acc acc = new Acc(context);
+            acc.execute();
 
             Bundle bundle2 = new Bundle();
             bundle2.putString("giroscopio", Giroscopio.gyro);
+            bundle2.putString("acelerometro", Acc.Acc);
             bundle2.putString("velocidade_digi_email", RegisterActivity.tempoEmail);
             bundle2.putString("velocidade_digi_senha", RegisterActivity.tempoSenha);
             bundle2.putString("velocidade_digi_nome", RegisterActivity.tempoNome);
             bundle2.putString("velocidade_digi_sexo", RegisterActivity.tempoSexo);
-//            bundle2.putString("velocidade_clique", null);
+            bundle2.putString("velocidade_clique", ContaFragment.tempoClique);
             bundle2.putString("posicao_clique", ContaFragment.coords);
-            bundle2.putString("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", Build.SERIAL);
             mFirebaseAnalytics.logEvent("editar_bilhete", bundle2);
-
             giro.cancel(true);
+            acc.cancel(true);
 
         } catch (JSONException e) {
             DialogUtil.hideProgressDialog(mDialog);

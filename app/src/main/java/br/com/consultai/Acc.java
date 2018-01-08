@@ -6,25 +6,24 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import static android.content.Context.SENSOR_SERVICE;
 
 /**
- * Created by leonardo.ribeiro on 05/12/2017.
+ * Created by leonardo.ribeiro on 20/12/2017.
  */
 
-public class Giroscopio extends AsyncTask<String, String, String> implements SensorEventListener {
+public class Acc extends AsyncTask<String, String, String> implements SensorEventListener {
 
-    public static String xText, yText, zText;
-    Sensor mySensor;
-    SensorManager SM;
+    public static String xText, yText, zText, aText;
+    Sensor mySensor, mySensorGyro;
+    SensorManager SM, SMG;
 
-    public static String gyro = "X: 0 Y: 0 Z: 0";
+    public static String Acc = "teste";
 
     Context mContext;
-
-
-    public Giroscopio(Context mContext) {
+    public Acc(Context mContext) {
         this.mContext = mContext;
     }
 
@@ -32,25 +31,29 @@ public class Giroscopio extends AsyncTask<String, String, String> implements Sen
     protected String doInBackground(String... Strings) {
 
         SM = (SensorManager) mContext.getSystemService(SENSOR_SERVICE);
-
         //Accelerometer Sensor
 
-        mySensor = SM.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
 
         //Register sensor listener
         SM.registerListener(this, mySensor, 999999999);
 
-        return gyro;
+
+
+        return Acc;
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
-        xText = ("X: " + (int) sensorEvent.values[0]);
-        yText = ("Y: " + (int) sensorEvent.values[1]);
-        zText = ("Z: " + (int) sensorEvent.values[2]);
 
-        gyro =xText + " " + yText+ " "+ zText;
+
+        xText = String.valueOf(sensorEvent.values[0]);
+        yText = String.valueOf(sensorEvent.values[1]);
+        zText = String.valueOf(sensorEvent.values[2]);
+
+        Acc =xText + " " + yText+ " "+ zText;
 
 
 

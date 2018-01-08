@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -15,9 +16,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.consultai.Acc;
 import br.com.consultai.fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.model.Rotina;
+import br.com.consultai.utils.Constants;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.Request;
 
@@ -25,7 +29,7 @@ import okhttp3.Request;
  * Created by renan.boni on 27/11/2017.
  */
 
-public class PostRotinaPostRequest extends AsyncTask<Rotina, Void, String> {
+public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
     private static Activity context;
     private ProgressDialog mDialog;
@@ -36,7 +40,7 @@ public class PostRotinaPostRequest extends AsyncTask<Rotina, Void, String> {
     private FirebaseAnalytics mFirebaseAnalytics;
 
 
-    public PostRotinaPostRequest(Activity context){
+    public RotinaPostRequest(Activity context) {
         this.context = context;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
@@ -61,7 +65,7 @@ public class PostRotinaPostRequest extends AsyncTask<Rotina, Void, String> {
         Gson gson = new Gson();
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
 
-        String url = "https://zazzytec.com.br/nova_rotina";
+        String url = Constants.URL + "nova_rotina";
 
         Request.Builder builder = new Request.Builder();
         builder.url(url);
@@ -89,28 +93,30 @@ public class PostRotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
         int value = Integer.parseInt(s);
 
-        if(value == 1){
+        if (value == 1) {
             EditarActivity.ROTINA_IDA = rotinaIda;
             EditarActivity.ROTINA_VOLTA = rotinaVolta;
             MainFragment.DIAS_ATIVOS = rotinaIda.getDays();
             MainFragment.loadImages();
 
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+            Acc acc = new Acc(context);
+            acc.execute();
             Bundle bundle = new Bundle();
-            bundle.putString("acelerometro_x", null);
-            bundle.putString("acelerometro_y", null);
-            bundle.putString("acelerometro_z", null);
-            bundle.putString("velocidade_digitacao", null);
-            bundle.putString("velocidade_clique", null);
-            bundle.putString("posicao_clique", null);
+            bundle.putString("giroscopio", Giroscopio.gyro);
+            bundle.putString("acelerometro", Acc.Acc);
+            bundle.putString("velocidade_clique", EditarActivity.tempoCliqueRotina);
+            bundle.putString("posicao_clique", EditarActivity.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", null);
+            bundle.putString("id_celular", Build.SERIAL);
             mFirebaseAnalytics.logEvent("cadastro_rotina", bundle);
-
-
+            giro.cancel(true);
+            acc.cancel(true);
 
 
             context.finish();
-        }else{
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Ops!");
             builder.setMessage("Erro na comunicação com o servidor. Tente novamente mais tarde.");

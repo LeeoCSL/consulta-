@@ -37,7 +37,7 @@
 
         <Button
             android:id="@+id/btn_normal"
-            android:text="R$ 3,80"
+            android:text="R$ 4,00"
             android:layout_width="0dp"
             android:background="@drawable/selector_card_background"
             android:layout_height="wrap_content"
@@ -49,6 +49,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/selector_card_background"
-            android:text="R$ 3,00" />
+            android:text="R$ 2,96" />
     </LinearLayout>
 </LinearLayout>

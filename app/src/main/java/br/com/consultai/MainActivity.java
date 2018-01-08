@@ -7,18 +7,28 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+
 import com.facebook.login.LoginManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+//import com.roughike.bottombar.OnMenuTabClickListener;
+
+
 import br.com.consultai.fragments.ComoUsarFragment;
 import br.com.consultai.fragments.ContaFragment;
 import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.BottomNavigationViewHelper;
+//import com.crashlytics.android.Crashlytics;
+//import io.fabric.sdk.android.Fabric;
+//import com.crashlytics.android.CrashlyticsInitProvider;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static String coords;
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -26,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.i("tokenasxs", token);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -96,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
                     Bundle bundle = new Bundle();
                     bundle.putString("giroscopio", Giroscopio.gyro);
-                    bundle.putString("velocidade_clique", null);
-//                    bundle.putString("posicao_clique", MainFragment.coords);
+//                    bundle.putString("velocidade_clique", null);
+                    bundle.putString("posicao_clique", MainActivity.coords);
                     bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     mFirebaseAnalytics.logEvent("logout", bundle);
@@ -105,12 +117,28 @@ public class MainActivity extends AppCompatActivity {
                     giro.cancel(true);
                     LoginManager.getInstance().logOut();
                     logout();
-
                     return true;
             }
             return false;
         }
 
     };
+
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_UP:
+        }
+
+        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
+
+        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
+//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
+        return false;
+
+    }
 }
 

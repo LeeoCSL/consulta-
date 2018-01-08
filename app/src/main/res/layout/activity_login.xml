@@ -21,10 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-<<<<<<< HEAD
-=======
 
->>>>>>> 68f6a27fdd62f31a53be15ac5c1470a6c1bfdb29
             android:text="@string/bem_vindo"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -34,11 +31,7 @@
             android:id="@+id/input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
-            android:layout_marginTop="12dp"
-=======
             android:layout_marginTop="8dp"
->>>>>>> 68f6a27fdd62f31a53be15ac5c1470a6c1bfdb29
             android:background="@drawable/input_background"
             android:hint="Email"
             android:inputType="textEmailAddress"
@@ -55,6 +48,7 @@
             android:textColorHint="@color/hintColor" />
 
         <Button
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -63,6 +57,7 @@
             android:text="Entrar"
             android:textColor="@color/white"
             tools:ignore="HardcodedText" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -117,6 +112,7 @@
         </FrameLayout>
 
         <Button
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

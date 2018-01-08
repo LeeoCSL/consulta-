@@ -35,5 +35,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/selector_card_background"
-        android:text="R$ 1,90" />
+        android:text="R$ 2,00" />
 </LinearLayout>

@@ -5,22 +5,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Acc;
 import br.com.consultai.fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.model.Cartao;
-import br.com.consultai.utils.Constants;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,14 +34,14 @@ import okhttp3.Response;
  * Created by renan.boni on 08/12/2017.
  */
 
-public class PostRegisterCartaoRequest extends AsyncTask<String, Void, String> {
+public class RegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
     private Context context;
     private AlertDialog.Builder dialog;
     private FirebaseAnalytics mFirebaseAnalytics;
     String cartaoApelido;
 
-    public PostRegisterCartaoRequest(Context context){
+    public RegisterCartaoRequest(Context context) {
         this.context = context;
     }
 
@@ -57,9 +60,9 @@ public class PostRegisterCartaoRequest extends AsyncTask<String, Void, String> {
         cartao.setApelido(cartaoApelido);
         cartao.setSaldo(Float.parseFloat(strings[4]));
 
-        if(Boolean.parseBoolean(strings[5])){
+        if (Boolean.parseBoolean(strings[5])) {
             cartao.setEstudante(1);
-        }else{
+        } else {
             cartao.setEstudante(0);
         }
 
@@ -67,7 +70,7 @@ public class PostRegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
         OkHttpClient client2 = new OkHttpClient();
 
-        String url2 = Constants.URL + "novo_cartao";
+        String url2 = "https://zazzytec.com.br/novo_cartao";
 
         Request.Builder builder2 = new Request.Builder();
 
@@ -122,34 +125,37 @@ public class PostRegisterCartaoRequest extends AsyncTask<String, Void, String> {
             EditarActivity.ROTINA_IDA = null;
             EditarActivity.ROTINA_VOLTA = null;
 
-            for(int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++){
+            for (int i = 0; i < MainFragment.DIAS_ATIVOS.length; i++) {
                 MainFragment.DIAS_ATIVOS[i] = 0;
             }
             //MainFragment.txtNomeBilhete.setText(apelido);
-    /*
-                Giroscopio giro = new Giroscopio(context);
-                giro.execute();
 
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("giroscopio", Giroscopio.gyro);
-                bundle2.putString("velocidade_digitacao", null);
-                bundle2.putString("velocidade_clique", null);
-                bundle2.putString("posicao_clique", null);
-                bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", null);
-                mFirebaseAnalytics.logEvent("cadastro_bilhete_sucesso", bundle2);
-                //TODO popular evento
-                giro.cancel(true);
+            Giroscopio giro = new Giroscopio(context);
+            giro.execute();
+            Acc acc = new Acc(context);
+            acc.execute();
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("giroscopio", Giroscopio.gyro);
+            bundle2.putString("acelerometro", Acc.Acc);
+            bundle2.putString("velocidade_dig_apelido", CadastroCartaoActivity.tempoApelido);
+            bundle2.putString("velocidade_dig_numero", CadastroCartaoActivity.tempoNumero);
+            bundle2.putString("velocidade_dig_saldo", CadastroCartaoActivity.tempoSaldo);
+            bundle2.putString("velocidade_clique", CadastroCartaoActivity.tempoClique);
+            bundle2.putString("posicao_clique", CadastroCartaoActivity.coords);
+            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle2.putString("id_celular", Build.SERIAL);
+            mFirebaseAnalytics.logEvent("cadastro_bilhete_sucesso", bundle2);
+            //TODO popular evento
+            giro.cancel(true);
+            acc.cancel(true);
 
-    */
+
             Bundle bundle = new Bundle();
             bundle.putDouble("saldo", saldo);
             Intent intent = new Intent(context, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtras(bundle);
 
             CadastroCartaoActivity.mDialog.dismiss();
-
             context.startActivity(intent);
 
         } catch (Exception e) {
@@ -173,7 +179,7 @@ public class PostRegisterCartaoRequest extends AsyncTask<String, Void, String> {
 
     }
 
-    private void createAlert(){
+    private void createAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Ops!");
         builder.setMessage("Falha no comunicação com o servidor. Infelizmente não conseguimos terminar seu cadastro. Tente novamente mais tarde.");

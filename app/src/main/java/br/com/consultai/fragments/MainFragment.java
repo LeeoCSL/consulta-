@@ -1,23 +1,30 @@
-
 package br.com.consultai.fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
+import br.com.consultai.Acc;
+import br.com.consultai.Giroscopio;
+import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.activities.EditarActivity;
 import br.com.consultai.activities.LoginActivity;
@@ -27,13 +34,15 @@ import br.com.consultai.get.GetSaldoRequest;
 import br.com.consultai.model.Usuario;
 import br.com.consultai.post.PostExcluirRotinaRequest;
 import br.com.consultai.post.PostSaldoRequest;
+import br.com.consultai.utils.Constants;
+import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class MainFragment extends Fragment {
-
+    public static String coords;
     public static double SALDO = -1;
     public static String APELIDO;
 
@@ -51,14 +60,16 @@ public class MainFragment extends Fragment {
     public static TextView txtNomeBilhete;
     public static int tipo;
     Button btnRecarga;
-
+    public static String tempoRecarga;
     Button btnExcluir;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
     private double valor = 0;
 
     private boolean btnNormalSelecionado = false;
     private boolean btnIntegracaoSelecionado = false;
     private boolean btnEstudanteSelecionado = false;
+
+    public static String tempoCliqueExcluir, tempoCliqueExtra,tempoCliqueRecarga;
 
     public MainFragment() {
     }
@@ -66,7 +77,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         initializeCheckeds();
         initializeUncheckeds();
     }
@@ -150,6 +161,39 @@ public class MainFragment extends Fragment {
             }
         });
 
+        btnExcluir.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                }
+
+                tempoCliqueExcluir = String.valueOf(UtilTempoDigitacao.dtfs);
+                return false;
+            }
+        });
+
+        btnRecarga.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                }
+                tempoCliqueRecarga = String.valueOf(UtilTempoDigitacao.dtfs);
+                return false;
+            }
+        });
+
+
+
         btnRecarga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,6 +203,23 @@ public class MainFragment extends Fragment {
 
                 final CurrencyEditText input = new CurrencyEditText(getContext(), null);
                 builder.setView(input);
+
+                input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            UtilTempoDigitacao.inicioTempo();
+
+                        } else {
+                            UtilTempoDigitacao.fimTempo();
+                        }
+
+                        tempoRecarga = String.valueOf(UtilTempoDigitacao.dtfs);
+
+
+                    }
+
+                });
 
                 GetSaldoRequest request = new GetSaldoRequest(getContext());
                 request.execute();
@@ -217,6 +278,24 @@ public class MainFragment extends Fragment {
             }
         });
 
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                }
+
+                tempoCliqueExtra = String.valueOf(UtilTempoDigitacao.dtfs);
+                return false;
+            }
+        });
+
+
+
         Button btnAtualizar = view.findViewById(R.id.btnAtualizar);
         btnAtualizar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,21 +315,21 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    private void createCustomDialog(final boolean adicionar){
+    private void createCustomDialog(final boolean adicionar) {
         LayoutInflater inflater = getLayoutInflater();
 
         View dialoglayout = null;
 
-        if(ESTUDANTE == 0){
+        if (ESTUDANTE == 0) {
             dialoglayout = inflater.inflate(R.layout.adicionar_viagem_normal, null);
 
             final Button btnNormal = dialoglayout.findViewById(R.id.btn_normal);
             final Button btnIntegracao = dialoglayout.findViewById(R.id.btn_integracao);
             final TextView txtViagem = dialoglayout.findViewById(R.id.txt_viagem);
 
-            if(adicionar){
+            if (adicionar) {
                 txtViagem.setText("Adicionar viagem");
-            }else{
+            } else {
                 txtViagem.setText("Excluir viagem");
             }
 
@@ -263,7 +342,7 @@ public class MainFragment extends Fragment {
                     btnIntegracao.setBackgroundResource(R.drawable.selector_card_background);
                     btnIntegracao.setTextColor(Color.BLACK);
 
-                    valor = 3.8;
+                    valor = Constants.COMUM;
                     btnNormalSelecionado = true;
                     btnIntegracaoSelecionado = false;
                 }
@@ -278,37 +357,37 @@ public class MainFragment extends Fragment {
                     btnIntegracao.setBackgroundColor(Color.parseColor("#00bcd4"));
                     btnIntegracao.setTextColor(Color.WHITE);
 
-                    valor = 3.0;
+                    valor = Constants.COMUM_INTEGRACAO;
                     btnNormalSelecionado = false;
                     btnIntegracaoSelecionado = true;
                 }
             });
-        }else{
+        } else {
             dialoglayout = inflater.inflate(R.layout.adicionar_viagem_estudante, null);
 
             TextView txtViagem = dialoglayout.findViewById(R.id.txt_viagem);
 
             final Button btnEstudante = dialoglayout.findViewById(R.id.btn_estudante);
 
-            if(adicionar){
+            if (adicionar) {
                 txtViagem.setText("Adicionar viagem");
-            }else{
+            } else {
                 txtViagem.setText("Excluir viagem");
             }
 
             btnEstudante.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(btnEstudanteSelecionado){
+                    if (btnEstudanteSelecionado) {
                         btnEstudante.setBackgroundResource(R.drawable.selector_card_background);
                         btnEstudante.setTextColor(Color.BLACK);
 
-                        valor = 1.9;
-                    }else{
+                        valor = Constants.ESTUDANTE_COMUM;
+                    } else {
                         btnEstudante.setBackgroundColor(Color.parseColor("#00bcd4"));
                         btnEstudante.setTextColor(Color.WHITE);
 
-                        valor = 1.9;
+                        valor = Constants.ESTUDANTE_COMUM;
                     }
                     btnEstudanteSelecionado = !btnEstudanteSelecionado;
                 }
@@ -316,6 +395,7 @@ public class MainFragment extends Fragment {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
         builder.setPositiveButton("Pronto", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -323,34 +403,69 @@ public class MainFragment extends Fragment {
                 GetSaldoRequest request = new GetSaldoRequest(getContext());
                 request.execute();
 
-                if(ESTUDANTE == 1){
-                    if(!btnEstudanteSelecionado){
+                if (ESTUDANTE == 1) {
+                    if (!btnEstudanteSelecionado) {
                         createAlert();
                         return;
-                    }else{
-                        if(adicionar){
+                    } else {
+                        if (adicionar) {
                             double novoSalvo = SALDO - valor;
+
+                            Giroscopio giro = new Giroscopio(getContext());
+                            giro.execute();
+                            Acc acc = new Acc(getContext());
+                            acc.execute();
+
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString("giroscopio", Giroscopio.gyro);
+                            bundle.putString("acelerometro", Acc.Acc);
+                            bundle.putString("velocidade_digitacao", MainFragment.tempoRecarga);
+                            bundle.putString("velocidade_clique", null);
+                            bundle.putString("posicao_clique", MainActivity.coords);
+                            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            bundle.putString("id_celular", Build.SERIAL);
+                            mFirebaseAnalytics.logEvent("adicionar_viagem_" + valor, bundle);
+                            giro.cancel(true);
+                            acc.cancel(true);
 
                             PostSaldoRequest saldoRequest = new PostSaldoRequest(getContext());
                             saldoRequest.execute(novoSalvo);
-                        }else{
+                        } else {
                             double novoSalvo = SALDO + valor;
+
+                            Giroscopio giro = new Giroscopio(getContext());
+                            giro.execute();
+                            Acc acc = new Acc(getContext());
+                            acc.execute();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString("giroscopio", Giroscopio.gyro);
+                            bundle.putString("acelerometro", Acc.Acc);
+                            bundle.putString("velocidade_digitacao", MainFragment.tempoRecarga);
+//            bundle.putString("velocidade_clique", null);
+                            bundle.putString("posicao_clique", MainActivity.coords);
+                            bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            bundle.putString("id_celular", Build.SERIAL);
+                            mFirebaseAnalytics.logEvent("excluir_viagem_" + valor, bundle);
+                            giro.cancel(true);
+                            acc.cancel(true);
 
                             PostSaldoRequest saldoRequest = new PostSaldoRequest(getContext());
                             saldoRequest.execute(novoSalvo);
                         }
                     }
-                }else {
-                    if(!btnNormalSelecionado && !btnIntegracaoSelecionado){
+                } else {
+                    if (!btnNormalSelecionado && !btnIntegracaoSelecionado) {
                         createAlert();
                         return;
                     }
-                    if(adicionar){
+                    if (adicionar) {
                         double novoSalvo = SALDO - valor;
 
                         PostSaldoRequest saldoRequest = new PostSaldoRequest(getContext());
                         saldoRequest.execute(novoSalvo);
-                    }else{
+                    } else {
                         double novoSalvo = SALDO + valor;
 
                         PostSaldoRequest saldoRequest = new PostSaldoRequest(getContext());
@@ -374,7 +489,7 @@ public class MainFragment extends Fragment {
         builder.show();
     }
 
-    private void createAlert(){
+    private void createAlert() {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
         builder1.setTitle("Ops!");
         builder1.setMessage("Por favor, selecione um valor.");
@@ -400,7 +515,7 @@ public class MainFragment extends Fragment {
             GetSaldoRequest request = new GetSaldoRequest(getContext());
             request.execute();
         } else {
-            tvSaldo.setText("R$ " + String.format( "%.2f", SALDO ).replace('.',','));
+            tvSaldo.setText("R$ " + String.format("%.2f", SALDO).replace('.', ','));
         }
 
 
@@ -417,6 +532,24 @@ public class MainFragment extends Fragment {
                 btnDias[i].setBackgroundResource(uncheckedImg[i]);
             }
         }
+    }
+
+
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_UP:
+        }
+
+        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
+
+        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
+//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
+        return false;
+
     }
 
 

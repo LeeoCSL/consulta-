@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -27,7 +28,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import br.com.consultai.R;
 import br.com.consultai.model.Usuario;
-import br.com.consultai.post.PostRegisterRequest;
+import br.com.consultai.post.PostExcluirRotinaRequest;
+import br.com.consultai.post.RegisterRequest;
 import br.com.consultai.utils.UtilTempoDigitacao;
 import br.com.consultai.utils.Utility;
 import butterknife.BindView;
@@ -76,12 +78,14 @@ public class RegisterActivity extends AppCompatActivity {
     String serialNumber = Build.SERIAL;
 
     String imei = "00000000000000";
-
+    public static String tempoClique;
     TelephonyManager tm;
+
+    Button btn_continuar;
 
     public static String tempoEmail, tempoSenha, tempoNome, tempoSexo;
 
-    public static String coords = "coordenadas";
+    public static String coords;
 
     public static ProgressDialog mDialog;
 
@@ -89,6 +93,25 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        btn_continuar = (Button) findViewById(R.id.btn_continuar);
+
+        btn_continuar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                    tempoClique = String.valueOf(UtilTempoDigitacao.dtfs);
+                }
+
+                return false;
+            }
+        });
+
 
         tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 //        imei = tm.getDeviceId();
@@ -229,7 +252,7 @@ public class RegisterActivity extends AppCompatActivity {
                         usuario.setSistemaOperacional("ANDROID");
 
 
-                        PostRegisterRequest register = new PostRegisterRequest(RegisterActivity.this);
+RegisterRequest register = new RegisterRequest(RegisterActivity.this);
                         register.execute(usuario);
 
                     }

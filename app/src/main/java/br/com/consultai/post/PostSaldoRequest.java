@@ -3,6 +3,7 @@ package br.com.consultai.post;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -13,8 +14,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Acc;
 import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.Giroscopio;
+import br.com.consultai.MainActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.DialogUtil;
 import okhttp3.MediaType;
@@ -96,17 +99,20 @@ public class PostSaldoRequest extends AsyncTask<Double, Void, String> {
 
             Giroscopio giro = new Giroscopio(context);
             giro.execute();
-
+            Acc acc = new Acc(context);
+            acc.execute();
 
             Bundle bundle = new Bundle();
             bundle.putString("giroscopio", Giroscopio.gyro);
-            bundle.putString("velocidade_clique", null);
-//            bundle.putString("posicao_clique", MainFragment.coords);
+            bundle.putString("acelerometro", Acc.Acc);
+            bundle.putString("velocidade_digitacao", MainFragment.tempoRecarga);
+            bundle.putString("velocidade_clique", MainFragment.tempoCliqueRecarga);
+            bundle.putString("posicao_clique", MainActivity.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", Build.SERIAL);
             mFirebaseAnalytics.logEvent("atualizacao_saldo", bundle);
             giro.cancel(true);
-
+            acc.cancel(true);
 
         } catch (JSONException e) {
             e.printStackTrace();

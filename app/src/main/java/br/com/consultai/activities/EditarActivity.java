@@ -3,8 +3,11 @@ package br.com.consultai.activities;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,12 +21,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 
+import br.com.consultai.Acc;
 import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.Giroscopio;
 import br.com.consultai.R;
 import br.com.consultai.model.Rotina;
-import br.com.consultai.post.PostRotinaPostRequest;
-import br.com.consultai.utils.Constants;
+import br.com.consultai.post.RotinaPostRequest;
+import br.com.consultai.utils.UtilTempoDigitacao;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,6 +39,7 @@ public class EditarActivity extends AppCompatActivity {
     public static Rotina ROTINA_VOLTA;
 
     protected Button[] btnDias = new Button[7];
+    public static String coords;
 
     protected boolean[] diasAtivos = new boolean[7];
     protected int[] diasAtivosCod = new int[7];
@@ -42,7 +47,8 @@ public class EditarActivity extends AppCompatActivity {
     protected int[] checkedImg = new int[7];
     protected int[] uncheckedImg = new int[7];
 
-    protected int hh, mm;
+    protected int hh, mm, ss = 0;
+    protected String hora;
 
     @BindView(R.id.tp_1)
     ImageView mClock1;
@@ -82,6 +88,10 @@ public class EditarActivity extends AppCompatActivity {
     @BindView(R.id.rb_integracao_volta)
     RadioButton mIntegracaoVolta;
 
+    public static String tempoCliqueIda, tempoCliqueVolta, tempoCliqueRotina;
+
+    Button btnSalvar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +104,25 @@ public class EditarActivity extends AppCompatActivity {
         initializeCheckeds();
         initializeUncheckeds();
         initializeButtons();
+
+        btnSalvar = (Button) findViewById(R.id.btnSalvar);
+        btnSalvar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                }
+
+                tempoCliqueRotina = String.valueOf(UtilTempoDigitacao.dtfs);
+                return false;
+            }
+        });
+
+
 
         for(int i = 0; i < btnDias.length; i++){
             final int tmp = i;
@@ -112,10 +141,42 @@ public class EditarActivity extends AppCompatActivity {
             }
         });
 
+        mClock1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                }
+                tempoCliqueIda = String.valueOf(UtilTempoDigitacao.dtfs);
+                return false;
+            }
+        });
+
+
+
         mClock2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showTimeDialog(1);
+            }
+        });
+
+        mClock2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                }
+                tempoCliqueVolta = String.valueOf(UtilTempoDigitacao.dtfs);
+                return false;
             }
         });
 
@@ -125,16 +186,16 @@ public class EditarActivity extends AppCompatActivity {
                 switch (i){
                     case R.id.rb_onibus_trilho_ida:
                         if(MainFragment.ESTUDANTE == 1){
-                            mValor1 = Constants.ESTUDANTE_COMUM;
+                            mValor1 = 2.00;
                         }else{
-                            mValor1 = Constants.COMUM;
+                            mValor1 = 4.00;
                         }
                         break;
                     case R.id.rb_integracao_ida:
                         if(MainFragment.ESTUDANTE == 1){
-                            mValor1 = Constants.ESTUDANTE_INTEGRACAO;
+                            mValor1 = 4.00;
                         }else{
-                            mValor1 = Constants.COMUM_INTEGRACAO;
+                            mValor1 = 6.96;
                         }
                         break;
                 }
@@ -147,16 +208,16 @@ public class EditarActivity extends AppCompatActivity {
                 switch (i){
                     case R.id.rb_onibus_trilho_volta:
                         if(MainFragment.ESTUDANTE == 1){
-                            mValor2 = Constants.ESTUDANTE_COMUM;
+                            mValor2 = 2.00;
                         }else{
-                            mValor2 = Constants.COMUM;
+                            mValor2 = 4.00;
                         }
                         break;
                     case R.id.rb_integracao_volta:
                         if(MainFragment.ESTUDANTE == 1){
-                            mValor2 = Constants.ESTUDANTE_INTEGRACAO;
+                            mValor2 = 4.00;
                         }else{
-                            mValor2 = Constants.COMUM_INTEGRACAO;
+                            mValor2 = 6.96;
                         }
                         break;
                 }
@@ -186,7 +247,7 @@ public class EditarActivity extends AppCompatActivity {
 
         double valorIda = ROTINA_IDA.getValor();
 
-        if(valorIda == 1.90 || valorIda == 3.80){
+        if(valorIda == 2.00 || valorIda == 4.00){
             mOnibusTrilhoIda.setChecked(true);
         }else{
             mIntegracaoIda.setChecked(true);
@@ -199,7 +260,7 @@ public class EditarActivity extends AppCompatActivity {
 
         double valorVolta = ROTINA_VOLTA.getValor();
 
-        if(valorVolta == 1.90 || valorVolta == 3.80){
+        if(valorVolta == 2.00 || valorVolta == 4.00){
             mOnibusTrilhoVolta.setChecked(true);
         }else{
             mIntegracaoVolta.setChecked(true);
@@ -276,17 +337,19 @@ public class EditarActivity extends AppCompatActivity {
 
                     Giroscopio giro = new Giroscopio(EditarActivity.this);
                     giro.execute();
-
+                    Acc acc = new Acc(EditarActivity.this);
+                    acc.execute();
 
                     Bundle bundle = new Bundle();
                     bundle.putString("giroscopio", Giroscopio.gyro);
-                    bundle.putString("velocidade_digitacao", null);
-                    bundle.putString("velocidade_clique", null);
-                    bundle.putString("posicao_clique", null);
+                    bundle.putString("acelerometro", Acc.Acc);
+                    bundle.putString("velocidade_clique", tempoCliqueIda);
+                    bundle.putString("posicao_clique", EditarActivity.coords);
                     bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    bundle.putString("id_celular", null);
+                    bundle.putString("id_celular", Build.SERIAL);
                     mFirebaseAnalytics.logEvent("selecao_hora_ida", bundle);
                     giro.cancel(true);
+                    acc.cancel(true);
 
 
                 }else{
@@ -295,17 +358,19 @@ public class EditarActivity extends AppCompatActivity {
 
                     Giroscopio giro = new Giroscopio(EditarActivity.this);
                     giro.execute();
-
-
+                    Acc acc = new Acc(EditarActivity.this);
+                    acc.execute();
                     Bundle bundle = new Bundle();
                     bundle.putString("giroscopio", Giroscopio.gyro);
-                    bundle.putString("velocidade_digitacao", null);
-                    bundle.putString("velocidade_clique", null);
-                    bundle.putString("posicao_clique", null);
+                    bundle.putString("acelerometro", Acc.Acc);
+                    bundle.putString("velocidade_clique", tempoCliqueVolta);
+                    bundle.putString("posicao_clique", EditarActivity.coords);
                     bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    bundle.putString("id_celular", null);
+                    bundle.putString("id_celular", Build.SERIAL);
                     mFirebaseAnalytics.logEvent("selecao_hora_volta", bundle);
                     giro.cancel(true);
+                    acc.cancel(true);
+
                 }
             }
         }, hh,mm,true);
@@ -366,7 +431,7 @@ public class EditarActivity extends AppCompatActivity {
             rotinaVolta.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaVolta.setTipo(1);
 
-            PostRotinaPostRequest request = new PostRotinaPostRequest(this);
+            RotinaPostRequest request = new RotinaPostRequest(this);
             request.execute(rotinaIda, rotinaVolta);
         }else{
             Rotina rotinaIda = new Rotina();
@@ -386,7 +451,7 @@ public class EditarActivity extends AppCompatActivity {
             rotinaVolta.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaVolta.setTipo(1);
 
-            PostRotinaPostRequest request = new PostRotinaPostRequest(this);
+            RotinaPostRequest request = new RotinaPostRequest(this);
             request.execute(rotinaIda, rotinaVolta);
         }
     }
@@ -408,5 +473,23 @@ public class EditarActivity extends AppCompatActivity {
 
     public void back(View view){
         finish();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_UP:
+        }
+
+        coords = coords + " x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " | ";
+
+        Log.v("xy", String.valueOf(x) + " " + String.valueOf(y));
+//        Toast.makeText(this, x + " " +y, Toast.LENGTH_SHORT).show();
+        return false;
+
     }
 }

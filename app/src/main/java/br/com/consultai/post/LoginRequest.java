@@ -1,10 +1,12 @@
 package br.com.consultai.post;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -16,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Acc;
 import br.com.consultai.fragments.ContaFragment;
 import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.Giroscopio;
@@ -30,12 +33,14 @@ import okhttp3.Request;
  * Created by leonardo.ribeiro on 13/11/2017.
  */
 
-public class PostLoginRequest extends AsyncTask<Usuario, Void, String> {
+public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
     private Context context;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public PostLoginRequest(Context context) {
+    private ProgressDialog mDialog;
+
+    public LoginRequest(Context context) {
         this.context = context;
     }
 
@@ -119,18 +124,21 @@ public class PostLoginRequest extends AsyncTask<Usuario, Void, String> {
 
                 Giroscopio giro = new Giroscopio(context);
                 giro.execute();
-
+                Acc acc = new Acc(context);
+                acc.execute();
 
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("giroscopio", Giroscopio.gyro);
-
+                bundle2.putString("acelerometro", Acc.Acc);
                 bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
                 bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
-//                bundle2.putString("velocidade_clique", null);
-//                bundle2.putString("posicao_clique", null);
+                bundle2.putString("velocidade_clique", LoginActivity.tempoClique);
+                bundle2.putString("posicao_clique", LoginActivity.coords);
                 bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                bundle2.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                bundle2.putString("id_celular", Build.SERIAL);
                 mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
+                giro.cancel(true);
+                acc.cancel(true);
                 //TODO popular evento
 
                 LoginActivity.mDialog.dismiss();
@@ -148,19 +156,21 @@ public class PostLoginRequest extends AsyncTask<Usuario, Void, String> {
 
             Giroscopio giro = new Giroscopio(context);
             giro.execute();
-
-
+            Acc acc = new Acc(context);
+            acc.execute();
             Bundle bundle = new Bundle();
             bundle.putString("giroscopio", Giroscopio.gyro);
-//            bundle.putString("velocidade_digitacao", null);
-//            bundle.putString("velocidade_clique", null);
-//            bundle.putString("posicao_clique", null);
+            bundle.putString("acelerometro", Acc.Acc);
+            bundle.putString("velocidade_digi_email", LoginActivity.tempoEmail);
+            bundle.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
+            bundle.putString("velocidade_clique", LoginActivity.tempoClique);
+            bundle.putString("posicao_clique", LoginActivity.coords);
             bundle.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            bundle.putString("id_celular", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            bundle.putString("id_celular", Build.SERIAL);
             mFirebaseAnalytics.logEvent("login_email_erro", bundle);
 
             giro.cancel(true);
-
+            acc.cancel(true);
             LoginActivity.mDialog.dismiss();
         }
     }

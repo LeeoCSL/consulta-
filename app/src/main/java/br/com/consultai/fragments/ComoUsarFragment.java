@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import br.com.consultai.R;
 
-
 public class ComoUsarFragment extends Fragment {
 
     public ComoUsarFragment() {

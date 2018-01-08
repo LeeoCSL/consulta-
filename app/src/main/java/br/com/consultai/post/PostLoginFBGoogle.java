@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -20,14 +22,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import br.com.consultai.Acc;
 import br.com.consultai.fragments.ContaFragment;
 import br.com.consultai.fragments.MainFragment;
+import br.com.consultai.Giroscopio;
 import br.com.consultai.MainActivity;
 import br.com.consultai.activities.CadastroCartaoActivity;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.activities.RegisterActivity;
 import br.com.consultai.model.Usuario;
-import br.com.consultai.utils.Constants;
 import okhttp3.Request;
 
 /**
@@ -54,7 +57,7 @@ public class PostLoginFBGoogle extends AsyncTask<Usuario, Void, String> {
         Gson gson = new Gson();
         okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
 
-        String url = Constants.URL + "outro";
+        String url = "https://zazzytec.com.br/outro";
 
         Request.Builder builder = new Request.Builder();
         builder.url(url);
@@ -70,6 +73,7 @@ public class PostLoginFBGoogle extends AsyncTask<Usuario, Void, String> {
         try {
             okhttp3.Response response = client.newCall(request).execute();
             String r = response.body().string();
+Log.v("login", r );
             return r;
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,6 +141,43 @@ public class PostLoginFBGoogle extends AsyncTask<Usuario, Void, String> {
                     String apelido = jsonObject.getString("apelido");
                     int estudante = jsonObject.getInt("estudante");
 
+                    if (LoginActivity.tipoLogin.equals("google")){
+                        Giroscopio giro = new Giroscopio(context);
+                        giro.execute();
+                        Acc acc = new Acc(context);
+                        acc.execute();
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putString("giroscopio", Giroscopio.gyro);
+                        bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
+                        bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
+                        bundle2.putString("velocidade_clique", LoginActivity.tempoClique);
+                        bundle2.putString("posicao_clique", LoginActivity.coords);
+                        bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        bundle2.putString("id_celular", Build.SERIAL);
+                        mFirebaseAnalytics.logEvent("login_google_sucesso", bundle2);
+                        giro.cancel(true);
+                        acc.cancel(true);
+                    }
+
+                   else if (LoginActivity.tipoLogin.equals("facebook")){
+                        Giroscopio giro = new Giroscopio(context);
+                        giro.execute();
+                        Acc acc = new Acc(context);
+                        acc.execute();
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putString("giroscopio", Giroscopio.gyro);
+                        bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
+                        bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
+                        bundle2.putString("velocidade_clique", LoginActivity.tempoClique);
+                        bundle2.putString("posicao_clique", LoginActivity.coords);
+                        bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        bundle2.putString("id_celular", Build.SERIAL);
+                        mFirebaseAnalytics.logEvent("login_facebook_sucesso", bundle2);
+                        giro.cancel(true);
+                        acc.cancel(true);
+                    }
+
+
 
 
                     MainFragment.APELIDO = apelido;
@@ -196,6 +237,43 @@ public class PostLoginFBGoogle extends AsyncTask<Usuario, Void, String> {
                         });
 
                         builder.show();
+
+                        if (LoginActivity.tipoLogin.equals("google")){
+                            Giroscopio giro = new Giroscopio(context);
+                            giro.execute();
+                            Acc acc = new Acc(context);
+                            acc.execute();
+                            Bundle bundle2 = new Bundle();
+                            bundle2.putString("giroscopio", Giroscopio.gyro);
+                            bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
+                            bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
+                            bundle2.putString("velocidade_clique", LoginActivity.tempoClique);
+                            bundle2.putString("posicao_clique", LoginActivity.coords);
+                            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            bundle2.putString("id_celular", Build.SERIAL);
+                            mFirebaseAnalytics.logEvent("login_google_erro", bundle2);
+                            giro.cancel(true);
+                            acc.cancel(true);
+                        }
+
+                        else if (LoginActivity.tipoLogin.equals("facebook")){
+                            Giroscopio giro = new Giroscopio(context);
+                            giro.execute();
+                            Acc acc = new Acc(context);
+                            acc.execute();
+                            Bundle bundle2 = new Bundle();
+                            bundle2.putString("giroscopio", Giroscopio.gyro);
+                            bundle2.putString("velocidade_digi_email", LoginActivity.tempoEmail);
+                            bundle2.putString("velocidade_digi_senha", LoginActivity.tempoSenha);
+                            bundle2.putString("velocidade_clique", LoginActivity.tempoClique);
+                            bundle2.putString("posicao_clique", LoginActivity.coords);
+                            bundle2.putString("id_usuario", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            bundle2.putString("id_celular", Build.SERIAL);
+                            mFirebaseAnalytics.logEvent("login_facebook_erro", bundle2);
+                            giro.cancel(true);
+                            acc.cancel(true);
+                        }
+
                     }
                 }
             });

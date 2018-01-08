@@ -35,22 +35,6 @@ public class Usuario {
     @SerializedName("sistema_operacional")
     private String sistemaOperacional;
 
-    public Usuario(){}
-
-    public Usuario(String id, String nome, String email, String senha, char sexo, String notificationToken, String loginToken, String idUsuario, String serialMobile, String modelo, String sistemaOperacional) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.sexo = sexo;
-        this.notificationToken = notificationToken;
-        this.loginToken = loginToken;
-        this.idUsuario = idUsuario;
-        this.serialMobile = serialMobile;
-        this.modelo = modelo;
-        this.sistemaOperacional = sistemaOperacional;
-    }
-
     public String getId() {
         return id;
     }
