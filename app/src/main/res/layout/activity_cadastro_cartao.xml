@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Para começar, digite um apelido,\n numero e saldo atual do bilhete unico."
+            android:text="Para começar, digite um apelido,\n número e saldo atual do bilhete unico."
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />

@@ -108,9 +108,8 @@ Log.v("login", r );
 //            bundle2.putString("id_celular", null);
 //            mFirebaseAnalytics.logEvent("login_email_sucesso", bundle2);
 //            //TODO popular evento
-            LoginActivity.mDialog.dismiss();
+//            LoginActivity.mDialog.dismiss();
             if (flag.equals("0")){
-
                 Intent intent = new Intent(context, CadastroCartaoActivity.class);
                 context.startActivity(intent);
             }
@@ -191,6 +190,7 @@ Log.v("login", r );
                     Intent intent = new Intent(context, MainActivity.class);
                     context.startActivity(intent);
                 }
+
             }
 
             else if (flag.equals("-1")){
@@ -214,8 +214,9 @@ Log.v("login", r );
                         }
                     }
                 });
-            }
 
+            }
+            LoginActivity.mDialog.dismiss();
         } catch (final JSONException e) {
 
 
@@ -277,6 +278,7 @@ Log.v("login", r );
                     }
                 }
             });
+            LoginActivity.mDialog.dismiss();
             return;
     /*
                 Giroscopio giro = new Giroscopio(context);
