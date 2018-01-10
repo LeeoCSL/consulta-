@@ -341,6 +341,11 @@ public class LoginActivity extends AppCompatActivity {
                         usuario.setSistemaOperacional("ANDROID");
 
                         tipoLogin = "google";
+                        mDialog = new ProgressDialog(LoginActivity.this);
+                        mDialog.setTitle("Aguarde");
+                        mDialog.setMessage("Estamos verificando suas credenciais.");
+                        mDialog.setCancelable(false);
+                        mDialog.show();
 
                         PostLoginFBGoogle loginGoogle = new PostLoginFBGoogle(LoginActivity.this);
                         loginGoogle.execute(usuario);

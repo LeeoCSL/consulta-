@@ -241,8 +241,8 @@ public class EditarActivity extends AppCompatActivity {
             }
         }
 
-        mHoraRotina1 = ROTINA_IDA.getHora().substring(0,2) + "h" +
-                ROTINA_IDA.getHora().substring(3, 5) + "min";
+        mHoraRotina1 = ROTINA_IDA.getHora().substring(0,2) + ":" +
+                ROTINA_IDA.getHora().substring(3, 5) + ":00";
         mHoraSelecionada1.setText(mHoraRotina1);
 
         double valorIda = ROTINA_IDA.getValor();
@@ -254,8 +254,8 @@ public class EditarActivity extends AppCompatActivity {
         }
 
         //////////////////////////////////////
-        mHoraRotina2 = ROTINA_VOLTA.getHora().substring(0,2) + "h" +
-                ROTINA_VOLTA.getHora().substring(3, 5) + "min";
+        mHoraRotina2 = ROTINA_VOLTA.getHora().substring(0,2) + ":" +
+                ROTINA_VOLTA.getHora().substring(3, 5) + ":00";
         mHoraSelecionada2.setText(mHoraRotina2);
 
         double valorVolta = ROTINA_VOLTA.getValor();
@@ -422,6 +422,9 @@ public class EditarActivity extends AppCompatActivity {
             rotinaIda.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaIda.setTipo(0);
 
+            Log.v("rotina", rotinaIda.getIdRotina()+"/"+rotinaIda.getHora()+"/" +  rotinaIda.getDays()+"/"  +  rotinaIda.getValor()
+                    +"/" + rotinaIda.getIdUsuario()+"/"  +  rotinaIda.getLoginToken()+"/"  + rotinaIda.getTipo());
+
             Rotina rotinaVolta = new Rotina();
             rotinaVolta.setIdRotina(ROTINA_VOLTA.getIdRotina());
             rotinaVolta.setHora(mHoraRotina2);
@@ -430,6 +433,9 @@ public class EditarActivity extends AppCompatActivity {
             rotinaVolta.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
             rotinaVolta.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaVolta.setTipo(1);
+
+            Log.v("rotina", rotinaVolta.getIdRotina()+"/" +rotinaVolta.getHora()+"/" +  rotinaVolta.getDays()+"/"  +  rotinaVolta.getValor()
+                    +"/" + rotinaVolta.getIdUsuario()+"/"  +  rotinaVolta.getLoginToken()+"/"  + rotinaVolta.getTipo());
 
             RotinaPostRequest request = new RotinaPostRequest(this);
             request.execute(rotinaIda, rotinaVolta);

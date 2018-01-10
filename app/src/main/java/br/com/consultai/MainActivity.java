@@ -23,6 +23,7 @@ import br.com.consultai.fragments.ContaFragment;
 import br.com.consultai.fragments.MainFragment;
 import br.com.consultai.activities.LoginActivity;
 import br.com.consultai.utils.BottomNavigationViewHelper;
+import br.com.consultai.utils.CalcHora;
 //import com.crashlytics.android.Crashlytics;
 //import io.fabric.sdk.android.Fabric;
 //import com.crashlytics.android.CrashlyticsInitProvider;
@@ -115,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
                     mFirebaseAnalytics.logEvent("logout", bundle);
 
                     giro.cancel(true);
+
+                    CalcHora.inicioTempo();
+
                     LoginManager.getInstance().logOut();
                     logout();
                     return true;

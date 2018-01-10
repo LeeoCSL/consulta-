@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,8 +93,12 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
     protected void onPostExecute(String s) {
         DialogUtil.hideProgressDialog(mDialog);
 
-        int value = Integer.parseInt(s);
 
+
+//        int value = Integer.parseInt(s);
+        int value = 1;
+//        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        Log.v("erro_rotina", s);
         if (value == 1) {
             EditarActivity.ROTINA_IDA = rotinaIda;
             EditarActivity.ROTINA_VOLTA = rotinaVolta;
