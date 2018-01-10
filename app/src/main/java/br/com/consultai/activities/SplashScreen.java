@@ -1,8 +1,11 @@
 package br.com.consultai.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +16,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import br.com.consultai.Acc;
 import br.com.consultai.Giroscopio;
+import br.com.consultai.MainActivity;
 import br.com.consultai.R;
 import br.com.consultai.utils.CalcHora;
 import io.branch.indexing.BranchUniversalObject;
@@ -80,21 +84,63 @@ public class SplashScreen extends AppCompatActivity {
         }, this.getIntent().getData(), this);
 
 
+
+
+
         giro.cancel(true);
         acc.cancel(true);
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                Intent i = new Intent(SplashScreen.this, LoginActivity.class);
+      /*          Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                 startActivity(i);
 
-                finish();
+                finish();*/
+                checkForCookie();
             }
         }, 2500);
 
 
 
+    }
+
+    public void checkForCookie(){
+                /* COOKIE */
+        SharedPreferences sharedPref = getSharedPreferences("PREF_LOGIN",Context.MODE_PRIVATE);
+        String loginToken = sharedPref.getString("login_token", null);
+        long hours = 60 * 60 * 24 * 7;
+
+        if(loginToken != null){
+            long lastTime = sharedPref.getLong("last_time", 0);
+
+            // NAO PODE LOGAR
+            if(System.currentTimeMillis() - lastTime > hours){
+                Intent i = new Intent(SplashScreen.this, LoginActivity.class);
+                startActivity(i);
+
+                finish();
+            }else{
+                LoginActivity.LOGIN_TOKEN = loginToken;
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                editor.putString("login_token", loginToken);
+                editor.putLong("last_time", System.currentTimeMillis());
+
+                editor.commit();
+
+                Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                startActivity(i);
+
+                finish();
+            }
+        }else{
+            Intent i = new Intent(SplashScreen.this, LoginActivity.class);
+            startActivity(i);
+
+            finish();
+        }
     }
 
     @Override
