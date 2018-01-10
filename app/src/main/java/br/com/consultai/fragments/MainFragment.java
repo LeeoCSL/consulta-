@@ -69,7 +69,7 @@ public class MainFragment extends Fragment {
     private boolean btnIntegracaoSelecionado = false;
     private boolean btnEstudanteSelecionado = false;
 
-    public static String tempoCliqueExcluir, tempoCliqueExtra,tempoCliqueRecarga;
+    public static String tempoCliqueExcluir, tempoCliqueExtra,tempoCliqueRecarga, tempoCliqueEditar;
 
     public MainFragment() {
     }
@@ -194,6 +194,8 @@ public class MainFragment extends Fragment {
 
 
 
+
+
         btnRecarga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -305,7 +307,24 @@ public class MainFragment extends Fragment {
             }
         });
 
-        Button btnEditar = view.findViewById(R.id.btn_editar);
+        Button btnEditar;
+        btnEditar = view.findViewById(R.id.btn_editar);
+
+        btnEditar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    UtilTempoDigitacao.inicioTempo();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    UtilTempoDigitacao.fimTempo();
+
+                }
+
+                tempoCliqueEditar = String.valueOf(UtilTempoDigitacao.dtfs);
+                return false;
+            }
+        });
         btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

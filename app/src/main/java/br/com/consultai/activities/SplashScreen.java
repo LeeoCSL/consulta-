@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import br.com.consultai.Acc;
 import br.com.consultai.Giroscopio;
 import br.com.consultai.R;
+import br.com.consultai.utils.CalcHora;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -24,6 +26,10 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        CalcHora.fimTempo();
+
+//        Toast.makeText(this, CalcHora.dtfs, Toast.LENGTH_SHORT).show();
 
         Giroscopio giro = new Giroscopio(this);
         giro.execute();
