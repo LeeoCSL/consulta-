@@ -1,13 +1,16 @@
 package br.com.consultai.post;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,12 +38,12 @@ import okhttp3.Request;
 
 public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
-    private Context context;
+    private Activity context;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private ProgressDialog mDialog;
 
-    public LoginRequest(Context context) {
+    public LoginRequest(Activity context) {
         this.context = context;
     }
 
@@ -143,14 +146,18 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
 
                 LoginActivity.mDialog.dismiss();
 
+                // SALVAR COOKIE COM HORARIO //
+                SharedPreferences sharedPref = context.getSharedPreferences("PREF_LOGIN",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                editor.putString("login_token", loginToken);
+                editor.putLong("last_time", System.currentTimeMillis());
+
+                editor.commit();
+
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
             }
-
-
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
 
