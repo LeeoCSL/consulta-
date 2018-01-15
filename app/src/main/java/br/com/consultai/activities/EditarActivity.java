@@ -19,7 +19,10 @@ import android.widget.TimePicker;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import br.com.consultai.Acc;
 import br.com.consultai.fragments.MainFragment;
@@ -27,6 +30,7 @@ import br.com.consultai.Giroscopio;
 import br.com.consultai.R;
 import br.com.consultai.model.Rotina;
 import br.com.consultai.post.RotinaPostRequest;
+import br.com.consultai.utils.CalcHora;
 import br.com.consultai.utils.UtilTempoDigitacao;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -330,6 +334,8 @@ public class EditarActivity extends AppCompatActivity {
                     mn = String.valueOf(minutos);
                 }
 
+
+
                 if(tipoRotina == 0){
                     mHoraRotina1 = hr+ ":" +mn+ ":00";
                     mHoraSelecionada1.setText(hr+"h" +mn+ "min");
@@ -422,6 +428,33 @@ public class EditarActivity extends AppCompatActivity {
             rotinaIda.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaIda.setTipo(0);
 
+            CalcHora.inicioTempo();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+            Date dt;
+            try {
+                dt = dateFormat.parse(mHoraRotina1);
+
+
+                Log.v("hora", String.valueOf(dt));
+
+                if(CalcHora.horaAtual.compareTo(dt) > 0){
+                    rotinaIda.setFlag(1);
+                }
+                if(CalcHora.horaAtual.compareTo(dt) == 0){
+                    rotinaIda.setFlag(0);
+                }
+                if(CalcHora.horaAtual.compareTo(dt) < 0){
+                    rotinaIda.setFlag(0);
+                }
+
+            } catch(ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+
 //            Log.v("rotina", rotinaIda.getIdRotina()+"/"+rotinaIda.getHora()+"/" +  rotinaIda.getDays()+"/"  +  rotinaIda.getValor()
 //                    +"/" + rotinaIda.getIdUsuario()+"/"  +  rotinaIda.getLoginToken()+"/"  + rotinaIda.getTipo());
 
@@ -433,6 +466,31 @@ public class EditarActivity extends AppCompatActivity {
             rotinaVolta.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
             rotinaVolta.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaVolta.setTipo(1);
+
+            CalcHora.inicioTempo();
+
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh:mm:ss");
+            Date dt2;
+            try {
+                dt2 = dateFormat2.parse(mHoraRotina2);
+
+
+                Log.v("hora", String.valueOf(dt2));
+
+                if(CalcHora.horaAtual.compareTo(dt2) > 0){
+                    rotinaIda.setFlag(1);
+                }
+                if(CalcHora.horaAtual.compareTo(dt2) == 0){
+                    rotinaIda.setFlag(0);
+                }
+                if(CalcHora.horaAtual.compareTo(dt2) < 0){
+                    rotinaIda.setFlag(0);
+                }
+
+            } catch(ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
 //            Log.v("rotina", rotinaVolta.getIdRotina()+"/" +rotinaVolta.getHora()+"/" +  rotinaVolta.getDays()+"/"  +  rotinaVolta.getValor()
 //                    +"/" + rotinaVolta.getIdUsuario()+"/"  +  rotinaVolta.getLoginToken()+"/"  + rotinaVolta.getTipo());
@@ -448,6 +506,30 @@ public class EditarActivity extends AppCompatActivity {
             rotinaIda.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaIda.setTipo(0);
 
+            CalcHora.inicioTempo();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+            Date dt;
+            try {
+                dt = dateFormat.parse(mHoraRotina1);
+
+
+                Log.v("hora", String.valueOf(dt));
+
+                if(CalcHora.horaAtual.compareTo(dt) > 0){
+                    rotinaIda.setFlag(1);
+                }
+                if(CalcHora.horaAtual.compareTo(dt) == 0){
+                    rotinaIda.setFlag(0);
+                }
+                if(CalcHora.horaAtual.compareTo(dt) < 0){
+                    rotinaIda.setFlag(0);
+                }
+
+            } catch(ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
             Rotina rotinaVolta = new Rotina();
             rotinaVolta.setHora(mHoraRotina2);
@@ -456,6 +538,31 @@ public class EditarActivity extends AppCompatActivity {
             rotinaVolta.setIdUsuario(FirebaseAuth.getInstance().getCurrentUser().getUid());
             rotinaVolta.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaVolta.setTipo(1);
+
+            CalcHora.inicioTempo();
+
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh:mm:ss");
+            Date dt2;
+            try {
+                dt2 = dateFormat2.parse(mHoraRotina2);
+
+
+                Log.v("hora", String.valueOf(dt2));
+
+                if(CalcHora.horaAtual.compareTo(dt2) > 0){
+                    rotinaIda.setFlag(1);
+                }
+                if(CalcHora.horaAtual.compareTo(dt2) == 0){
+                    rotinaIda.setFlag(0);
+                }
+                if(CalcHora.horaAtual.compareTo(dt2) < 0){
+                    rotinaIda.setFlag(0);
+                }
+
+            } catch(ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
             RotinaPostRequest request = new RotinaPostRequest(this);
             request.execute(rotinaIda, rotinaVolta);
