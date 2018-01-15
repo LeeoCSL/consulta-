@@ -422,8 +422,8 @@ public class EditarActivity extends AppCompatActivity {
             rotinaIda.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaIda.setTipo(0);
 
-            Log.v("rotina", rotinaIda.getIdRotina()+"/"+rotinaIda.getHora()+"/" +  rotinaIda.getDays()+"/"  +  rotinaIda.getValor()
-                    +"/" + rotinaIda.getIdUsuario()+"/"  +  rotinaIda.getLoginToken()+"/"  + rotinaIda.getTipo());
+//            Log.v("rotina", rotinaIda.getIdRotina()+"/"+rotinaIda.getHora()+"/" +  rotinaIda.getDays()+"/"  +  rotinaIda.getValor()
+//                    +"/" + rotinaIda.getIdUsuario()+"/"  +  rotinaIda.getLoginToken()+"/"  + rotinaIda.getTipo());
 
             Rotina rotinaVolta = new Rotina();
             rotinaVolta.setIdRotina(ROTINA_VOLTA.getIdRotina());
@@ -434,8 +434,8 @@ public class EditarActivity extends AppCompatActivity {
             rotinaVolta.setLoginToken(LoginActivity.LOGIN_TOKEN);
             rotinaVolta.setTipo(1);
 
-            Log.v("rotina", rotinaVolta.getIdRotina()+"/" +rotinaVolta.getHora()+"/" +  rotinaVolta.getDays()+"/"  +  rotinaVolta.getValor()
-                    +"/" + rotinaVolta.getIdUsuario()+"/"  +  rotinaVolta.getLoginToken()+"/"  + rotinaVolta.getTipo());
+//            Log.v("rotina", rotinaVolta.getIdRotina()+"/" +rotinaVolta.getHora()+"/" +  rotinaVolta.getDays()+"/"  +  rotinaVolta.getValor()
+//                    +"/" + rotinaVolta.getIdUsuario()+"/"  +  rotinaVolta.getLoginToken()+"/"  + rotinaVolta.getTipo());
 
             RotinaPostRequest request = new RotinaPostRequest(this);
             request.execute(rotinaIda, rotinaVolta);

@@ -541,7 +541,12 @@ public class MainFragment extends Fragment {
         txtNomeBilhete.setText(APELIDO);
 
         loadImages();
+
+        GetRotinaRequest request = new GetRotinaRequest(getContext());
+        request.execute();
     }
+
+
 
     public static void loadImages() {
         for (int i = 0; i < DIAS_ATIVOS.length; i++) {

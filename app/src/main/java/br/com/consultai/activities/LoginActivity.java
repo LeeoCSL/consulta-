@@ -514,7 +514,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             tipoLogin = "facebook";
                             String email = task.getResult().getUser().getEmail();
-                            Toast.makeText(LoginActivity.this, email, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, email, Toast.LENGTH_SHORT).show();
                             String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                             Profile profile = Profile.getCurrentProfile();

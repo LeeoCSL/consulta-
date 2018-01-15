@@ -95,10 +95,10 @@ public class RotinaPostRequest extends AsyncTask<Rotina, Void, String> {
 
 
 
-//        int value = Integer.parseInt(s);
-        int value = 1;
+        int value = Integer.parseInt(s);
+//        int value = 1;
 //        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
-        Log.v("erro_rotina", s);
+//        Log.v("erro_rotina", s);
         if (value == 1) {
             EditarActivity.ROTINA_IDA = rotinaIda;
             EditarActivity.ROTINA_VOLTA = rotinaVolta;

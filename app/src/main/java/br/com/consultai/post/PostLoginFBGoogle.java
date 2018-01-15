@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -187,6 +188,16 @@ Log.v("login", r );
                     ContaFragment.estudante = estudante;
                     ContaFragment.numero = String.valueOf(numero);
                     ContaFragment.estudante = estudante;
+
+                    // SALVAR COOKIE COM HORARIO //
+                    SharedPreferences sharedPref = context.getSharedPreferences("PREF_LOGIN",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+
+                    editor.putString("login_token", loginToken);
+                    editor.putLong("last_time", System.currentTimeMillis());
+
+                    editor.commit();
+
                     Intent intent = new Intent(context, MainActivity.class);
                     context.startActivity(intent);
                 }

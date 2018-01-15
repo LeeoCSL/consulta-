@@ -1,6 +1,8 @@
 package br.com.consultai;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -117,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
                     giro.cancel(true);
 
-                    CalcHora.inicioTempo();
-
+                    SharedPreferences sharedPref = getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE);
+                    sharedPref.edit().remove("PREF_LOGIN").commit();
                     LoginManager.getInstance().logOut();
                     logout();
                     return true;
