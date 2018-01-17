@@ -631,5 +631,75 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void forgetPassword(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Email");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        builder.setView(input);
+
+        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String email = input.getText().toString().trim();
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("email_reset", email);
+                editor.commit();
+
+                if (!android.text.TextUtils.isEmpty(email)) {
+                    DialogFactory.loadingDialog(LoginActivity.this);
+                    resetPassword(email);
+                    dialog.dismiss();
+                } else {
+
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void resetPassword(String email) {
+        mAuth.sendPasswordResetEmail(email)
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        DialogFactory.hideLoadingDialog();
+                        Toast.makeText(LoginActivity.this, "Acabamos de te enviar as instruções de como recuperar sua conta.", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                DialogFactory.hideLoadingDialog();
+                if (e.getClass() == FirebaseAuthInvalidUserException.class) {
+
+                    Toast.makeText(LoginActivity.this,
+                            "Usuário não encontrado", Toast.LENGTH_LONG).show();
+
+                    return;
+                }
+                if (e.getClass() == FirebaseException.class) {
+
+                    Toast.makeText(LoginActivity.this,
+                            "Email inválido", Toast.LENGTH_LONG).show();
+                }
+                e.printStackTrace();
+            }
+        });
+    }
+
 }
 //TODO tratar erro de digitação

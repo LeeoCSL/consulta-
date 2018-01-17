@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -14,9 +15,13 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -34,11 +39,12 @@ import io.branch.referral.util.LinkProperties;
 public class SplashScreen extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     public static String coords;
+
+    ImageView logo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
 //        Toast.makeText(this, CalcHora.dtfs, Toast.LENGTH_SHORT).show();
@@ -49,6 +55,11 @@ public class SplashScreen extends AppCompatActivity {
         acc.execute();
         setContentView(R.layout.activity_splash_screen);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        logo = (ImageView) findViewById(R.id.logo);
+        logo.setBackgroundResource(R.drawable.animacao);
+        AnimationDrawable animation = (AnimationDrawable) logo.getBackground();
+        animation.start();
         Branch branch = Branch.getInstance();
         branch.initSession(new Branch.BranchUniversalReferralInitListener() {
             @Override
@@ -66,8 +77,6 @@ public class SplashScreen extends AppCompatActivity {
                     }
 
 
-
-
 //                    eventos firebase com as variaveis
                     Bundle bundle = new Bundle();
                     bundle.putString("origem", Origem);
@@ -83,16 +92,11 @@ public class SplashScreen extends AppCompatActivity {
                     mFirebaseAnalytics.logEvent("Tracking", bundle);
 
 
-
-                }
-                else {
+                } else {
                     Log.i("MyApp", error.getMessage());
                 }
             }
         }, this.getIntent().getData(), this);
-
-
-
 
 
         giro.cancel(true);
@@ -106,29 +110,32 @@ public class SplashScreen extends AppCompatActivity {
 
                 finish();*/
                 checkForCookie();
-            }
-        }, 2500);
 
+
+            }
+        }, 3500);
 
 
     }
 
-    public void checkForCookie(){
+    public void checkForCookie() {
                 /* COOKIE */
-        SharedPreferences sharedPref = getSharedPreferences("PREF_LOGIN",Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE);
         String loginToken = sharedPref.getString("login_token", null);
-        long hours = 60 * 60 * 24 * 7;
+        long hours = 100 * 60 * 60 * 24 * 7;
 
-        if(loginToken != null){
+        if (loginToken != null) {
             long lastTime = sharedPref.getLong("last_time", 0);
 
             // NAO PODE LOGAR
-            if(System.currentTimeMillis() - lastTime > hours){
+            if (System.currentTimeMillis() - lastTime > hours) {
                 Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                 startActivity(i);
 
                 finish();
-            }else{
+
+                //PODE LOGAR
+            } else {
                 LoginActivity.LOGIN_TOKEN = loginToken;
 
                 SharedPreferences.Editor editor = sharedPref.edit();
@@ -137,13 +144,19 @@ public class SplashScreen extends AppCompatActivity {
                 editor.putLong("last_time", System.currentTimeMillis());
 
                 editor.commit();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    String email = user.getEmail();
+                    String notification_token = FirebaseInstanceId.getInstance().getToken();
+                }
+
 
                 Intent i = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(i);
 
                 finish();
             }
-        }else{
+        } else {
             Intent i = new Intent(SplashScreen.this, LoginActivity.class);
             startActivity(i);
 

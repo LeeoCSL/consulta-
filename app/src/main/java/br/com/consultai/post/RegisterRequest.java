@@ -128,6 +128,7 @@ public class RegisterRequest extends AsyncTask<Usuario, Void, String> {
             bundle2.putString("id_celular", Build.SERIAL);
 
             mFirebaseAnalytics.logEvent("cadastro_sucesso", bundle2);
+//            Toast.makeText(context, "cadastro sucesso", Toast.LENGTH_SHORT).show();
             giro.cancel(true);
             acc.cancel(true);
 //            Toast.makeText(context, RegisterActivity.tempoClique, Toast.LENGTH_SHORT).show();

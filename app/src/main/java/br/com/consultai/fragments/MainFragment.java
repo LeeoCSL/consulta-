@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -69,6 +70,8 @@ public class MainFragment extends Fragment {
     private boolean btnIntegracaoSelecionado = false;
     private boolean btnEstudanteSelecionado = false;
 
+    Button btn_limpar;
+
     public static String tempoCliqueExcluir, tempoCliqueExtra,tempoCliqueRecarga, tempoCliqueEditar;
 
     public MainFragment() {
@@ -114,6 +117,33 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         initializeButtons(view);
+
+
+
+        btn_limpar = (Button) view.findViewById(R.id.btn_limpar);
+
+        btn_limpar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Deseja realmente limpar seu saldo de " + SALDO + "?");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        double saldoLimpo = 0;
+                        PostSaldoRequest post = new PostSaldoRequest(getContext());
+                        post.execute(saldoLimpo);
+                    }
+                });
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
+            }
+        });
 
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
         btnExcluir = (Button) view.findViewById(R.id.btnExcluir);
@@ -230,10 +260,26 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         double value = Utility.stringToFloat(input.getText().toString().trim());
+//                        Toast.makeText(getContext(), String.valueOf(SALDO) + "/ "+ String.valueOf(value), Toast.LENGTH_SHORT).show();
                         double saldo = SALDO + value;
+//                        Toast.makeText(getContext(), String.valueOf(saldo), Toast.LENGTH_SHORT).show();
+                        double limite = 999.999;
+                        if(saldo <= limite) {
+                            PostSaldoRequest post = new PostSaldoRequest(getContext());
+                            post.execute(saldo);
+                        }
+                        else if (saldo > limite){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setMessage("O valor excedeu o limite de 999,99. Recarga nao realizada.");
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                        PostSaldoRequest post = new PostSaldoRequest(getContext());
-                        post.execute(saldo);
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            builder.show();
+                        }
                     }
                 });
 
@@ -250,7 +296,7 @@ public class MainFragment extends Fragment {
 
         tvSaldo = view.findViewById(R.id.txt_valor);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        Button fab = (Button) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
