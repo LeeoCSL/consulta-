@@ -609,7 +609,22 @@ public class LoginActivity extends AppCompatActivity {
     public void handlerFakeGoogleLogin(View v) {
         if (v.getId() == R.id.login_google_fake) {
             //mGoogleLogin.performClick();
-            signIn();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Se você ja possuir uma conta com e-mail e senha, e utilizar o mesmo e-mail para login com o G+ não será mais possivel fazer login pelo metodo e-mail e senha, deseja continuar?");
+            builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    signIn();
+                }
+            })
+            .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.show();
+
         }
     }
 

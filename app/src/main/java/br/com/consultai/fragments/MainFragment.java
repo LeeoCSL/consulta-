@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -72,6 +74,8 @@ public class MainFragment extends Fragment {
 
     Button btn_limpar;
 
+    String apelido;
+
     public static String tempoCliqueExcluir, tempoCliqueExtra,tempoCliqueRecarga, tempoCliqueEditar;
 
     public MainFragment() {
@@ -83,6 +87,9 @@ public class MainFragment extends Fragment {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         initializeCheckeds();
         initializeUncheckeds();
+
+
+
     }
 
     protected void initializeCheckeds() {
@@ -146,6 +153,10 @@ public class MainFragment extends Fragment {
         });
 
         txtNomeBilhete = (TextView) view.findViewById(R.id.txt_nome_bilhete);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        apelido = sharedPref.getString("apelido", null);
+        txtNomeBilhete.setText(apelido);
+
         btnExcluir = (Button) view.findViewById(R.id.btnExcluir);
         txtVlr = (TextView) view.findViewById(R.id.txtVlr);
         btnRecarga = (Button) view.findViewById(R.id.btnRecarga);
@@ -583,8 +594,8 @@ public class MainFragment extends Fragment {
             tvSaldo.setText("R$ " + String.format("%.2f", SALDO).replace('.', ','));
         }
 
+        txtNomeBilhete.setText(apelido);
 
-        txtNomeBilhete.setText(APELIDO);
 
         loadImages();
 

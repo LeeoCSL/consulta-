@@ -34,7 +34,7 @@
             android:id="@+id/txt_nome_bilhete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bilhete teste"
+            android:text="Bilhete"
             android:textSize="15sp" />
 
         <Button

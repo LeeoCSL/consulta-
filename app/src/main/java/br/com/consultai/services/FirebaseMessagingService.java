@@ -57,7 +57,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             Notification notification = new Notification.Builder(this)
                     .setContentTitle("Aviso!")
                     .setContentText(message)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.mipmap.ic_push)
                     .setChannelId(CHANNEL_ID)
                     .build();
 
@@ -67,7 +67,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     .setAutoCancel(true)
                     .setContentTitle("Aviso!")
                     .setContentText(message)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.mipmap.ic_push)
+                    .setColor(Color.BLACK)
                     .setContentIntent(pendingIntent);
 
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -107,7 +108,10 @@ public class LoginRequest extends AsyncTask<Usuario, Void, String> {
                 String apelido = jsonObject.getString("apelido");
                 int estudante = jsonObject.getInt("estudante");
 
-
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor edit = sp.edit();
+                edit.putString("apelido", apelido);
+                edit.commit();
 
                 MainFragment.APELIDO = apelido;
                 MainFragment.SALDO = saldo;

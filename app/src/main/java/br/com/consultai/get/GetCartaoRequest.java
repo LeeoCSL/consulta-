@@ -1,7 +1,9 @@
 package br.com.consultai.get;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,6 +66,11 @@ public class GetCartaoRequest extends AsyncTask<String, Void, String> {
                 String numero = jsonObject.getString("numero");
                 int estudante = jsonObject.getInt("estudante");
                 double saldo = jsonObject.getDouble("saldo");
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("apelido", apelido);
+                editor.commit();
 
                 MainFragment.tipo = estudante;
 
